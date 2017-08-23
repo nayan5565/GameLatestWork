@@ -62,6 +62,7 @@ public class SubLevelActivity extends AppCompatActivity implements View.OnClickL
 
         Global.levelName = getIntent().getStringExtra("name");
         Global.levelId = getIntent().getIntExtra("id", 0);
+        Log.e("level id", " is " + Global.levelId);
         lpopUp = getIntent().getIntExtra("lPop", 0);
         how = getIntent().getStringExtra("howPlay");
         value = Global.levelId;
@@ -179,8 +180,9 @@ public class SubLevelActivity extends AppCompatActivity implements View.OnClickL
         Global.parentName = mSubLevels;
 //        mLevels = database.getLevelData(mLevel.getLid());
         Log.e("getDb", "sublevel : " + mSubLevels.size());
-
+//all sub level unlock for test
         mSubLevels.get(0).setUnlockNextLevel(1);
+
         subLevelAdapter.setData(mSubLevels);
         totalPoint = database.getLockTotalPointData(Global.levelId);
 

@@ -294,7 +294,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             } else if (Global.levelId == 2) {
-                imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                if (Global.subLevelId == 13) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                }
+                if (Global.subLevelId == 16) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
+                }
             } else if (Global.levelId == 3) {
                 if (Global.subLevelId == 19) {
                     imageArrayList1 = database.getEnglishContentsContentsData(1);
@@ -348,7 +353,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             } else if (Global.levelId == 2) {
-                realAssets = database.getBanglaMathContentsContentsData(1);
+                if (Global.subLevelId == 14) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                }
+                if (Global.subLevelId == 17) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
+                }
             } else if (Global.levelId == 3) {
                 if (Global.subLevelId == 20) {
                     realAssets = database.getEnglishContentsContentsData(1);
@@ -385,7 +395,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     imageArrayList1 = database.getBanglaContentsContentsData(3);
                 }
             } else if (Global.levelId == 2) {
-                imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                if (Global.subLevelId == 15) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                }
+                if (Global.subLevelId == 18) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
+                }
             } else if (Global.levelId == 3) {
                 if (Global.subLevelId == 21) {
                     imageArrayList1 = database.getEnglishContentsContentsData(1);
@@ -476,7 +491,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<MAllContent> generatesTxtSen(ArrayList<MAllContent> realTxtSen) {
 //        int count = realTxtSen.size();
-        int count = 50;
+        int count = 550;
         ArrayList<MAllContent> tempTxtSen = new ArrayList<>();
         for (MAllContent mContents : realTxtSen) {
             tempTxtSen.add(mContents);
