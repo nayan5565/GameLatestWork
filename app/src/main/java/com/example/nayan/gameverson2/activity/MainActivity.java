@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static String sounds = PARENT + File.separator + "AllSound";
 
     MPost mPost = new MPost();
-    int lPopUp, lPopUp2, lPopUp3, lPopUp4;
     MDownload mDownload;
     ArrayList<MDownload> mDownloads;
     ArrayList<MDownload> banmDownloads;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Dialog dialog1;
     private ArrayList<MLevel> levelsDatas;
     private String B_URL = Global.BASE_URL;
-    private MQuestions mQuestions;
     private Button btnSetting, btnResult;
     private ImageView cloud1, cloud2, btnBangla, btnEnglish, btnMath, btnBanglaMath, btnDrawing;
     private MLevel mLevel;
@@ -99,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Global.mDownloads = new ArrayList<MDownload>();
         mDownloads = new ArrayList<MDownload>();
         banmDownloads = new ArrayList<MDownload>();
-        mQuestions = new MQuestions();
         btnResult = (Button) findViewById(R.id.btnResult);
         btnResult.setOnClickListener(this);
         levelsDatas = new ArrayList<>();
@@ -1006,41 +1003,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         levelsDatas = database.getLevelAllData();
-        mQuestions = database.getQuesData();
-        Global.lPopUp = mQuestions.getlPopUp();
         if (levelsDatas.size() == 0) {
             Utils.toastMassage(this, "No Data");
             return;
 
         }
         if (v.getId() == R.id.btnBangla) {
-            lPopUp++;
-            mQuestions.setlPopUp(lPopUp);
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
             intent.putExtra("id", levelsDatas.get(0).getLid());
             intent.putExtra("name", levelsDatas.get(0).getName());
-            intent.putExtra("lPop", lPopUp);
+
             startActivity(intent);
         } else if (v.getId() == R.id.btnBanglaMath) {
-            lPopUp2++;
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
             intent.putExtra("id", levelsDatas.get(1).getLid());
             intent.putExtra("name", levelsDatas.get(1).getName());
-            intent.putExtra("lPop", lPopUp2);
+
             startActivity(intent);
         } else if (v.getId() == R.id.btnEnglish) {
-            lPopUp3++;
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
             intent.putExtra("id", levelsDatas.get(2).getLid());
             intent.putExtra("name", levelsDatas.get(2).getName());
-            intent.putExtra("lPop", lPopUp3);
             startActivity(intent);
         } else if (v.getId() == R.id.btnMath) {
-            lPopUp4++;
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
             intent.putExtra("id", levelsDatas.get(3).getLid());
             intent.putExtra("name", levelsDatas.get(3).getName());
-            intent.putExtra("lPop", lPopUp4);
             startActivity(intent);
         } else if (v.getId() == R.id.btnSetting) {
             DialogSoundOnOff.dialogShow(this);

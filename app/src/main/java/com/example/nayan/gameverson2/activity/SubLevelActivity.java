@@ -44,12 +44,11 @@ public class SubLevelActivity extends AppCompatActivity implements View.OnClickL
     private static MSubLevel mSubLevel = new MSubLevel();
     private static MLevel mLevel = new MLevel();
     int totalPoint;
-    int lpopUp, lpopUp2, popUp3, popUp4;
     private DatabaseHelper database;
     private RecyclerView recyclerView;
     private TextView txtLevelName, txtAllTotal_ponts, txtLevelSelect;
     private MAllContent mAllContent;
-    private String lName, how;
+    private String lName;
     private MLock mLock;
     private Button back, btnSubSetting;
     private LinearLayout changeColor;
@@ -261,18 +260,9 @@ public class SubLevelActivity extends AppCompatActivity implements View.OnClickL
         } else if (v.getId() == R.id.btnSubSetting) {
             DialogSoundOnOff.dialogShow(SubLevelActivity.this);
         } else if (v.getId() == R.id.imageViewSub || v.getId() == R.id.imgHelpSub) {
-            if (Global.levelId == 1) {
-                diaRulesOfPlay(mLevels.get(0).getHowto());
-            }
-            if (Global.levelId == 2) {
-                diaRulesOfPlay(mLevels.get(0).getHowto());
-            }
-            if (Global.levelId == 3) {
-                diaRulesOfPlay(mLevels.get(0).getHowto());
-            }
-            if (Global.levelId == 4) {
-                diaRulesOfPlay(mLevels.get(0).getHowto());
-            }
+
+            diaRulesOfPlay(database.getPopUpForLevel(Global.levelId));
+
         }
     }
 }

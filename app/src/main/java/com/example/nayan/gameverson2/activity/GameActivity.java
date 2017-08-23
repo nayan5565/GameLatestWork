@@ -76,9 +76,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         getLocalData();
         prepareDisplay();
 
-            getPopUp();
-
-
+        getPopUp();
 
 
     }
@@ -114,7 +112,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         subLevelName = Global.subLevelName;
         Global.parentLevelName = getIntent().getStringExtra("parentLevelName");
         parentName = Global.parentLevelName;
-        mQuestions = database.getQuesData();
         Global.SUB_INDEX_POSITION = getIntent().getIntExtra("index", 0);
         Global.subLevelId = getIntent().getIntExtra("Sid", 0);
         Global.popUp = getIntent().getIntExtra("pop", 0);
@@ -123,13 +120,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getPopUp() {
-
+//        if (Global.popUp == 0)
             diaRulesOfPlay(database.getPopUp(Global.levelId, Global.subLevelId));
-//            mSubLevel = new MSubLevel();
-//            mSubLevel.setParentId(Global.levelId);
-//            mSubLevel.setLid(Global.subLevelId);
-//            mSubLevel.setIsPopUp(1);
-//            database.addSubFromJsom(mSubLevel);
+//        mSubLevel = new MSubLevel();
+//        mSubLevel.setParentId(Global.levelId);
+//        mSubLevel.setLid(Global.subLevelId);
+//        mSubLevel.setIsPopUp(1);
+//        database.addSubFromJsom(mSubLevel);
 
 
     }

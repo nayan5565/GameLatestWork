@@ -32,8 +32,6 @@ public class DatabaseHelper {
     private static final String DATABASE_ALL_CONTENTS_TABLE = "all_contents";
     private static final String DATABASE_LOCK_TABLE = "lock_tb";
     private static final String DATABASE_SUB_LEVEL_TABLE = "sub";
-    private static final String DATABASE_POPUP_TABLE = "ques";
-    private static final String DATABASE_OPTION_TABLE = "option";
     private static final String DATABASE_POINT_TABLE = "point_tb";
     private static final String DATABASE_WORDS_TABLE = "words_tb";
     private static final String DATABASE_WORDS_TABLE_BANGLA = "bangla_words_tb";
@@ -55,16 +53,6 @@ public class DatabaseHelper {
     private static final String KEY_IS_DOWNLOAD = "is__download";
     private static final String KEY_URL = "url";
     private static final String KEY_POPUP = "pop_up";
-    private static final String KEY_POPUP2 = "pop_up2";
-    private static final String KEY_POPUP3 = "pop_up3";
-    private static final String KEY_POPUP4 = "pop_up4";
-    private static final String KEY_POPUP5 = "pop_up5";
-    private static final String KEY_POPUP6 = "pop_up6";
-    private static final String KEY_POPUP7 = "pop_up7";
-    private static final String KEY_POPUP8 = "pop_up8";
-    private static final String KEY_POPUP9 = "pop_up9";
-    private static final String KEY_POPUP10 = "pop_up10";
-    private static final String KEY_POPUP11 = "pop_up11";
     private static final String KEY_PRESENT_POINT = "present_point";
     private static final String KEY_UPDATE_DATE = "update_date";
     private static final String KEY_TOTAL_S_LEVEL = "total_slevel";
@@ -78,11 +66,8 @@ public class DatabaseHelper {
     private static final String KEY_UNLOCK = "un_lock";
     private static final String KEY_TOTAL_POINT = "lock_total_point";
     private static final String KEY_ALL_TOTAL_POINT = "lock_all_total_point";
-    private static final String KEY_Q_ID = "qid";
-    private static final String KEY_OP_ID = "opid";
     private static final String KEY_PARENT_ID = "pid";
     private static final String KEY_PARENT_NAME = "pNm";
-    private static final String KEY_QUES = "question";
     private static final String KEY_SEN = "sen";
     private static final String KEY_IMAGE = "img";
     private static final String KEY_SOUNDS = "aud";
@@ -227,11 +212,6 @@ public class DatabaseHelper {
             + KEY_TOTAL_POINT + " integer, "
             + KEY_LEVEL_ID + " integer, "
             + KEY_SUB_LEVEL_ID + " integer)";
-    private static final String DATABASE_CREATE_OPTION_TABLE = "create table if not exists "
-            + DATABASE_OPTION_TABLE + "("
-            + KEY_OP_ID + " integer primary key autoincrement , "
-            + KEY_ITEM + " integer, "
-            + KEY_TAG + " integer)";
     private static final String DATABASE_CREATE_DOWNLOAD_TABLE = "create table if not exists "
             + DATABASE_DOWNLOAD_TABLE + "("
             + KEY_LEVEL_ID + " integer , "
@@ -239,21 +219,6 @@ public class DatabaseHelper {
             + KEY_IS_DOWNLOAD + " integer, "
             + KEY_MODEL_ID + " integer  , "
             + KEY_URL + " text primary key)";
-    private static final String DATABASE_CREATE_POPUP_TABLE = "create table if not exists "
-            + DATABASE_POPUP_TABLE + "("
-            + KEY_Q_ID + " integer primary key, "
-            + KEY_POPUP + " integer, "
-            + KEY_POPUP2 + " integer, "
-            + KEY_POPUP3 + " integer, "
-            + KEY_POPUP4 + " integer, "
-            + KEY_POPUP5 + " integer, "
-            + KEY_POPUP6 + " integer, "
-            + KEY_POPUP7 + " integer, "
-            + KEY_POPUP8 + " integer, "
-            + KEY_POPUP9 + " integer, "
-            + KEY_POPUP10 + " integer, "
-            + KEY_POPUP11 + " integer, "
-            + KEY_QUES + " text)";
     private static final String DATABASE_CREATE_POINT_TABLE = "create table if not exists "
             + DATABASE_POINT_TABLE + "("
             + KEY_PRESENT_POINT + " integer, "
@@ -297,8 +262,6 @@ public class DatabaseHelper {
         db.execSQL(DATABASE_CREATE_ALL_CONTENTS_TABLE);
         db.execSQL(DATABASE_CREATE_SUB_LEVEL_TABLE);
         db.execSQL(DATABASE_CREATE_LOCK_TABLE);
-        db.execSQL(DATABASE_CREATE_POPUP_TABLE);
-        db.execSQL(DATABASE_CREATE_OPTION_TABLE);
         db.execSQL(DATABASE_CREATE_POINT_TABLE);
         db.execSQL(DATABASE_CREATE_WORDS_TABLE);
         db.execSQL(DATABASE_CREATE_WORDS_TABLE_BANGLA);
@@ -388,8 +351,26 @@ public class DatabaseHelper {
     }
 
     public String getPopUp(int levelId, int subLevelId) {
-        MSubLevel mSubLevel = new MSubLevel();
         String sql = "select * from " + DATABASE_SUB_LEVEL_TABLE + " where " + KEY_PARENT_ID + "='" + levelId + "'" + " AND " + KEY_SUB_LEVEL_ID + "='" + subLevelId + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+
+
+                return cursor.getString(cursor.getColumnIndex(KEY_HOW_TO));
+
+
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+
+
+        return "";
+    }
+
+    public String getPopUpForLevel(int levelId) {
+        String sql = "select * from " + DATABASE_LEVEL_TABLE + " where " + KEY_LEVEL_ID + "='" + levelId + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -757,71 +738,6 @@ public class DatabaseHelper {
             cursor.close();
     }
 
-    public void addQuesData(MQuestions mQuestions) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_POPUP, mQuestions.getPopUp());
-            values.put(KEY_POPUP2, mQuestions.getPopUp2());
-            values.put(KEY_POPUP3, mQuestions.getPopUp3());
-            values.put(KEY_POPUP4, mQuestions.getPopUp4());
-            values.put(KEY_POPUP5, mQuestions.getPopUp5());
-            values.put(KEY_POPUP6, mQuestions.getPopUp6());
-            values.put(KEY_POPUP7, mQuestions.getPopUp7());
-            values.put(KEY_POPUP8, mQuestions.getPopUp8());
-            values.put(KEY_POPUP9, mQuestions.getPopUp9());
-            values.put(KEY_POPUP10, mQuestions.getPopUp10());
-            values.put(KEY_POPUP11, mQuestions.getPopUp11());
-            values.put(KEY_Q_ID, mQuestions.getId());
-
-            String sql = "select * from " + DATABASE_POPUP_TABLE + " where " + KEY_Q_ID + "='" + mQuestions.getId() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_POPUP_TABLE, values, KEY_Q_ID + "=?", new String[]{mQuestions.getId() + ""});
-                Log.e("ques", "content update : " + update);
-            } else {
-                long v = db.insert(DATABASE_POPUP_TABLE, null, values);
-                Log.e("ques", "content insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-
-        if (cursor != null)
-            cursor.close();
-    }
-
-    public void addOptonData(MItem mItem) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_ITEM, mItem.getItem());
-            values.put(KEY_TAG, mItem.getTag());
-
-            String sql = "select * from " + DATABASE_POPUP_TABLE;
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_OPTION_TABLE, values, KEY_OP_ID + "=?", new String[]{mItem.getId() + ""});
-                Log.e("log", "content update : " + update);
-            } else {
-                long v = db.insert(DATABASE_OPTION_TABLE, null, values);
-                Log.e("log", "content insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-
-        if (cursor != null)
-            cursor.close();
-    }
-
-
     public ArrayList<MLevel> getLevelData(int id) {
         ArrayList<MLevel> levelArrayList = new ArrayList<>();
 
@@ -879,13 +795,6 @@ public class DatabaseHelper {
 
         return levelArrayList;
     }
-
-    public MSubLevel getSubOrParentName(int id) {
-        MSubLevel mSubLevel = new MSubLevel();
-
-        return mSubLevel;
-    }
-
 
     public MLock getLocalData(int levelId, int subLevelId) {
         ArrayList<MLock> unlocks = new ArrayList<>();
@@ -954,58 +863,6 @@ public class DatabaseHelper {
         return mPoint;
     }
 
-    public MQuestions getQuesData() {
-
-        MQuestions mQuestions = new MQuestions();
-        String sql = "select * from " + DATABASE_POPUP_TABLE;
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-
-                mQuestions.setId(cursor.getInt(cursor.getColumnIndex(KEY_Q_ID)));
-                mQuestions.setPopUp(cursor.getInt(cursor.getColumnIndex(KEY_POPUP)));
-                mQuestions.setPopUp2(cursor.getInt(cursor.getColumnIndex(KEY_POPUP2)));
-                mQuestions.setPopUp3(cursor.getInt(cursor.getColumnIndex(KEY_POPUP3)));
-                mQuestions.setPopUp4(cursor.getInt(cursor.getColumnIndex(KEY_POPUP4)));
-                mQuestions.setPopUp5(cursor.getInt(cursor.getColumnIndex(KEY_POPUP5)));
-                mQuestions.setPopUp6(cursor.getInt(cursor.getColumnIndex(KEY_POPUP6)));
-                mQuestions.setPopUp7(cursor.getInt(cursor.getColumnIndex(KEY_POPUP7)));
-                mQuestions.setPopUp8(cursor.getInt(cursor.getColumnIndex(KEY_POPUP8)));
-                mQuestions.setPopUp9(cursor.getInt(cursor.getColumnIndex(KEY_POPUP9)));
-                mQuestions.setPopUp10(cursor.getInt(cursor.getColumnIndex(KEY_POPUP10)));
-                mQuestions.setPopUp11(cursor.getInt(cursor.getColumnIndex(KEY_POPUP11)));
-
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-        return mQuestions;
-    }
-
-    public ArrayList<MItem> getOptionData() {
-        ArrayList<MItem> mItems = new ArrayList<>();
-        MItem mItem = new MItem();
-        String sql = "select * from " + DATABASE_POPUP_TABLE;
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-
-                mItem.setItem(cursor.getInt(cursor.getColumnIndex(KEY_ITEM)));
-                mItem.setId(cursor.getInt(cursor.getColumnIndex(KEY_OP_ID)));
-                mItem.setTag(cursor.getInt(cursor.getColumnIndex(KEY_TAG)));
-
-                mItems.add(mItem);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-
-        return mItems;
-    }
-
     public ArrayList<MDownload> getDownloadData(int levelId, int isDownload) {
         ArrayList<MDownload> mDownloads = new ArrayList<>();
         MDownload mDownload = new MDownload();
@@ -1034,7 +891,7 @@ public class DatabaseHelper {
         ArrayList<MSubLevel> assetArrayList = new ArrayList<>();
         Log.e("DB", "S1");
         MSubLevel mSubLevel;
-        String sql = "select a.s_lid,a.pNm,a.how_to,a.k_Logic,a.pid,a.name,a.coins_price,a.no_of_coins,b.un_lock,b.best_point from sub a left join lock_tb b on a.pid=b.lid AND a.s_lid=b.s_lid where a." + KEY_PARENT_ID + "='" + id + "'";
+        String sql = "select a.s_lid,a.pNm,a.how_to,a.k_Logic,a.pop_up,a.pid,a.name,a.coins_price,a.no_of_coins,b.un_lock,b.best_point from sub a left join lock_tb b on a.pid=b.lid AND a.s_lid=b.s_lid where a." + KEY_PARENT_ID + "='" + id + "'";
 //                " from " + DATABASE_SUB_LEVEL_TABLE + " a where " + KEY_PARENT_ID + "='" + id + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
@@ -1044,6 +901,7 @@ public class DatabaseHelper {
                 mSubLevel.setLid(cursor.getInt(cursor.getColumnIndex(KEY_SUB_LEVEL_ID)));
                 mSubLevel.setLogic(cursor.getInt(cursor.getColumnIndex(KEY_LOGIC)));
                 mSubLevel.setUnlockNextLevel(cursor.getInt(cursor.getColumnIndex(KEY_UNLOCK)));
+                mSubLevel.setIsPopUp(cursor.getInt(cursor.getColumnIndex(KEY_POPUP)));
                 mSubLevel.setHowto(cursor.getString(cursor.getColumnIndex(KEY_HOW_TO)));
 
                 try {

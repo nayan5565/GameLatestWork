@@ -29,7 +29,6 @@ public class Global {
     public static String subLevelName;
     public static int logic;
     public static String internetAlert = "No Internet Connection. Please at first need internet connected then exit from app and again open it.";
-    public static String how_to_play;
     public static String parentLevelName;
     public static int SUB_INDEX_POSITION;
     public static String ALTER_URL = "";
@@ -62,10 +61,6 @@ public class Global {
     public static ArrayList<MAllContent> BANGLA_Maths;
     public static ArrayList<MAllContent> BANGLA;
     public static int popUp;
-    public static int lPopUp, lPopUp2, lPopUp3, lPopUp4;
-    public static int popUp2;
-    public static int popUp3;
-    public static int popUp4, popUp5, popUp6, popUp7, popUp8, popUp9, popUp10, popUp11;
     public static String ADMIN = "dino.araf@gmail.com";
     public static String SUBJECT = "your_subject";
     public static String TEXT = "your_text";
