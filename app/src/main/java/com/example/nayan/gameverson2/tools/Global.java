@@ -48,6 +48,7 @@ public class Global {
     public static String ASSETS_DOWNLOAD_MASSAGE = "downloaded";
     public static String CONVERT_NUM = "downloaded";
     public static ArrayList<MSubLevel> mSubLevelArrayList;
+    public static ArrayList<MAllContent> mAllContentArrayList;
     public static ArrayList<MLevel> levels;
     public static ArrayList<MDownload> mDownloads;
     public static ArrayList<MPost> gameStatus;

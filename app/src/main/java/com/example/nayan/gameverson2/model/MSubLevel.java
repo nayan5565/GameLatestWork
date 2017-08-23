@@ -1,11 +1,22 @@
 package com.example.nayan.gameverson2.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by NAYAN on 9/26/2016.
  */
 
 public class MSubLevel {
 
+    private ArrayList<MAllContent> contents = new ArrayList<>();
+
+    public ArrayList<MAllContent> getContents() {
+        return contents;
+    }
+
+    public void setContents(ArrayList<MAllContent> contents) {
+        this.contents = contents;
+    }
 
     private int parentId;
     private int logic;
@@ -13,6 +24,16 @@ public class MSubLevel {
     private String parentName;
     private int lid, bestPoint;
     private String name;
+    private int isPopUp;
+
+    public int getIsPopUp() {
+        return isPopUp;
+    }
+
+    public void setIsPopUp(int isPopUp) {
+        this.isPopUp = isPopUp;
+    }
+
     private String coins_price;
     private String no_of_coins;
     private boolean lock = true;

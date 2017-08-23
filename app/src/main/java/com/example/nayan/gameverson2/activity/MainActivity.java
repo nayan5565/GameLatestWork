@@ -283,27 +283,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("sep", "2" + response.toString());
                         Global.levels = new ArrayList<MLevel>();
                         Global.mSubLevelArrayList = new ArrayList<MSubLevel>();
+                        Global.mAllContentArrayList = new ArrayList<MAllContent>();
 
                         try {
                             MLevel[] levelData = gson.fromJson(response.getJSONObject("puzzle").getJSONArray("level").toString(), MLevel[].class);
                             Global.levels = new ArrayList<MLevel>(Arrays.asList(levelData));
+
+                            Log.e("levelData", " is id " + Global.levels.size());
+
                             for (int i = 0; i < Global.levels.size(); i++) {
+
                                 for (int j = 0; j < Global.levels.get(i).getSub().size(); j++) {
 
                                     MSubLevel subLevel = Global.levels.get(i).getSub().get(j);
                                     subLevel.setParentId(Global.levels.get(i).getLid());
                                     subLevel.setParentName(Global.levels.get(i).getName());
+                                    Log.e("levelData", " is id " + Global.levels.get(i).getLid());
 
                                     Global.mSubLevelArrayList.add(subLevel);
+
+                                    Log.e("sssss", " is pid " + subLevel.getParentId());
+                                    Log.e("sssss", " is lid " + subLevel.getLid());
+                                    Log.e("sssss", " is size " + Global.mSubLevelArrayList.get(j).getContents().size());
+
+
+                                    for (int k = 0; k < Global.mSubLevelArrayList.get(j).getContents().size(); k++) {
+//                                            int k = 0; k < Global.levels.get(i).getSub().get(j).getContents().size(); k++) {
+                                        MAllContent mAllContent = Global.mSubLevelArrayList.get(j).getContents().get(k);
+                                        mAllContent.setParentLevelId(Global.mSubLevelArrayList.get(j).getParentId());
+                                        mAllContent.setSublevelId(Global.mSubLevelArrayList.get(j).getLid());
+                                        mAllContent.setLogic(Global.mSubLevelArrayList.get(j).getLogic());
+                                        Global.mAllContentArrayList.add(mAllContent);
+                                    }
 
                                 }
 
                             }
+
                             Log.e("subleve", "data" + Global.mSubLevelArrayList.size());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        saveAllContents();
                         saveLevelToDb();
                         saveSubLevelToDb();
                         getLocalData();
@@ -341,17 +363,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         super.onSuccess(statusCode, headers, response);
 
 
-
-
                         Global.English_words = new ArrayList<MWords>();
 
                         try {
-                            for (int l=0;l<Global.levels.get(2).getSub().size();l++){
-                                MAllContent mAllContent = new MAllContent();
-                                mAllContent.setLogic(Global.levels.get(2).getSub().get(l).getLogic());
-                                mAllContent.setSublevelId(Global.levels.get(2).getSub().get(l).getLid());
-                                mAllContent.setSublevelId(Global.levels.get(2).getLid());
-                            }
+
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.English = new ArrayList<MAllContent>(Arrays.asList(data));
                             for (int i = 0; i < Global.English.size(); i++) {
@@ -464,7 +479,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         try {
                             Utils.log("bangla", "step3");
-
+                            for (int l = 0; l < Global.levels.get(0).getSub().size(); l++) {
+                                MAllContent mAllContent = new MAllContent();
+                                mAllContent.setLogic(Global.levels.get(0).getSub().get(l).getLogic());
+                                mAllContent.setSublevelId(Global.levels.get(0).getSub().get(l).getLid());
+                                mAllContent.setSublevelId(Global.levels.get(0).getLid());
+                            }
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.BANGLA = new ArrayList<MAllContent>(Arrays.asList(data));
                             Utils.log("bangla", "size" + Global.BANGLA.size());
@@ -541,7 +561,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Global.MATH_words = new ArrayList<MWords>();
 
                         try {
-                            for (int l=0;l<Global.levels.get(3).getSub().size();l++){
+                            for (int l = 0; l < Global.levels.get(3).getSub().size(); l++) {
                                 MAllContent mAllContent = new MAllContent();
                                 mAllContent.setLogic(Global.levels.get(3).getSub().get(l).getLogic());
                                 mAllContent.setSublevelId(Global.levels.get(3).getSub().get(l).getLid());
@@ -626,7 +646,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Global.BANGLA_MATH_words = new ArrayList<MWords>();
 
                         try {
-                            for (int l=0;l<Global.levels.get(1).getSub().size();l++){
+                            for (int l = 0; l < Global.levels.get(1).getSub().size(); l++) {
                                 MAllContent mAllContent = new MAllContent();
                                 mAllContent.setLogic(Global.levels.get(1).getSub().get(l).getLogic());
                                 mAllContent.setSublevelId(Global.levels.get(1).getSub().get(l).getLid());
@@ -636,7 +656,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Global.BANGLA_Maths = new ArrayList<MAllContent>(Arrays.asList(data));
                             for (int i = 0; i < Global.BANGLA_Maths.size(); i++) {
                                 mDownload = new MDownload();
-                                mDownload.setLevelId(Global.BANGLA_Maths.get(i).getLid());
+                                mDownload.setLevelId(2);
                                 mDownload.setSubLevelId(Global.BANGLA_Maths.get(i).getMid());
                                 mDownload.setUrl(Global.BANGLA_Maths.get(i).getImg());
                                 Global.mDownloads.add(mDownload);
@@ -721,40 +741,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void saveEnglishContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.English) {
             database.addEnglishContentsFromJson(mAllContent);
-//            database.addAllContentsData(mAllContent);
+            database.addAllContentsData(mAllContent);
+        }
+    }
+
+    private void saveAllContents() {
+        for (MAllContent mAllContent : Global.mAllContentArrayList) {
+            database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveBanglaContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.BANGLA) {
             database.addBanglaContentsFromJson(mAllContent);
-//            database.addAllContentsData(mAllContent);
+            database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveMathContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.Maths) {
             database.addMathContentsFromJson(mAllContent);
-//            database.addAllContentsData(mAllContent);
+            database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveBanglaMathContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.BANGLA_Maths) {
             database.addBanglaMathContentsFromJson(mAllContent);
-//            database.addAllContentsData(mAllContent);
+            database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveEnglishWordsToDb() {
         for (MWords mWords : Global.English_words) {
             database.addEnglishWordsFromJsom(mWords);
+            database.addAllWordsData(mWords);
         }
     }
 
     private void saveBanglaWordsToDb() {
         for (MWords mWords : Global.BANGLA_words) {
             database.addBanglaWordsFromJsom(mWords);
+            database.addAllWordsData(mWords);
         }
     }
 
@@ -762,12 +790,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void saveMathWordsToDb() {
         for (MWords mWords : Global.MATH_words) {
             database.addMathWordsFromJson(mWords);
+            database.addAllWordsData(mWords);
         }
     }
 
     private void saveBanglaMathWordsToDb() {
         for (MWords mWords : Global.BANGLA_MATH_words) {
             database.addBanglaMathWordsFromJson(mWords);
+            database.addAllWordsData(mWords);
         }
     }
 
@@ -975,6 +1005,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        levelsDatas = database.getLevelAllData();
         mQuestions = database.getQuesData();
         Global.lPopUp = mQuestions.getlPopUp();
         if (levelsDatas.size() == 0) {
@@ -986,29 +1017,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             lPopUp++;
             mQuestions.setlPopUp(lPopUp);
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
-            intent.putExtra("id", 1);
-            intent.putExtra("name", "বাংলা  ");
+            intent.putExtra("id", levelsDatas.get(0).getLid());
+            intent.putExtra("name", levelsDatas.get(0).getName());
             intent.putExtra("lPop", lPopUp);
             startActivity(intent);
         } else if (v.getId() == R.id.btnBanglaMath) {
             lPopUp2++;
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
-            intent.putExtra("id", 2);
-            intent.putExtra("name", "অংক ");
+            intent.putExtra("id", levelsDatas.get(1).getLid());
+            intent.putExtra("name", levelsDatas.get(1).getName());
             intent.putExtra("lPop", lPopUp2);
             startActivity(intent);
         } else if (v.getId() == R.id.btnEnglish) {
             lPopUp3++;
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
-            intent.putExtra("id", 3);
-            intent.putExtra("name", "english ");
+            intent.putExtra("id", levelsDatas.get(2).getLid());
+            intent.putExtra("name", levelsDatas.get(2).getName());
             intent.putExtra("lPop", lPopUp3);
             startActivity(intent);
         } else if (v.getId() == R.id.btnMath) {
             lPopUp4++;
             Intent intent = new Intent(MainActivity.this, SubLevelActivity.class);
-            intent.putExtra("id", 4);
-            intent.putExtra("name", "Math ");
+            intent.putExtra("id", levelsDatas.get(3).getLid());
+            intent.putExtra("name", levelsDatas.get(3).getName());
             intent.putExtra("lPop", lPopUp4);
             startActivity(intent);
         } else if (v.getId() == R.id.btnSetting) {

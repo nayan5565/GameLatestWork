@@ -38,7 +38,6 @@ import java.util.Collections;
  */
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static int levelId;
     private static GameActivity gameActivity;
     private static MLevel mLevel;
     private static MAllContent mContents;
@@ -46,8 +45,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public String parentName;
     public TextView txtName, txtTotalPoint, txtSubName;
     LinearLayout popUI;
-    int popUp, popUp2, popUp3, popUp4, popUp5, popUp6, popUp7, popUp8, popUp9, popUp10, popUp11;
-    int one, two, three, four;
     private MSubLevel mSubLevel = new MSubLevel();
     private ArrayList<MAllContent> imageArrayList1;
     private ArrayList<MWords> wordsList;
@@ -78,7 +75,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         MyGoogleAnalytics.getInstance().setupAnalytics("Game Activity");
         getLocalData();
         prepareDisplay();
-        getPopUp();
+
+            getPopUp();
+
+
 
 
     }
@@ -111,165 +111,27 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.addItemDecoration(new SpacesItemDecoration(7));
         Global.subLevelName = getIntent().getStringExtra("subLevelName");
         Global.logic = getIntent().getIntExtra("SLogic", 0);
-        Global.how_to_play = getIntent().getStringExtra("how");
-        how = Global.how_to_play;
         subLevelName = Global.subLevelName;
         Global.parentLevelName = getIntent().getStringExtra("parentLevelName");
         parentName = Global.parentLevelName;
         mQuestions = database.getQuesData();
-//        Global.popUp=database.getPopUp();
-        Global.popUp = mQuestions.getPopUp();
-        Global.popUp2 = mQuestions.getPopUp2();
-        Global.popUp3 = mQuestions.getPopUp3();
-        Global.popUp4 = mQuestions.getPopUp4();
-        Global.popUp5 = mQuestions.getPopUp5();
-        Global.popUp6 = mQuestions.getPopUp6();
-        Global.popUp7 = mQuestions.getPopUp7();
-        Global.popUp8 = mQuestions.getPopUp8();
-        Global.popUp9 = mQuestions.getPopUp9();
-        Global.popUp10 = mQuestions.getPopUp10();
-        Global.popUp11 = mQuestions.getPopUp11();
-
-        Log.e("popUp", "opp1  " + Global.popUp);
-        Log.e("popUp", "opp2  " + Global.popUp2);
-        Log.e("popUp", "opp3  " + Global.popUp3);
-        Log.e("popUp", "opp4 " + Global.popUp4);
-        Log.e("popUp", "opp5 " + Global.popUp5);
-        Log.e("popUp", "opp6 " + Global.popUp6);
-        Log.e("popUp", "opp7 " + Global.popUp7);
-        Log.e("popUp", "opp8 " + Global.popUp8);
-        Log.e("popUp", "opp9 " + Global.popUp9);
-        Log.e("popUp", "opp10 " + Global.popUp10);
-        Log.e("popUp", "opp11 " + Global.popUp11);
-
         Global.SUB_INDEX_POSITION = getIntent().getIntExtra("index", 0);
         Global.subLevelId = getIntent().getIntExtra("Sid", 0);
-//        popUp = getIntent().getIntExtra("one", 0);
-//        popUp2 = getIntent().getIntExtra("two", 0);
-//        popUp3 = getIntent().getIntExtra("three", 0);
-//        popUp4 = getIntent().getIntExtra("four", 0);
-//        Global.popUp = getIntent().getIntExtra("one", 0);
-//        if (Global.subLevelId == 1) {
-//
-//        } else if (Global.subLevelId == 2) {
-//
-//        } else if (Global.subLevelId == 3) {
-//
-//        } else if (Global.subLevelId == 4) {
-//
-//        }
-
+        Global.popUp = getIntent().getIntExtra("pop", 0);
         gameAdapter = new GameAdapter(this);
 
     }
 
     public void getPopUp() {
-        if (Global.subLevelId == 1) {
-            popUp = Global.popUp;
-            popUp++;
-            mQuestions.setPopUp(popUp);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "one " + popUp);
-            if (Global.popUp == 0) {
-                diaRulesOfPlay(how);
-            }
-        } else if (Global.subLevelId == 2) {
-            popUp2 = Global.popUp2;
-            popUp2++;
-            mQuestions.setPopUp2(popUp2);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "two " + popUp2);
-            if (Global.popUp2 == 0) {
-                diaRulesOfPlay(how);
-            }
-        } else if (Global.subLevelId == 3) {
-            popUp3 = Global.popUp3;
-            popUp3++;
-            mQuestions.setPopUp3(popUp3);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "three " + popUp3);
-            if (Global.popUp3 == 0) {
-                diaRulesOfPlay(how);
-            }
-        } else if (Global.subLevelId == 4) {
-            popUp4 = Global.popUp4;
-            popUp4++;
-            mQuestions.setPopUp4(popUp4);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "four " + popUp4);
-            if (Global.popUp4 == 0) {
-                diaRulesOfPlay(how);
-            }
-        } else if (Global.subLevelId == 5) {
-            popUp5 = Global.popUp5;
-            popUp5++;
-            mQuestions.setPopUp5(popUp5);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "five " + popUp5);
-            if (Global.popUp5 == 0) {
-                diaRulesOfPlay(how);
-            }
 
-        } else if (Global.subLevelId == 6) {
-            popUp6 = Global.popUp6;
-            popUp6++;
-            mQuestions.setPopUp6(popUp6);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "six " + popUp6);
-            if (Global.popUp6 == 0) {
-                diaRulesOfPlay(how);
-            }
+            diaRulesOfPlay(database.getPopUp(Global.levelId, Global.subLevelId));
+//            mSubLevel = new MSubLevel();
+//            mSubLevel.setParentId(Global.levelId);
+//            mSubLevel.setLid(Global.subLevelId);
+//            mSubLevel.setIsPopUp(1);
+//            database.addSubFromJsom(mSubLevel);
 
-        } else if (Global.subLevelId == 8) {
-            popUp7 = Global.popUp7;
-            popUp7++;
-            mQuestions.setPopUp7(popUp7);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "seven " + popUp7);
-            if (Global.popUp7 == 0) {
-                diaRulesOfPlay(how);
-            }
 
-        } else if (Global.subLevelId == 9) {
-            popUp8 = Global.popUp8;
-            popUp8++;
-            mQuestions.setPopUp8(popUp8);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "eight " + popUp8);
-            if (Global.popUp8 == 0) {
-                diaRulesOfPlay(how);
-            }
-
-        } else if (Global.subLevelId == 13) {
-            popUp9 = Global.popUp9;
-            popUp9++;
-            mQuestions.setPopUp9(popUp9);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "nine " + popUp9);
-            if (Global.popUp9 == 0) {
-                diaRulesOfPlay(how);
-            }
-
-        } else if (Global.subLevelId == 14) {
-            popUp10 = Global.popUp10;
-            popUp10++;
-            mQuestions.setPopUp10(popUp10);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "ten " + popUp10);
-            if (Global.popUp10 == 0) {
-                diaRulesOfPlay(how);
-            }
-
-        } else if (Global.subLevelId == 15) {
-            popUp11 = Global.popUp11;
-            popUp11++;
-            mQuestions.setPopUp11(popUp11);
-            database.addQuesData(mQuestions);
-            Log.e("popUp", "eleven " + popUp11);
-            if (Global.popUp11 == 0) {
-                diaRulesOfPlay(how);
-            }
-        }
     }
 
 
@@ -292,9 +154,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if (Global.subLevelId == 7) {
                     imageArrayList1 = database.getBanglaContentsContentsData(3);
                 }
+                if (Global.subLevelId == 10) {
+                    imageArrayList1 = database.getBanglaContentsContentsData(4);
+                }
 
             } else if (Global.levelId == 2) {
-                imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                if (Global.subLevelId == 13) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                }
+                if (Global.subLevelId == 16) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
+                }
             } else if (Global.levelId == 3) {
                 if (Global.subLevelId == 19) {
                     imageArrayList1 = database.getEnglishContentsContentsData(1);
@@ -313,7 +183,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             } else if (Global.levelId == 4) {
-                imageArrayList1 = database.getMathContentsContentsData();
+                if (Global.subLevelId == 34) {
+                    imageArrayList1 = database.getEnglishContentsContentsData(1);
+                }
             }
 
             Collections.shuffle(imageArrayList1);
@@ -346,9 +218,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if (Global.subLevelId == 8) {
                     realAssets = database.getBanglaContentsContentsData(3);
                 }
+                if (Global.subLevelId == 11) {
+                    realAssets = database.getBanglaContentsContentsData(4);
+                }
 
             } else if (Global.levelId == 2) {
-                realAssets = database.getBanglaMathContentsContentsData(1);
+                if (Global.subLevelId == 14) {
+                    realAssets = database.getBanglaMathContentsContentsData(1);
+                }
+                if (Global.subLevelId == 17) {
+                    realAssets = database.getBanglaMathContentsContentsData(2);
+                }
             } else if (Global.levelId == 3) {
                 if (Global.subLevelId == 20) {
                     realAssets = database.getEnglishContentsContentsData(1);
@@ -367,7 +247,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             } else if (Global.levelId == 4) {
-                realAssets = database.getMathContentsContentsData();
+                if (Global.subLevelId == 35) {
+                    realAssets = database.getEnglishContentsContentsData(1);
+                }
             }
 
             imageArrayList1 = generatesTxtSen(realAssets);
@@ -384,8 +266,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if (Global.subLevelId == 9) {
                     imageArrayList1 = database.getBanglaContentsContentsData(3);
                 }
+                if (Global.subLevelId == 12) {
+                    imageArrayList1 = database.getBanglaContentsContentsData(4);
+                }
             } else if (Global.levelId == 2) {
-                imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                if (Global.subLevelId == 15) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                }
+                if (Global.subLevelId == 18) {
+                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
+                }
             } else if (Global.levelId == 3) {
                 if (Global.subLevelId == 21) {
                     imageArrayList1 = database.getEnglishContentsContentsData(1);
@@ -403,7 +293,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     imageArrayList1 = database.getEnglishContentsContentsData(5);
                 }
             } else if (Global.levelId == 4) {
-                imageArrayList1 = database.getMathContentsContentsData();
+                if (Global.subLevelId == 36) {
+                    imageArrayList1 = database.getEnglishContentsContentsData(1);
+                }
             }
 //            Collections.shuffle(imageArrayList1);
 
@@ -476,7 +368,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<MAllContent> generatesTxtSen(ArrayList<MAllContent> realTxtSen) {
 //        int count = realTxtSen.size();
-        int count = 50;
+        int count = 550;
         ArrayList<MAllContent> tempTxtSen = new ArrayList<>();
         for (MAllContent mContents : realTxtSen) {
             tempTxtSen.add(mContents);
@@ -567,46 +459,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.imgHelp || v.getId() == R.id.imageView) {
-            if (Global.subLevelId == 1) {
-                Log.e("levelID", "opop  " + Global.levelId);
-                diaRulesOfPlay(how);
 
-            } else if (Global.subLevelId == 2) {
-                Log.e("levelID", "opop  " + Global.levelId);
-                diaRulesOfPlay(how);
-                Log.e("levelID", "opop  " + Global.levelId);
-            } else if (Global.subLevelId == 3) {
-                Log.e("levelID", "opop  " + Global.levelId);
-                diaRulesOfPlay(how);
-
-            } else if (Global.subLevelId == 4) {
-
-                diaRulesOfPlay(how);
-            } else if (Global.subLevelId == 5) {
-                Log.e("levelID", "opop  " + Global.levelId);
-                diaRulesOfPlay(how);
-            } else if (Global.subLevelId == 6) {
-
-                diaRulesOfPlay(how);
-            } else if (Global.subLevelId == 8) {
-                diaRulesOfPlay(how);
-
-            } else if (Global.subLevelId == 9) {
-
-                diaRulesOfPlay(how);
-            } else if (Global.subLevelId == 13) {
-
-                diaRulesOfPlay(how);
-            } else if (Global.subLevelId == 14) {
-
-                diaRulesOfPlay(how);
-
-            } else if (Global.subLevelId == 15) {
-
-                diaRulesOfPlay(how);
-            }
+            diaRulesOfPlay(database.getPopUp(Global.levelId, Global.subLevelId));
         }
-
-
     }
 }

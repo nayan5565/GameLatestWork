@@ -112,15 +112,6 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
 
                 @Override
                 public void onClick(View v) {
-//                    int one1 = Global.popUp;
-//                    Log.e("popUp", "is " + Global.popUp);
-//                    one1++;
-//                    mQuestions.setPopUp(one1);
-//                    db.addQuesData(mQuestions);
-
-
-
-//                    Global.popUp = db.getPopUp();
                     Log.e("levelID", "idd  " + Global.levelId);
 
                     mSubLevel = mSubLevels.get(getAdapterPosition());
@@ -130,8 +121,8 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
                         intent.putExtra("subLevelName", mSubLevel.getName());
                         intent.putExtra("index", getAdapterPosition());
                         intent.putExtra("Sid", mSubLevel.getLid());
+                        intent.putExtra("pop", mSubLevel.getIsPopUp());
                         intent.putExtra("SLogic", mSubLevel.getLogic());
-                        intent.putExtra("how", mSubLevel.getHowto());
                         intent.putExtra("parentLevelName", mSubLevel.getParentName());
                         context.startActivity(intent);
                     }
