@@ -1328,10 +1328,10 @@ public class DatabaseHelper {
             cursor = db.rawQuery(sql, null);
             if (cursor != null && cursor.getCount() > 0) {
                 int update = db.update(DATABASE_ALL_CONTENTS_TABLE, values, KEY_MODEL_ID + "=?", new String[]{mAllContent.getMid() + ""});
-                Log.e("log", "content update : " + update);
+                Log.e("AllContents", "content update : " + update);
             } else {
                 long v = db.insert(DATABASE_ALL_CONTENTS_TABLE, null, values);
-                Log.e("log", "content insert : " + v);
+                Log.e("AllContents", "content insert : " + v);
 
             }
 

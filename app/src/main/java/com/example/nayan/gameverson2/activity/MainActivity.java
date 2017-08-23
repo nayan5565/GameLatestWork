@@ -464,12 +464,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         try {
                             Utils.log("bangla", "step3");
-                            for (int l=0;l<Global.levels.get(0).getSub().size();l++){
-                                MAllContent mAllContent = new MAllContent();
-                                mAllContent.setLogic(Global.levels.get(0).getSub().get(l).getLogic());
-                                mAllContent.setSublevelId(Global.levels.get(0).getSub().get(l).getLid());
-                                mAllContent.setSublevelId(Global.levels.get(0).getLid());
-                            }
+
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.BANGLA = new ArrayList<MAllContent>(Arrays.asList(data));
                             Utils.log("bangla", "size" + Global.BANGLA.size());
@@ -641,7 +636,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Global.BANGLA_Maths = new ArrayList<MAllContent>(Arrays.asList(data));
                             for (int i = 0; i < Global.BANGLA_Maths.size(); i++) {
                                 mDownload = new MDownload();
-                                mDownload.setLevelId(2);
+                                mDownload.setLevelId(Global.BANGLA_Maths.get(i).getLid());
                                 mDownload.setSubLevelId(Global.BANGLA_Maths.get(i).getMid());
                                 mDownload.setUrl(Global.BANGLA_Maths.get(i).getImg());
                                 Global.mDownloads.add(mDownload);
@@ -725,29 +720,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void saveEnglishContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.English) {
-//            database.addEnglishContentsFromJson(mAllContent);
-            database.addAllContentsData(mAllContent);
+            database.addEnglishContentsFromJson(mAllContent);
+//            database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveBanglaContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.BANGLA) {
-//            database.addBanglaContentsFromJson(mAllContent);
-            database.addAllContentsData(mAllContent);
+            database.addBanglaContentsFromJson(mAllContent);
+//            database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveMathContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.Maths) {
-//            database.addMathContentsFromJson(mAllContent);
-            database.addAllContentsData(mAllContent);
+            database.addMathContentsFromJson(mAllContent);
+//            database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveBanglaMathContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.BANGLA_Maths) {
-//            database.addBanglaMathContentsFromJson(mAllContent);
-            database.addAllContentsData(mAllContent);
+            database.addBanglaMathContentsFromJson(mAllContent);
+//            database.addAllContentsData(mAllContent);
         }
     }
 
