@@ -292,6 +292,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if (Global.subLevelId == 7) {
                     imageArrayList1 = database.getBanglaContentsContentsData(3);
                 }
+                if (Global.subLevelId == 10) {
+                    imageArrayList1 = database.getBanglaContentsContentsData(4);
+                }
 
             } else if (Global.levelId == 2) {
                 if (Global.subLevelId == 13) {
@@ -318,7 +321,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             } else if (Global.levelId == 4) {
-                imageArrayList1 = database.getMathContentsContentsData();
+                if (Global.subLevelId == 34) {
+                    imageArrayList1 = database.getEnglishContentsContentsData(1);
+                }
             }
 
             Collections.shuffle(imageArrayList1);
@@ -351,13 +356,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 if (Global.subLevelId == 8) {
                     realAssets = database.getBanglaContentsContentsData(3);
                 }
+                if (Global.subLevelId == 11) {
+                    realAssets = database.getBanglaContentsContentsData(4);
+                }
 
             } else if (Global.levelId == 2) {
                 if (Global.subLevelId == 14) {
-                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
+                    realAssets = database.getBanglaMathContentsContentsData(1);
                 }
                 if (Global.subLevelId == 17) {
-                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
+                    realAssets = database.getBanglaMathContentsContentsData(2);
                 }
             } else if (Global.levelId == 3) {
                 if (Global.subLevelId == 20) {
@@ -377,7 +385,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             } else if (Global.levelId == 4) {
-                realAssets = database.getMathContentsContentsData();
+                if (Global.subLevelId == 35) {
+                    realAssets = database.getEnglishContentsContentsData(1);
+                }
             }
 
             imageArrayList1 = generatesTxtSen(realAssets);
@@ -393,6 +403,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 if (Global.subLevelId == 9) {
                     imageArrayList1 = database.getBanglaContentsContentsData(3);
+                }
+                if (Global.subLevelId == 12) {
+                    imageArrayList1 = database.getBanglaContentsContentsData(4);
                 }
             } else if (Global.levelId == 2) {
                 if (Global.subLevelId == 15) {
@@ -418,7 +431,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                     imageArrayList1 = database.getEnglishContentsContentsData(5);
                 }
             } else if (Global.levelId == 4) {
-                imageArrayList1 = database.getMathContentsContentsData();
+                if (Global.subLevelId == 36) {
+                    imageArrayList1 = database.getEnglishContentsContentsData(1);
+                }
             }
 //            Collections.shuffle(imageArrayList1);
 
