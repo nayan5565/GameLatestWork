@@ -112,6 +112,10 @@ public class GameLogic {
     }
 
     public int getMin() {
+        if(list==null || list.size()<1){
+            Log.e("ERR","no data");
+            return 0;
+        }
         int min = list.get(0).getMid();
         for (int i = 1; i < list.size(); i++) {
             if (list.get(i).getMid() < min) {

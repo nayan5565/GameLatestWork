@@ -120,13 +120,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getPopUp() {
-//        if (Global.popUp == 0)
+
+        if (Global.popUp == 0)
             diaRulesOfPlay(database.getPopUp(Global.levelId, Global.subLevelId));
-//        mSubLevel = new MSubLevel();
-//        mSubLevel.setParentId(Global.levelId);
-//        mSubLevel.setLid(Global.subLevelId);
-//        mSubLevel.setIsPopUp(1);
-//        database.addSubFromJsom(mSubLevel);
+
+        mSubLevel.setParentId(Global.levelId);
+        mSubLevel.setLid(Global.subLevelId);
+        mSubLevel.setIsPopUp(1);
+        database.addSubFromJsom(mSubLevel);
 
 
     }
@@ -134,7 +135,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getLocalData() {
 
-
+        mSubLevel = database.getSubLevelData(Global.levelId).get(Global.SUB_INDEX_POSITION);
         mLock = database.getLocalData(Global.levelId, Global.subLevelId);
 
         Log.e("TEST", Global.levelId + ":" + Global.subLevelId + ":" + Global.totalPoint);
@@ -313,7 +314,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             Collections.shuffle(imageArrayList1);
         }
 
-
+        Log.e("ERR", "data size : " + imageArrayList1.size());
     }
 
     public void diaRulesOfPlay(String s) {

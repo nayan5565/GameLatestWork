@@ -214,11 +214,12 @@ public class DatabaseHelper {
             + KEY_SUB_LEVEL_ID + " integer)";
     private static final String DATABASE_CREATE_DOWNLOAD_TABLE = "create table if not exists "
             + DATABASE_DOWNLOAD_TABLE + "("
+            +"id integer primary key autoincrement,"
             + KEY_LEVEL_ID + " integer , "
             + KEY_SUB_LEVEL_ID + " integer, "
             + KEY_IS_DOWNLOAD + " integer, "
             + KEY_MODEL_ID + " integer  , "
-            + KEY_URL + " text primary key)";
+            + KEY_URL + " text)";
     private static final String DATABASE_CREATE_POINT_TABLE = "create table if not exists "
             + DATABASE_POINT_TABLE + "("
             + KEY_PRESENT_POINT + " integer, "
@@ -1272,7 +1273,7 @@ public class DatabaseHelper {
                 Log.e("allWords", " update : " + update);
             } else {
                 long v = db.insert(DATABASE_ALL_WORDS_TABLE, null, values);
-                Log.e("allWords", " insert : " + v);
+                Log.e("JEWEL", " insert : " + v);
 
             }
 
