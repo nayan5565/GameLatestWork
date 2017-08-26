@@ -55,6 +55,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private DatabaseHelper database;
     private MQuestions mQuestions;
     private MLock mLock;
+    int content;
 
     //    private GameActivity(){
 //
@@ -115,7 +116,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         Global.SUB_INDEX_POSITION = getIntent().getIntExtra("index", 0);
         Global.subLevelId = getIntent().getIntExtra("Sid", 0);
         Global.popUp = getIntent().getIntExtra("pop", 0);
+        content = getIntent().getIntExtra("content", 0);
         gameAdapter = new GameAdapter(this);
+        Log.e("content", " size " + content);
 
     }
 
@@ -134,8 +137,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void getLocalData() {
-        ArrayList<MAllContent> contentArrayList=database.getAllContentsData(Global.levelId,0,0,0);
-        Log.e("contentList"," size "+contentArrayList.size());
+        ArrayList<MAllContent> contentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
+        Log.e("contentList", " size " + contentArrayList.size());
 
 
         mSubLevel = database.getSubLevelData(Global.levelId).get(Global.SUB_INDEX_POSITION);

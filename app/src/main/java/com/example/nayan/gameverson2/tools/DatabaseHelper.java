@@ -53,6 +53,7 @@ public class DatabaseHelper {
     private static final String KEY_IS_DOWNLOAD = "is__download";
     private static final String KEY_URL = "url";
     private static final String KEY_LEVEL = "level";
+    private static final String KEY_CONTENT = "content";
     private static final String KEY_POPUP = "pop_up";
     private static final String KEY_PRESENT_POINT = "present_point";
     private static final String KEY_UPDATE_DATE = "update_date";
@@ -157,6 +158,7 @@ public class DatabaseHelper {
             + KEY_SUB_LEVEL_ID + " integer primary key, "
             + KEY_NAME + " text, "
             + KEY_PARENT_ID + " integer, "
+            + KEY_CONTENT + " integer, "
             + KEY_LOGIC + " integer, "
             + KEY_DOWNLOAD + " integer, "
             + KEY_UNLOCK + " integer, "
@@ -216,7 +218,7 @@ public class DatabaseHelper {
             + KEY_SUB_LEVEL_ID + " integer)";
     private static final String DATABASE_CREATE_DOWNLOAD_TABLE = "create table if not exists "
             + DATABASE_DOWNLOAD_TABLE + "("
-            +"id integer primary key autoincrement,"
+            + "id integer primary key autoincrement,"
             + KEY_LEVEL_ID + " integer , "
             + KEY_SUB_LEVEL_ID + " integer, "
             + KEY_IS_DOWNLOAD + " integer, "
@@ -323,6 +325,7 @@ public class DatabaseHelper {
             values.put(KEY_SUB_LEVEL_ID, mSubLevel.getLid());
             values.put(KEY_PARENT_ID, mSubLevel.getParentId());
             values.put(KEY_UNLOCK, mSubLevel.getUnlockNextLevel());
+            values.put(KEY_CONTENT, mSubLevel.getContent());
             values.put(KEY_POINT, mSubLevel.getBestPoint());
             values.put(KEY_PARENT_NAME, mSubLevel.getParentName());
             values.put(KEY_NAME, mSubLevel.getName());
@@ -894,7 +897,7 @@ public class DatabaseHelper {
         ArrayList<MSubLevel> assetArrayList = new ArrayList<>();
         Log.e("DB", "S1");
         MSubLevel mSubLevel;
-        String sql = "select a.s_lid,a.pNm,a.how_to,a.k_Logic,a.pop_up,a.pid,a.name,a.coins_price,a.no_of_coins,b.un_lock,b.best_point from sub a left join lock_tb b on a.pid=b.lid AND a.s_lid=b.s_lid where a." + KEY_PARENT_ID + "='" + id + "'";
+        String sql = "select a.s_lid,a.pNm,a.content,a.how_to,a.k_Logic,a.pop_up,a.pid,a.name,a.coins_price,a.no_of_coins,b.un_lock,b.best_point from sub a left join lock_tb b on a.pid=b.lid AND a.s_lid=b.s_lid where a." + KEY_PARENT_ID + "='" + id + "'";
 //                " from " + DATABASE_SUB_LEVEL_TABLE + " a where " + KEY_PARENT_ID + "='" + id + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
@@ -903,6 +906,7 @@ public class DatabaseHelper {
                 mSubLevel = new MSubLevel();
                 mSubLevel.setLid(cursor.getInt(cursor.getColumnIndex(KEY_SUB_LEVEL_ID)));
                 mSubLevel.setLogic(cursor.getInt(cursor.getColumnIndex(KEY_LOGIC)));
+                mSubLevel.setContent(cursor.getInt(cursor.getColumnIndex(KEY_CONTENT)));
                 mSubLevel.setUnlockNextLevel(cursor.getInt(cursor.getColumnIndex(KEY_UNLOCK)));
                 mSubLevel.setIsPopUp(cursor.getInt(cursor.getColumnIndex(KEY_POPUP)));
                 mSubLevel.setHowto(cursor.getString(cursor.getColumnIndex(KEY_HOW_TO)));
@@ -1228,7 +1232,7 @@ public class DatabaseHelper {
     public ArrayList<MAllContent> getAllContentsData(int levelId, int subLevelId, int logic, int contentsId) {
         ArrayList<MAllContent> mAllContents = new ArrayList<>();
         MAllContent mAllContent = new MAllContent();
-        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_LEVEL + "='" + levelId + "'";
+        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_LEVEL + "='" + levelId + "'" + " AND " + KEY_LEVEL_ID + "='" + subLevelId + "'" ;
 //        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_PARENT_ID + "='" + levelId + "'" + " AND " + KEY_SUB_LEVEL_ID + "='" + subLevelId + "'" + " AND " + KEY_LOGIC + "='" + logic + "'" + " AND " + KEY_LEVEL_ID + "='" + contentsId + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {

@@ -39,6 +39,15 @@ public class MSubLevel {
     private boolean lock = true;
     private int unlockNextLevel;
     private int isDownload;
+    private int content;
+
+    public int getContent() {
+        return content;
+    }
+
+    public void setContent(int content) {
+        this.content = content;
+    }
 
     public int getIsDownload() {
         return isDownload;

@@ -122,6 +122,7 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
                         intent.putExtra("index", getAdapterPosition());
                         intent.putExtra("Sid", mSubLevel.getLid());
                         intent.putExtra("pop", mSubLevel.getIsPopUp());
+                        intent.putExtra("content", mSubLevel.getContent());
                         intent.putExtra("SLogic", mSubLevel.getLogic());
                         intent.putExtra("parentLevelName", mSubLevel.getParentName());
                         context.startActivity(intent);
