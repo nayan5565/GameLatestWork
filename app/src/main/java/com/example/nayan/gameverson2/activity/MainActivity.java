@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
-
+                        Log.e("english", "2" + response.toString());
 
                         Global.English_words = new ArrayList<MWords>();
 
@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                         super.onSuccess(statusCode, headers, response);
-                        Utils.log("bangla", "step2");
+                        Utils.log("bangla", "step2"+ response.toString());
 
 
                         Global.BANGLA_words = new ArrayList<MWords>();
@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
-
+                        Log.e("math", "2" + response.toString());
 
                         Global.MATH_words = new ArrayList<MWords>();
 
@@ -638,7 +638,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
-
+                        Log.e("ongko", "2" + response.toString());
                         dialog1.dismiss();
                         Global.BANGLA_MATH_words = new ArrayList<MWords>();
 

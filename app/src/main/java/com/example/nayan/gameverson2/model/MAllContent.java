@@ -8,7 +8,19 @@ import java.util.ArrayList;
 public class MAllContent {
     ArrayList<MWords> words=new ArrayList<>();
     private int mid;
-    private int lid,logic;
+    private int lid;
+    private int logic;
+    private int level;
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+
 
     public int getLogic() {
         return logic;

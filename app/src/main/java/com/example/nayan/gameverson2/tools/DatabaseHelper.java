@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class DatabaseHelper {
     private static final String DATABASE_NAME = "game.db";
     private static final int DATABASE_VERSION = 2;
-    private static final String DATABASE_LEVEL_TABLE = "level";
+    private static final String DATABASE_LEVEL_TABLE = "level_db";
     private static final String DATABASE_DOWNLOAD_TABLE = "download_tb";
     private static final String DATABASE_ALL_CONTENTS_TABLE = "all_contents";
     private static final String DATABASE_LOCK_TABLE = "lock_tb";
@@ -52,6 +52,7 @@ public class DatabaseHelper {
     private static final String KEY_HOW_TO = "how_to";
     private static final String KEY_IS_DOWNLOAD = "is__download";
     private static final String KEY_URL = "url";
+    private static final String KEY_LEVEL = "level";
     private static final String KEY_POPUP = "pop_up";
     private static final String KEY_PRESENT_POINT = "present_point";
     private static final String KEY_UPDATE_DATE = "update_date";
@@ -95,6 +96,7 @@ public class DatabaseHelper {
     private static final String DATABASE_CREATE_ALL_CONTENTS_TABLE = "create table if not exists "
             + DATABASE_ALL_CONTENTS_TABLE + "("
             + KEY_LEVEL_ID + " integer, "
+            + KEY_LEVEL + " integer, "
             + KEY_MODEL_ID + " integer primary key, "
             + KEY_PRESENT_ID + " integer, "
             + KEY_PARENT_ID + " integer, "
@@ -1190,6 +1192,7 @@ public class DatabaseHelper {
             ContentValues values = new ContentValues();
             values.put(KEY_LEVEL_ID, mAllContent.getLid());
             values.put(KEY_MODEL_ID, mAllContent.getMid());
+            values.put(KEY_LEVEL, mAllContent.getLevel());
             values.put(KEY_IMAGE, mAllContent.getImg());
             values.put(KEY_PARENT_ID, mAllContent.getParentLevelId());
             values.put(KEY_SUB_LEVEL_ID, mAllContent.getSublevelId());
@@ -1225,7 +1228,8 @@ public class DatabaseHelper {
     public ArrayList<MAllContent> getAllContentsData(int levelId, int subLevelId, int logic, int contentsId) {
         ArrayList<MAllContent> mAllContents = new ArrayList<>();
         MAllContent mAllContent = new MAllContent();
-        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_PARENT_ID + "='" + levelId + "'" + " AND " + KEY_SUB_LEVEL_ID + "='" + subLevelId + "'" + " AND " + KEY_LOGIC + "='" + logic + "'" + " AND " + KEY_LEVEL_ID + "='" + contentsId + "'";
+        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_LEVEL + "='" + levelId + "'";
+//        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_PARENT_ID + "='" + levelId + "'" + " AND " + KEY_SUB_LEVEL_ID + "='" + subLevelId + "'" + " AND " + KEY_LOGIC + "='" + logic + "'" + " AND " + KEY_LEVEL_ID + "='" + contentsId + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -1234,6 +1238,7 @@ public class DatabaseHelper {
                 mAllContent.setSublevelId(cursor.getInt(cursor.getColumnIndex(KEY_SUB_LEVEL_ID)));
                 mAllContent.setLogic(cursor.getInt(cursor.getColumnIndex(KEY_LOGIC)));
                 mAllContent.setLid(cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID)));
+                mAllContent.setLevel(cursor.getInt(cursor.getColumnIndex(KEY_LEVEL)));
                 mAllContent.setMid(cursor.getInt(cursor.getColumnIndex(KEY_MODEL_ID)));
                 mAllContent.setAud(cursor.getString(cursor.getColumnIndex(KEY_SOUNDS)));
                 mAllContent.setVid(cursor.getString(cursor.getColumnIndex(KEY_VIDEO)));

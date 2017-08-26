@@ -134,6 +134,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void getLocalData() {
+        ArrayList<MAllContent> contentArrayList=database.getAllContentsData(Global.levelId,0,0,0);
+        Log.e("contentList"," size "+contentArrayList.size());
+
 
         mSubLevel = database.getSubLevelData(Global.levelId).get(Global.SUB_INDEX_POSITION);
         mLock = database.getLocalData(Global.levelId, Global.subLevelId);
