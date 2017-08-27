@@ -46,7 +46,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public TextView txtName, txtTotalPoint, txtSubName;
     LinearLayout popUI;
     private MSubLevel mSubLevel = new MSubLevel();
-    private ArrayList<MAllContent> imageArrayList1;
+    private ArrayList<MAllContent> mAllContentArrayList;
     private ArrayList<MWords> wordsList;
     private ImageView imgSetting, imageView, imgHelp;
     private RecyclerView recyclerView;
@@ -104,7 +104,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         database = new DatabaseHelper(this);
         imgSetting = (ImageView) findViewById(R.id.imgseting);
         imgSetting.setOnClickListener(this);
-        imageArrayList1 = new ArrayList<>();
+        mAllContentArrayList = new ArrayList<>();
         wordsList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.addItemDecoration(new SpacesItemDecoration(7));
@@ -124,203 +124,69 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getPopUp() {
 
-        if (Global.popUp == 0)
+        if (mLock.getPopup() == 0)
             diaRulesOfPlay(database.getPopUp(Global.levelId, Global.subLevelId));
 
-        mSubLevel.setParentId(Global.levelId);
-        mSubLevel.setLid(Global.subLevelId);
-        mSubLevel.setIsPopUp(1);
-        database.addSubFromJsom(mSubLevel);
+        mLock.setLevel_id(Global.levelId);
+        mLock.setSub_level_id(Global.subLevelId);
+        mLock.setPopup(1);
+        database.addLockData(mLock);
 
 
     }
 
 
     public void getLocalData() {
-        ArrayList<MAllContent> contentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
-        Log.e("contentList", " size " + contentArrayList.size());
+//        ArrayList<MAllContent> contentArrayList1 = database.getAllContentsData(Global.levelId, content, 0, 0);
+//        Log.e("contentList", " size " + contentArrayList1.size());
 
 
         mSubLevel = database.getSubLevelData(Global.levelId).get(Global.SUB_INDEX_POSITION);
         mLock = database.getLocalData(Global.levelId, Global.subLevelId);
 
+
         Log.e("TEST", Global.levelId + ":" + Global.subLevelId + ":" + Global.totalPoint);
 
         if (Global.logic == 1) {
 
-            if (Global.levelId == 1) {
-                if (Global.subLevelId == 1) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(1);
-                }
-                if (Global.subLevelId == 4) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(2);
-                }
-                if (Global.subLevelId == 7) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(3);
-                }
-                if (Global.subLevelId == 10) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(4);
-                }
 
-            } else if (Global.levelId == 2) {
-                if (Global.subLevelId == 13) {
-                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
-                }
-                if (Global.subLevelId == 16) {
-                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
-                }
-            } else if (Global.levelId == 3) {
-                if (Global.subLevelId == 19) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(1);
-                }
-                if (Global.subLevelId == 22) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(2);
-                }
-                if (Global.subLevelId == 25) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(3);
-                }
-                if (Global.subLevelId == 28) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(4);
-                }
-                if (Global.subLevelId == 31) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(5);
-                }
-
-            } else if (Global.levelId == 4) {
-                if (Global.subLevelId == 34) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(1);
-                }
-            }
-
-            Collections.shuffle(imageArrayList1);
+            mAllContentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
+            Collections.shuffle(mAllContentArrayList);
         }
 
 //        if (Global.logic == 2) {
 //
 //            if (Global.levelId == 1) {
-//                imageArrayList1 = database.getBanglaContentsContentsData(2);
+//                mAllContentArrayList = database.getBanglaContentsContentsData(2);
 //            } else if (Global.levelId == 2) {
-//                imageArrayList1 = database.getBanglaMathContentsContentsData(2);
+//                mAllContentArrayList = database.getBanglaMathContentsContentsData(2);
 //            } else if (Global.levelId == 3) {
-//                imageArrayList1 = database.getEnglishContentsContentsData(2);
+//                mAllContentArrayList = database.getEnglishContentsContentsData(2);
 //            } else if (Global.levelId == 4) {
-//                imageArrayList1 = database.getMathContentsContentsData();
+//                mAllContentArrayList = database.getMathContentsContentsData();
 //            }
 //
-//            Collections.shuffle(imageArrayList1);
+//            Collections.shuffle(mAllContentArrayList);
 //        }
         else if (Global.logic == 2) {
 
             ArrayList<MAllContent> realAssets = new ArrayList<>();
-            if (Global.levelId == 1) {
-                if (Global.subLevelId == 2) {
-                    realAssets = database.getBanglaContentsContentsData(1);
-                }
-                if (Global.subLevelId == 5) {
-                    realAssets = database.getBanglaContentsContentsData(2);
-                }
-                if (Global.subLevelId == 8) {
-                    realAssets = database.getBanglaContentsContentsData(3);
-                }
-                if (Global.subLevelId == 11) {
-                    realAssets = database.getBanglaContentsContentsData(4);
-                }
-
-            } else if (Global.levelId == 2) {
-                if (Global.subLevelId == 14) {
-                    realAssets = database.getBanglaMathContentsContentsData(1);
-                }
-                if (Global.subLevelId == 17) {
-                    realAssets = database.getBanglaMathContentsContentsData(2);
-                }
-            } else if (Global.levelId == 3) {
-                if (Global.subLevelId == 20) {
-                    realAssets = database.getEnglishContentsContentsData(1);
-                }
-                if (Global.subLevelId == 23) {
-                    realAssets = database.getEnglishContentsContentsData(2);
-                }
-                if (Global.subLevelId == 26) {
-                    realAssets = database.getEnglishContentsContentsData(3);
-                }
-                if (Global.subLevelId == 29) {
-                    realAssets = database.getEnglishContentsContentsData(4);
-                }
-                if (Global.subLevelId == 32) {
-                    realAssets = database.getEnglishContentsContentsData(5);
-                }
-
-            } else if (Global.levelId == 4) {
-                if (Global.subLevelId == 35) {
-                    realAssets = database.getEnglishContentsContentsData(1);
-                }
-            }
-
-            imageArrayList1 = generatesTxtSen(realAssets);
-            Collections.shuffle(imageArrayList1);
+            realAssets = database.getAllContentsData(Global.levelId, content, 0, 0);
+            mAllContentArrayList = generatesTxtSen(realAssets);
+            Collections.shuffle(mAllContentArrayList);
         } else if (Global.logic == 3) {
 
-            if (Global.levelId == 1) {
-                if (Global.subLevelId == 3) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(1);
-                }
-                if (Global.subLevelId == 6) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(2);
-                }
-                if (Global.subLevelId == 9) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(3);
-                }
-                if (Global.subLevelId == 12) {
-                    imageArrayList1 = database.getBanglaContentsContentsData(4);
-                }
-            } else if (Global.levelId == 2) {
-                if (Global.subLevelId == 15) {
-                    imageArrayList1 = database.getBanglaMathContentsContentsData(1);
-                }
-                if (Global.subLevelId == 18) {
-                    imageArrayList1 = database.getBanglaMathContentsContentsData(2);
-                }
-            } else if (Global.levelId == 3) {
-                if (Global.subLevelId == 21) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(1);
-                }
-                if (Global.subLevelId == 24) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(2);
-                }
-                if (Global.subLevelId == 27) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(3);
-                }
-                if (Global.subLevelId == 30) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(4);
-                }
-                if (Global.subLevelId == 33) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(5);
-                }
-            } else if (Global.levelId == 4) {
-                if (Global.subLevelId == 36) {
-                    imageArrayList1 = database.getEnglishContentsContentsData(1);
-                }
-            }
-//            Collections.shuffle(imageArrayList1);
-
+            mAllContentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
         } else if (Global.logic == 4) {
 
             ArrayList<MAllContent> realAssets = new ArrayList<>();
-            if (Global.levelId == 1) {
-                realAssets = database.getBanglaContentsContentsData(4);
-            } else if (Global.levelId == 2) {
-                realAssets = database.getBanglaMathContentsContentsData(4);
-            } else if (Global.levelId == 3) {
-                realAssets = database.getEnglishContentsContentsData(4);
-            } else if (Global.levelId == 4) {
-                realAssets = database.getMathContentsContentsData();
-            }
+            realAssets = database.getAllContentsData(Global.levelId, content, 0, 0);
 
-            imageArrayList1 = generatesTxtImg(realAssets);
-            Collections.shuffle(imageArrayList1);
+            mAllContentArrayList = generatesTxtImg(realAssets);
+            Collections.shuffle(mAllContentArrayList);
         }
 
-        Log.e("ERR", "data size : " + imageArrayList1.size());
+        Log.e("ERR", "data size : " + mAllContentArrayList.size());
     }
 
     public void diaRulesOfPlay(String s) {
@@ -438,7 +304,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         int item = Utils.getScreenSize(this, 90);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(gameAdapter);
-        gameAdapter.setData(imageArrayList1);
+        gameAdapter.setData(mAllContentArrayList);
 
         if (Global.levelId == 1) {
             imageView.setImageResource(R.drawable.grren_coins);

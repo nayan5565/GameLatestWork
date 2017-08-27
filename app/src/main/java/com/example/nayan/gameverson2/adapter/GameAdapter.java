@@ -394,22 +394,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
                     Global.GAME_INDEX_POSITION = Global.GAME_INDEX_POSITION + 1;
 
                     mContents = textArrayList.get(Global.GAME_INDEX_POSITION);
-
-                    if (Global.levelId == 1) {
-
-
-                        mContents.setWords(db.getBanglaWordsData(mContents.getMid()));
-                    } else if (Global.levelId == 2) {
-
-                        mContents.setWords(db.getBanglaMathWordsData(mContents.getMid()));
-                    } else if (Global.levelId == 3) {
-
-                        mContents.setWords(db.getEnglishWordsData(mContents.getMid()));
-                    } else if (Global.levelId == 4) {
-
-                        mContents.setWords(db.getMathWordsData(mContents.getMid()));
-                    }
-
+                    mContents.setWords(db.getAllWordsData(mContents.getMid()));
                     dialogShowWithWordArray(Global.GAME_INDEX_POSITION);
 //                    txt1.setText(textArrayList.get(pos).getTxt());
                     dialog.dismiss();
@@ -436,23 +421,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
                     Global.GAME_INDEX_POSITION = Global.GAME_INDEX_POSITION - 1;
 
                     mContents = textArrayList.get(Global.GAME_INDEX_POSITION);
-
-                    if (Global.levelId == 1) {
-
-
-                        mContents.setWords(db.getBanglaWordsData(mContents.getMid()));
-                    } else if (Global.levelId == 2) {
-
-                        mContents.setWords(db.getBanglaMathWordsData(mContents.getMid()));
-                    } else if (Global.levelId == 3) {
-
-                        mContents.setWords(db.getEnglishWordsData(mContents.getMid()));
-                    } else if (Global.levelId == 4) {
-
-                        mContents.setWords(db.getMathWordsData(mContents.getMid()));
-                    }
-
-
+                    mContents.setWords(db.getAllWordsData(mContents.getMid()));
                     dialogShowWithWordArray(Global.GAME_INDEX_POSITION);
 //                    txt1.setText(textArrayList.get(pos).getTxt());
                     Utils.toastMassage(context, "Position");
@@ -631,18 +600,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
 
                     mContents = textArrayList.get(Global.GAME_INDEX_POSITION);
 
-                    if (Global.subLevelId == 3) {
-
-                        mContents.setWords(db.getBanglaWordsData(mContents.getMid()));
-                    }
-                    if (Global.subLevelId == 6) {
-
-                        mContents.setWords(db.getMathWordsData(mContents.getMid()));
-                    }
-                    if (Global.subLevelId == 9) {
-
-                        mContents.setWords(db.getEnglishWordsData(mContents.getMid()));
-                    }
+                    mContents.setWords(db.getAllWordsData(mContents.getMid()));
 
                     dialogShowWithWordsList();
                     Utils.toastMassage(context, "Position");
@@ -766,22 +724,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
                         gameLogic.imageClick(mContents, getAdapterPosition(), textArrayList.size(), itemView, imgAnim2);
                     } else if (Global.logic == 3) {
 
-
-                        if (Global.levelId == 1) {
-
-
-                            mContents.setWords(db.getBanglaWordsData(mContents.getMid()));
-                        } else if (Global.levelId == 2) {
-
-                            mContents.setWords(db.getBanglaMathWordsData(mContents.getMid()));
-                        } else if (Global.levelId == 3) {
-
-                            mContents.setWords(db.getEnglishWordsData(mContents.getMid()));
-                        } else if (Global.levelId == 4) {
-
-                            mContents.setWords(db.getMathWordsData(mContents.getMid()));
-                        }
-
+                        mContents.setWords(db.getAllWordsData(mContents.getMid()));
                         dialogShowWithWordArray(getAdapterPosition());
 //                        dialogShowWithWordsList();
                     } else if (Global.logic == 4) {

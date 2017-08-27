@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialog1.show();
         Log.e("sep", "1");
         if (!Utils.isInternetOn(this)) {
+            getLocalData();
             Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.dia_internet_alert);
@@ -270,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             TextView txtInternet = (TextView) dialog.findViewById(R.id.txtInternet);
             txtInternet.setText(Global.internetAlert);
             dialog.show();
+
             return;
         }
         AsyncHttpClient client = new AsyncHttpClient();
@@ -469,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                         super.onSuccess(statusCode, headers, response);
-                        Utils.log("bangla", "step2"+ response.toString());
+                        Utils.log("bangla", "step2" + response.toString());
 
 
                         Global.BANGLA_words = new ArrayList<MWords>();
@@ -737,7 +739,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void saveEnglishContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.English) {
-            database.addEnglishContentsFromJson(mAllContent);
             database.addAllContentsData(mAllContent);
         }
     }
@@ -750,35 +751,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void saveBanglaContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.BANGLA) {
-            database.addBanglaContentsFromJson(mAllContent);
             database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveMathContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.Maths) {
-            database.addMathContentsFromJson(mAllContent);
             database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveBanglaMathContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.BANGLA_Maths) {
-            database.addBanglaMathContentsFromJson(mAllContent);
             database.addAllContentsData(mAllContent);
         }
     }
 
     private void saveEnglishWordsToDb() {
         for (MWords mWords : Global.English_words) {
-            database.addEnglishWordsFromJsom(mWords);
             database.addAllWordsData(mWords);
         }
     }
 
     private void saveBanglaWordsToDb() {
         for (MWords mWords : Global.BANGLA_words) {
-            database.addBanglaWordsFromJsom(mWords);
             database.addAllWordsData(mWords);
         }
     }
@@ -786,14 +782,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void saveMathWordsToDb() {
         for (MWords mWords : Global.MATH_words) {
-            database.addMathWordsFromJson(mWords);
             database.addAllWordsData(mWords);
         }
     }
 
     private void saveBanglaMathWordsToDb() {
         for (MWords mWords : Global.BANGLA_MATH_words) {
-            database.addBanglaMathWordsFromJson(mWords);
             database.addAllWordsData(mWords);
         }
     }

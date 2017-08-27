@@ -32,23 +32,13 @@ public class DatabaseHelper {
     private static final String DATABASE_ALL_CONTENTS_TABLE = "all_contents";
     private static final String DATABASE_LOCK_TABLE = "lock_tb";
     private static final String DATABASE_SUB_LEVEL_TABLE = "sub";
-    private static final String DATABASE_POINT_TABLE = "point_tb";
-    private static final String DATABASE_WORDS_TABLE = "words_tb";
-    private static final String DATABASE_WORDS_TABLE_BANGLA = "bangla_words_tb";
     private static final String DATABASE_ALL_WORDS_TABLE = "all_words_tb";
-    private static final String DATABASE_WORDS_TABLE_MATH = "math_words_tb";
-    private static final String DATABASE_WORDS_TABLE_BANGLA_MATH = "bangla_math_words_tb";
-    private static final String DATABASE_ENGLISH_CONTENTS_TABLE = "english_contents_tb";
-    private static final String DATABASE_BANGLA_CONTENTS_TABLE = "bangla_contents_tb";
-    private static final String DATABASE_MATH_CONTENTS_TABLE = "math_contents_tb";
-    private static final String DATABASE_BANGLA_MATH_CONTENTS_TABLE = "bangla_math_contents_tb";
     private static final String KEY_WORDS_ID = "words_id";
     private static final String KEY_WORDS_CONTENTS_ID = "words_contents_id";
     private static final String KEY_WORDS_LETTER = "words_letter";
     private static final String KEY_WORDS_Word = "words_word";
     private static final String KEY_WORDS_IMG = "words_img";
     private static final String KEY_WORDS_SOUND = "words_sound";
-    private static final String KEY_POINT_ID = "point_id";
     private static final String KEY_HOW_TO = "how_to";
     private static final String KEY_IS_DOWNLOAD = "is__download";
     private static final String KEY_URL = "url";
@@ -109,50 +99,6 @@ public class DatabaseHelper {
             + KEY_TEXT + " text, "
             + KEY_VIDEO + " text, "
             + KEY_SOUNDS + " text)";
-    private static final String DATABASE_CREATE_CONTENTS_OF_ENGLISH_TABLE = "create table if not exists "
-            + DATABASE_ENGLISH_CONTENTS_TABLE + "("
-            + KEY_LEVEL_ID + " integer, "
-            + KEY_MODEL_ID + " integer primary key, "
-            + KEY_PRESENT_ID + " integer, "
-            + KEY_PRESENT_TYPE + " integer, "
-            + KEY_IMAGE + " text, "
-            + KEY_SEN + " text, "
-            + KEY_TEXT + " text, "
-            + KEY_VIDEO + " text, "
-            + KEY_SOUNDS + " text)";
-    private static final String DATABASE_CREATE_CONTENTS_OF_BANGLA_TABLE = "create table if not exists "
-            + DATABASE_BANGLA_CONTENTS_TABLE + "("
-            + KEY_LEVEL_ID + " integer, "
-            + KEY_MODEL_ID + " integer primary key, "
-            + KEY_PRESENT_ID + " integer, "
-            + KEY_PRESENT_TYPE + " integer, "
-            + KEY_IMAGE + " text, "
-            + KEY_SEN + " text, "
-            + KEY_TEXT + " text, "
-            + KEY_VIDEO + " text, "
-            + KEY_SOUNDS + " text)";
-    private static final String DATABASE_CREATE_CONTENTS_OF_MATH_TABLE = "create table if not exists "
-            + DATABASE_MATH_CONTENTS_TABLE + "("
-            + KEY_LEVEL_ID + " integer, "
-            + KEY_MODEL_ID + " integer primary key, "
-            + KEY_PRESENT_ID + " integer, "
-            + KEY_PRESENT_TYPE + " integer, "
-            + KEY_IMAGE + " text, "
-            + KEY_SEN + " text, "
-            + KEY_TEXT + " text, "
-            + KEY_VIDEO + " text, "
-            + KEY_SOUNDS + " text)";
-    private static final String DATABASE_CREATE_CONTENTS_OF_BANGLA_MATH_TABLE = "create table if not exists "
-            + DATABASE_BANGLA_MATH_CONTENTS_TABLE + "("
-            + KEY_LEVEL_ID + " integer, "
-            + KEY_MODEL_ID + " integer primary key, "
-            + KEY_PRESENT_ID + " integer, "
-            + KEY_PRESENT_TYPE + " integer, "
-            + KEY_IMAGE + " text, "
-            + KEY_SEN + " text, "
-            + KEY_TEXT + " text, "
-            + KEY_VIDEO + " text, "
-            + KEY_SOUNDS + " text)";
     private static final String DATABASE_CREATE_SUB_LEVEL_TABLE = "create table if not exists "
             + DATABASE_SUB_LEVEL_TABLE + "("
             + KEY_SUB_LEVEL_ID + " integer primary key, "
@@ -168,40 +114,8 @@ public class DatabaseHelper {
             + KEY_HOW_TO + " text, "
             + KEY_COINS_PRICE + " text, "
             + KEY_NO_OF_COINS + " text)";
-    private static final String DATABASE_CREATE_WORDS_TABLE = "create table if not exists "
-            + DATABASE_WORDS_TABLE + "("
-            + KEY_WORDS_ID + " integer primary key, "
-            + KEY_WORDS_CONTENTS_ID + " integer, "
-            + KEY_WORDS_IMG + " text, "
-            + KEY_WORDS_LETTER + " text, "
-            + KEY_WORDS_SOUND + " text, "
-            + KEY_WORDS_Word + " text)";
     private static final String DATABASE_CREATE_ALL_WORDS_TABLE = "create table if not exists "
             + DATABASE_ALL_WORDS_TABLE + "("
-            + KEY_WORDS_ID + " integer primary key, "
-            + KEY_WORDS_CONTENTS_ID + " integer, "
-            + KEY_WORDS_IMG + " text, "
-            + KEY_WORDS_LETTER + " text, "
-            + KEY_WORDS_SOUND + " text, "
-            + KEY_WORDS_Word + " text)";
-    private static final String DATABASE_CREATE_WORDS_TABLE_BANGLA = "create table if not exists "
-            + DATABASE_WORDS_TABLE_BANGLA + "("
-            + KEY_WORDS_ID + " integer primary key, "
-            + KEY_WORDS_CONTENTS_ID + " integer, "
-            + KEY_WORDS_IMG + " text, "
-            + KEY_WORDS_LETTER + " text, "
-            + KEY_WORDS_SOUND + " text, "
-            + KEY_WORDS_Word + " text)";
-    private static final String DATABASE_CREATE_WORDS_TABLE_MATH = "create table if not exists "
-            + DATABASE_WORDS_TABLE_MATH + "("
-            + KEY_WORDS_ID + " integer primary key, "
-            + KEY_WORDS_CONTENTS_ID + " integer, "
-            + KEY_WORDS_IMG + " text, "
-            + KEY_WORDS_LETTER + " text, "
-            + KEY_WORDS_SOUND + " text, "
-            + KEY_WORDS_Word + " text)";
-    private static final String DATABASE_CREATE_WORDS_TABLE_BANGLA_MATH = "create table if not exists "
-            + DATABASE_WORDS_TABLE_BANGLA_MATH + "("
             + KEY_WORDS_ID + " integer primary key, "
             + KEY_WORDS_CONTENTS_ID + " integer, "
             + KEY_WORDS_IMG + " text, "
@@ -214,6 +128,7 @@ public class DatabaseHelper {
             + KEY_POINT + " integer, "
             + KEY_UNLOCK + " integer, "
             + KEY_TOTAL_POINT + " integer, "
+            + KEY_POPUP + " integer, "
             + KEY_LEVEL_ID + " integer, "
             + KEY_SUB_LEVEL_ID + " integer)";
     private static final String DATABASE_CREATE_DOWNLOAD_TABLE = "create table if not exists "
@@ -224,11 +139,6 @@ public class DatabaseHelper {
             + KEY_IS_DOWNLOAD + " integer, "
             + KEY_MODEL_ID + " integer  , "
             + KEY_URL + " text)";
-    private static final String DATABASE_CREATE_POINT_TABLE = "create table if not exists "
-            + DATABASE_POINT_TABLE + "("
-            + KEY_PRESENT_POINT + " integer, "
-            + KEY_POINT_ID + " integer primary key, "
-            + KEY_POINT + " integer)";
     private static DatabaseHelper instance;
     private static SQLiteDatabase db;
     private final String TAG = getClass().getSimpleName();
@@ -267,16 +177,7 @@ public class DatabaseHelper {
         db.execSQL(DATABASE_CREATE_ALL_CONTENTS_TABLE);
         db.execSQL(DATABASE_CREATE_SUB_LEVEL_TABLE);
         db.execSQL(DATABASE_CREATE_LOCK_TABLE);
-        db.execSQL(DATABASE_CREATE_POINT_TABLE);
-        db.execSQL(DATABASE_CREATE_WORDS_TABLE);
-        db.execSQL(DATABASE_CREATE_WORDS_TABLE_BANGLA);
-        db.execSQL(DATABASE_CREATE_WORDS_TABLE_MATH);
-        db.execSQL(DATABASE_CREATE_WORDS_TABLE_BANGLA_MATH);
-        db.execSQL(DATABASE_CREATE_CONTENTS_OF_ENGLISH_TABLE);
-        db.execSQL(DATABASE_CREATE_CONTENTS_OF_BANGLA_TABLE);
-        db.execSQL(DATABASE_CREATE_CONTENTS_OF_MATH_TABLE);
         db.execSQL(DATABASE_CREATE_ALL_WORDS_TABLE);
-        db.execSQL(DATABASE_CREATE_CONTENTS_OF_BANGLA_MATH_TABLE);
         db.execSQL(DATABASE_CREATE_DOWNLOAD_TABLE);
 
     }
@@ -394,129 +295,6 @@ public class DatabaseHelper {
         return "";
     }
 
-    public void addEnglishWordsFromJsom(MWords mWords) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_WORDS_ID, mWords.getWid());
-            values.put(KEY_WORDS_CONTENTS_ID, mWords.getContentId());
-            values.put(KEY_WORDS_IMG, mWords.getWimg());
-            values.put(KEY_WORDS_LETTER, mWords.getWletter());
-            values.put(KEY_WORDS_Word, mWords.getWword());
-            values.put(KEY_WORDS_SOUND, mWords.getWsound());
-
-
-            String sql = "select * from " + DATABASE_WORDS_TABLE + " where " + KEY_WORDS_ID + "='" + mWords.getWid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_WORDS_TABLE, values, KEY_WORDS_ID + "=?", new String[]{mWords.getWid() + ""});
-                Log.e("englishWords", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_WORDS_TABLE, null, values);
-                Log.e("englishWords", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-        if (cursor != null)
-            cursor.close();
-    }
-
-    public void addBanglaWordsFromJsom(MWords mWords) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_WORDS_ID, mWords.getWid());
-            values.put(KEY_WORDS_CONTENTS_ID, mWords.getContentId());
-            values.put(KEY_WORDS_IMG, mWords.getWimg());
-            values.put(KEY_WORDS_LETTER, mWords.getWletter());
-            values.put(KEY_WORDS_Word, mWords.getWword());
-            values.put(KEY_WORDS_SOUND, mWords.getWsound());
-
-
-            String sql = "select * from " + DATABASE_WORDS_TABLE_BANGLA + " where " + KEY_WORDS_ID + "='" + mWords.getWid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_WORDS_TABLE_BANGLA, values, KEY_WORDS_ID + "=?", new String[]{mWords.getWid() + ""});
-                Log.e("banglaWords", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_WORDS_TABLE_BANGLA, null, values);
-                Log.e("banglaWords", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-        if (cursor != null)
-            cursor.close();
-    }
-
-    public void addMathWordsFromJson(MWords mWords) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_WORDS_ID, mWords.getWid());
-            values.put(KEY_WORDS_CONTENTS_ID, mWords.getContentId());
-            values.put(KEY_WORDS_IMG, mWords.getWimg());
-            values.put(KEY_WORDS_LETTER, mWords.getWletter());
-            values.put(KEY_WORDS_Word, mWords.getWword());
-            values.put(KEY_WORDS_SOUND, mWords.getWsound());
-
-
-            String sql = "select * from " + DATABASE_WORDS_TABLE_MATH + " where " + KEY_WORDS_ID + "='" + mWords.getWid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_WORDS_TABLE_MATH, values, KEY_WORDS_ID + "=?", new String[]{mWords.getWid() + ""});
-                Log.e("mathWords", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_WORDS_TABLE_MATH, null, values);
-                Log.e("log", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-        if (cursor != null)
-            cursor.close();
-    }
-
-    public void addBanglaMathWordsFromJson(MWords mWords) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_WORDS_ID, mWords.getWid());
-            values.put(KEY_WORDS_CONTENTS_ID, mWords.getContentId());
-            values.put(KEY_WORDS_IMG, mWords.getWimg());
-            values.put(KEY_WORDS_LETTER, mWords.getWletter());
-            values.put(KEY_WORDS_Word, mWords.getWword());
-            values.put(KEY_WORDS_SOUND, mWords.getWsound());
-
-
-            String sql = "select * from " + DATABASE_WORDS_TABLE_BANGLA_MATH + " where " + KEY_WORDS_ID + "='" + mWords.getWid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_WORDS_TABLE_BANGLA_MATH, values, KEY_WORDS_ID + "=?", new String[]{mWords.getWid() + ""});
-                Log.e("banglaMathWords", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_WORDS_TABLE_BANGLA_MATH, null, values);
-                Log.e("banglaMathWords", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-        if (cursor != null)
-            cursor.close();
-    }
 
     public void addDownloadData(MDownload mDownload) {
         Cursor cursor = null;
@@ -548,142 +326,6 @@ public class DatabaseHelper {
             cursor.close();
     }
 
-    public void addEnglishContentsFromJson(MAllContent mAllContent) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_LEVEL_ID, mAllContent.getLid());
-            values.put(KEY_MODEL_ID, mAllContent.getMid());
-            values.put(KEY_IMAGE, mAllContent.getImg());
-            values.put(KEY_TEXT, mAllContent.getTxt());
-            values.put(KEY_SOUNDS, mAllContent.getAud());
-            values.put(KEY_PRESENT_TYPE, mAllContent.getPresentType());
-            values.put(KEY_VIDEO, mAllContent.getVid());
-            values.put(KEY_SEN, mAllContent.getSen());
-            values.put(KEY_PRESENT_ID, mAllContent.getPresentId());
-
-            String sql = "select * from " + DATABASE_ENGLISH_CONTENTS_TABLE + " where " + KEY_MODEL_ID + "='" + mAllContent.getMid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_ENGLISH_CONTENTS_TABLE, values, KEY_MODEL_ID + "=?", new String[]{mAllContent.getMid() + ""});
-                Log.e("englishContents", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_ENGLISH_CONTENTS_TABLE, null, values);
-                Log.e("englishContents", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-
-        if (cursor != null)
-            cursor.close();
-    }
-
-    public void addBanglaContentsFromJson(MAllContent mAllContent) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_LEVEL_ID, mAllContent.getLid());
-            values.put(KEY_MODEL_ID, mAllContent.getMid());
-            values.put(KEY_IMAGE, mAllContent.getImg());
-            values.put(KEY_TEXT, mAllContent.getTxt());
-            values.put(KEY_SOUNDS, mAllContent.getAud());
-            values.put(KEY_PRESENT_TYPE, mAllContent.getPresentType());
-            values.put(KEY_VIDEO, mAllContent.getVid());
-            values.put(KEY_SEN, mAllContent.getSen());
-            values.put(KEY_PRESENT_ID, mAllContent.getPresentId());
-
-            String sql = "select * from " + DATABASE_BANGLA_CONTENTS_TABLE + " where " + KEY_MODEL_ID + "='" + mAllContent.getMid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_BANGLA_CONTENTS_TABLE, values, KEY_MODEL_ID + "=?", new String[]{mAllContent.getMid() + ""});
-                Log.e("banglaContents", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_BANGLA_CONTENTS_TABLE, null, values);
-                Log.e("banglaContents", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-
-        if (cursor != null)
-            cursor.close();
-    }
-
-    public void addMathContentsFromJson(MAllContent mAllContent) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_LEVEL_ID, mAllContent.getLid());
-            values.put(KEY_MODEL_ID, mAllContent.getMid());
-            values.put(KEY_IMAGE, mAllContent.getImg());
-            values.put(KEY_TEXT, mAllContent.getTxt());
-            values.put(KEY_SOUNDS, mAllContent.getAud());
-            values.put(KEY_PRESENT_TYPE, mAllContent.getPresentType());
-            values.put(KEY_VIDEO, mAllContent.getVid());
-            values.put(KEY_SEN, mAllContent.getSen());
-            values.put(KEY_PRESENT_ID, mAllContent.getPresentId());
-
-            String sql = "select * from " + DATABASE_MATH_CONTENTS_TABLE + " where " + KEY_MODEL_ID + "='" + mAllContent.getMid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_MATH_CONTENTS_TABLE, values, KEY_MODEL_ID + "=?", new String[]{mAllContent.getMid() + ""});
-                Log.e("mathContents", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_MATH_CONTENTS_TABLE, null, values);
-                Log.e("mathContents", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-
-        if (cursor != null)
-            cursor.close();
-    }
-
-
-    public void addBanglaMathContentsFromJson(MAllContent mAllContent) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_LEVEL_ID, mAllContent.getLid());
-            values.put(KEY_MODEL_ID, mAllContent.getMid());
-            values.put(KEY_IMAGE, mAllContent.getImg());
-            values.put(KEY_TEXT, mAllContent.getTxt());
-            values.put(KEY_SOUNDS, mAllContent.getAud());
-            values.put(KEY_PRESENT_TYPE, mAllContent.getPresentType());
-            values.put(KEY_VIDEO, mAllContent.getVid());
-            values.put(KEY_SEN, mAllContent.getSen());
-            values.put(KEY_PRESENT_ID, mAllContent.getPresentId());
-
-            String sql = "select * from " + DATABASE_BANGLA_MATH_CONTENTS_TABLE + " where " + KEY_MODEL_ID + "='" + mAllContent.getMid() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_BANGLA_MATH_CONTENTS_TABLE, values, KEY_MODEL_ID + "=?", new String[]{mAllContent.getMid() + ""});
-                Log.e("banglaMathContents", " update : " + update);
-            } else {
-                long v = db.insert(DATABASE_BANGLA_MATH_CONTENTS_TABLE, null, values);
-                Log.e("banglaMathContents", " insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-
-        if (cursor != null)
-            cursor.close();
-    }
 
     public void addLockData(MLock mLock) {
         Cursor cursor = null;
@@ -692,6 +334,7 @@ public class DatabaseHelper {
             values.put(KEY_LEVEL_ID, mLock.getLevel_id());
             values.put(KEY_SUB_LEVEL_ID, mLock.getSub_level_id());
             values.put(KEY_POINT, mLock.getBestPoint());
+            values.put(KEY_POPUP, mLock.getPopup());
             values.put(KEY_TOTAL_POINT, mLock.getTotal_pont());
             values.put(KEY_UNLOCK, mLock.getUnlockNextLevel());
 
@@ -716,33 +359,6 @@ public class DatabaseHelper {
             cursor.close();
     }
 
-    public void addPointData(MPoint mPoint) {
-        Cursor cursor = null;
-        try {
-            ContentValues values = new ContentValues();
-            values.put(KEY_POINT_ID, mPoint.getpId());
-            values.put(KEY_PRESENT_POINT, mPoint.getPresentPoint());
-            values.put(KEY_POINT, mPoint.getBestPoint());
-
-            String sql = "select * from " + DATABASE_POINT_TABLE + " where " + KEY_POINT_ID + "='" + mPoint.getpId() + "'";
-            cursor = db.rawQuery(sql, null);
-            if (cursor != null && cursor.getCount() > 0) {
-                int update = db.update(DATABASE_POINT_TABLE, values, KEY_POINT_ID + "=?", new String[]{mPoint.getpId() + ""});
-                Log.e("log", "content update : " + update);
-            } else {
-                long v = db.insert(DATABASE_POINT_TABLE, null, values);
-                Log.e("log", "content insert : " + v);
-
-            }
-
-
-        } catch (Exception e) {
-
-        }
-
-        if (cursor != null)
-            cursor.close();
-    }
 
     public ArrayList<MLevel> getLevelData(int id) {
         ArrayList<MLevel> levelArrayList = new ArrayList<>();
@@ -814,6 +430,7 @@ public class DatabaseHelper {
                 mLock.setId(cursor.getInt(cursor.getColumnIndex(KEY_LOCK_ID)));
                 mLock.setSub_level_id(cursor.getInt(cursor.getColumnIndex(KEY_SUB_LEVEL_ID)));
                 mLock.setUnlockNextLevel(cursor.getInt(cursor.getColumnIndex(KEY_UNLOCK)));
+                mLock.setPopup(cursor.getInt(cursor.getColumnIndex(KEY_POPUP)));
                 mLock.setBestPoint(cursor.getInt(cursor.getColumnIndex(KEY_POINT)));
                 mLock.setTotal_pont(cursor.getInt(cursor.getColumnIndex(KEY_TOTAL_POINT)));
                 Log.e("totalPoint", "is :" + mLock.getTotal_pont());
@@ -848,26 +465,6 @@ public class DatabaseHelper {
         return 0;
     }
 
-    public MPoint getPointData(int id) {
-        ArrayList<MPoint> mPoints = new ArrayList<>();
-        MPoint mPoint = new MPoint();
-        String sql = "select * from " + DATABASE_POINT_TABLE + " where " + KEY_POINT_ID + "='" + id + "'";
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-
-                mPoint.setBestPoint(cursor.getInt(cursor.getColumnIndex(KEY_POINT)));
-                mPoint.setPresentPoint(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_POINT)));
-
-                mPoints.add(mPoint);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-        return mPoint;
-    }
 
     public ArrayList<MDownload> getDownloadData(int levelId, int isDownload) {
         ArrayList<MDownload> mDownloads = new ArrayList<>();
@@ -897,7 +494,7 @@ public class DatabaseHelper {
         ArrayList<MSubLevel> assetArrayList = new ArrayList<>();
         Log.e("DB", "S1");
         MSubLevel mSubLevel;
-        String sql = "select a.s_lid,a.pNm,a.content,a.how_to,a.k_Logic,a.pop_up,a.pid,a.name,a.coins_price,a.no_of_coins,b.un_lock,b.best_point from sub a left join lock_tb b on a.pid=b.lid AND a.s_lid=b.s_lid where a." + KEY_PARENT_ID + "='" + id + "'";
+        String sql = "select a.s_lid,a.pNm,a.content,a.how_to,a.k_Logic,a.pid,a.name,a.coins_price,a.no_of_coins,b.un_lock,b.best_point from sub a left join lock_tb b on a.pid=b.lid AND a.s_lid=b.s_lid where a." + KEY_PARENT_ID + "='" + id + "'";
 //                " from " + DATABASE_SUB_LEVEL_TABLE + " a where " + KEY_PARENT_ID + "='" + id + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
@@ -908,7 +505,6 @@ public class DatabaseHelper {
                 mSubLevel.setLogic(cursor.getInt(cursor.getColumnIndex(KEY_LOGIC)));
                 mSubLevel.setContent(cursor.getInt(cursor.getColumnIndex(KEY_CONTENT)));
                 mSubLevel.setUnlockNextLevel(cursor.getInt(cursor.getColumnIndex(KEY_UNLOCK)));
-                mSubLevel.setIsPopUp(cursor.getInt(cursor.getColumnIndex(KEY_POPUP)));
                 mSubLevel.setHowto(cursor.getString(cursor.getColumnIndex(KEY_HOW_TO)));
 
                 try {
@@ -934,261 +530,6 @@ public class DatabaseHelper {
         return assetArrayList;
     }
 
-    public ArrayList<MWords> getEnglishWordsData(int id) {
-        ArrayList<MWords> assetArrayList = new ArrayList<>();
-
-        MWords mWords;
-        String sql = "select * from " + DATABASE_WORDS_TABLE + " a where " + KEY_WORDS_CONTENTS_ID + "='" + id + "'";
-
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mWords = new MWords();
-                mWords.setWid(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_ID)));
-                mWords.setWsound(cursor.getString(cursor.getColumnIndex(KEY_WORDS_SOUND)));
-                mWords.setWword(cursor.getString(cursor.getColumnIndex(KEY_WORDS_Word)));
-                mWords.setContentId(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_CONTENTS_ID)));
-                mWords.setWimg(cursor.getString(cursor.getColumnIndex(KEY_WORDS_IMG)));
-                mWords.setWletter(cursor.getString(cursor.getColumnIndex(KEY_WORDS_LETTER)));
-                assetArrayList.add(mWords);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-        return assetArrayList;
-    }
-
-    public ArrayList<MWords> getMathWordsData(int id) {
-        Log.e("start", "get math");
-        ArrayList<MWords> assetArrayList = new ArrayList<>();
-
-        MWords mWords;
-        String sql = "select * from " + DATABASE_WORDS_TABLE_MATH + " a where " + KEY_WORDS_CONTENTS_ID + "='" + id + "'";
-
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mWords = new MWords();
-                mWords.setWid(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_ID)));
-                mWords.setWsound(cursor.getString(cursor.getColumnIndex(KEY_WORDS_SOUND)));
-                mWords.setWword(cursor.getString(cursor.getColumnIndex(KEY_WORDS_Word)));
-                mWords.setContentId(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_CONTENTS_ID)));
-                mWords.setWimg(cursor.getString(cursor.getColumnIndex(KEY_WORDS_IMG)));
-                mWords.setWletter(cursor.getString(cursor.getColumnIndex(KEY_WORDS_LETTER)));
-                assetArrayList.add(mWords);
-
-            } while (cursor.moveToNext());
-
-        }
-
-        cursor.close();
-        Log.e("getmathlist", "math size" + assetArrayList.size());
-        return assetArrayList;
-
-    }
-
-    public ArrayList<MWords> getBanglaMathWordsData(int id) {
-        Log.e("start", "get math");
-        ArrayList<MWords> assetArrayList = new ArrayList<>();
-
-        MWords mWords;
-        String sql = "select * from " + DATABASE_WORDS_TABLE_BANGLA_MATH + " a where " + KEY_WORDS_CONTENTS_ID + "='" + id + "'";
-
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mWords = new MWords();
-                mWords.setWid(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_ID)));
-                mWords.setWsound(cursor.getString(cursor.getColumnIndex(KEY_WORDS_SOUND)));
-                mWords.setWword(cursor.getString(cursor.getColumnIndex(KEY_WORDS_Word)));
-                mWords.setContentId(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_CONTENTS_ID)));
-                mWords.setWimg(cursor.getString(cursor.getColumnIndex(KEY_WORDS_IMG)));
-                mWords.setWletter(cursor.getString(cursor.getColumnIndex(KEY_WORDS_LETTER)));
-                assetArrayList.add(mWords);
-
-            } while (cursor.moveToNext());
-
-        }
-
-        cursor.close();
-        Log.e("getmathlist", "math size" + assetArrayList.size());
-        return assetArrayList;
-
-    }
-
-    public ArrayList<MWords> getBanglaWordsData(int id) {
-        ArrayList<MWords> assetArrayList = new ArrayList<>();
-
-        MWords mWords;
-        String sql = "select * from " + DATABASE_WORDS_TABLE_BANGLA + " a where " + KEY_WORDS_CONTENTS_ID + "='" + id + "'";
-
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mWords = new MWords();
-                mWords.setWid(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_ID)));
-                mWords.setWsound(cursor.getString(cursor.getColumnIndex(KEY_WORDS_SOUND)));
-                mWords.setWword(cursor.getString(cursor.getColumnIndex(KEY_WORDS_Word)));
-                mWords.setContentId(cursor.getInt(cursor.getColumnIndex(KEY_WORDS_CONTENTS_ID)));
-                mWords.setWimg(cursor.getString(cursor.getColumnIndex(KEY_WORDS_IMG)));
-                mWords.setWletter(cursor.getString(cursor.getColumnIndex(KEY_WORDS_LETTER)));
-
-                assetArrayList.add(mWords);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-        return assetArrayList;
-    }
-
-//    public ArrayList<MContents> getBanglaContentsData() {
-//        ArrayList<MContents> assetArrayList = new ArrayList<>();
-//
-//        MContents mContents;
-//        String sql = "select * from " + DATABASE_CONTENTS_TABLE;
-//        Cursor cursor = db.rawQuery(sql, null);
-//        if (cursor != null && cursor.moveToFirst()) {
-//            do {
-//                mContents = new MContents();
-//                mContents.setLid(cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID)));
-//                mContents.setMid(cursor.getInt(cursor.getColumnIndex(KEY_MODEL_ID)));
-//                mContents.setAud(cursor.getString(cursor.getColumnIndex(KEY_SOUNDS)));
-//                mContents.setVid(cursor.getString(cursor.getColumnIndex(KEY_VIDEO)));
-//                mContents.setTxt(cursor.getString(cursor.getColumnIndex(KEY_TEXT)));
-//                mContents.setImg(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
-//                mContents.setSen(cursor.getString(cursor.getColumnIndex(KEY_SEN)));
-//                mContents.setPresentType(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_TYPE)));
-//                mContents.setPresentId(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_ID)));
-//                assetArrayList.add(mContents);
-//
-//            } while (cursor.moveToNext());
-//
-//        }
-//        cursor.close();
-//
-//        return assetArrayList;
-//    }
-
-    public ArrayList<MAllContent> getEnglishContentsContentsData(int id) {
-        ArrayList<MAllContent> assetArrayList = new ArrayList<>();
-
-        MAllContent mAllContent;
-        String sql = "select * from " + DATABASE_ENGLISH_CONTENTS_TABLE + " where " + KEY_LEVEL_ID + "='" + id + "'";
-//                + " where " + KEY_LEVEL_ID + "='" + id + "'";
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mAllContent = new MAllContent();
-                mAllContent.setLid(cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID)));
-                mAllContent.setMid(cursor.getInt(cursor.getColumnIndex(KEY_MODEL_ID)));
-                mAllContent.setAud(cursor.getString(cursor.getColumnIndex(KEY_SOUNDS)));
-                mAllContent.setVid(cursor.getString(cursor.getColumnIndex(KEY_VIDEO)));
-                mAllContent.setTxt(cursor.getString(cursor.getColumnIndex(KEY_TEXT)));
-                mAllContent.setImg(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
-                mAllContent.setSen(cursor.getString(cursor.getColumnIndex(KEY_SEN)));
-                mAllContent.setPresentType(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_TYPE)));
-                mAllContent.setPresentId(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_ID)));
-                assetArrayList.add(mAllContent);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-        return assetArrayList;
-    }
-
-    public ArrayList<MAllContent> getBanglaContentsContentsData(int id) {
-        ArrayList<MAllContent> assetArrayList = new ArrayList<>();
-
-        MAllContent mAllContent;
-        String sql = "select * from " + DATABASE_BANGLA_CONTENTS_TABLE + " where " + KEY_LEVEL_ID + "='" + id + "'";
-//                + " where " + KEY_LEVEL_ID + "='" + id + "'";
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mAllContent = new MAllContent();
-                mAllContent.setLid(cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID)));
-                mAllContent.setMid(cursor.getInt(cursor.getColumnIndex(KEY_MODEL_ID)));
-                mAllContent.setAud(cursor.getString(cursor.getColumnIndex(KEY_SOUNDS)));
-                mAllContent.setVid(cursor.getString(cursor.getColumnIndex(KEY_VIDEO)));
-                mAllContent.setTxt(cursor.getString(cursor.getColumnIndex(KEY_TEXT)));
-                mAllContent.setImg(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
-                mAllContent.setSen(cursor.getString(cursor.getColumnIndex(KEY_SEN)));
-                mAllContent.setPresentType(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_TYPE)));
-                mAllContent.setPresentId(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_ID)));
-                Log.e("image", "get image : " + mAllContent.getImg());
-                assetArrayList.add(mAllContent);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-        return assetArrayList;
-    }
-
-    public ArrayList<MAllContent> getMathContentsContentsData() {
-        ArrayList<MAllContent> assetArrayList = new ArrayList<>();
-
-        MAllContent mAllContent;
-        String sql = "select * from " + DATABASE_MATH_CONTENTS_TABLE;
-//                + " where " + KEY_LEVEL_ID + "='" + id + "'";
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mAllContent = new MAllContent();
-                mAllContent.setLid(cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID)));
-                mAllContent.setMid(cursor.getInt(cursor.getColumnIndex(KEY_MODEL_ID)));
-                mAllContent.setAud(cursor.getString(cursor.getColumnIndex(KEY_SOUNDS)));
-                mAllContent.setVid(cursor.getString(cursor.getColumnIndex(KEY_VIDEO)));
-                mAllContent.setTxt(cursor.getString(cursor.getColumnIndex(KEY_TEXT)));
-                mAllContent.setImg(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
-                mAllContent.setSen(cursor.getString(cursor.getColumnIndex(KEY_SEN)));
-                mAllContent.setPresentType(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_TYPE)));
-                mAllContent.setPresentId(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_ID)));
-                assetArrayList.add(mAllContent);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-        return assetArrayList;
-    }
-
-    public ArrayList<MAllContent> getBanglaMathContentsContentsData(int id) {
-        ArrayList<MAllContent> assetArrayList = new ArrayList<>();
-
-        MAllContent mAllContent;
-        String sql = "select * from " + DATABASE_BANGLA_MATH_CONTENTS_TABLE + " where " + KEY_LEVEL_ID + "='" + id + "'";
-//                + " where " + KEY_LEVEL_ID + "='" + id + "'";
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                mAllContent = new MAllContent();
-                mAllContent.setLid(cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID)));
-                mAllContent.setMid(cursor.getInt(cursor.getColumnIndex(KEY_MODEL_ID)));
-                mAllContent.setAud(cursor.getString(cursor.getColumnIndex(KEY_SOUNDS)));
-                mAllContent.setVid(cursor.getString(cursor.getColumnIndex(KEY_VIDEO)));
-                mAllContent.setTxt(cursor.getString(cursor.getColumnIndex(KEY_TEXT)));
-                mAllContent.setImg(cursor.getString(cursor.getColumnIndex(KEY_IMAGE)));
-                mAllContent.setSen(cursor.getString(cursor.getColumnIndex(KEY_SEN)));
-                mAllContent.setPresentType(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_TYPE)));
-                mAllContent.setPresentId(cursor.getInt(cursor.getColumnIndex(KEY_PRESENT_ID)));
-                assetArrayList.add(mAllContent);
-
-            } while (cursor.moveToNext());
-
-        }
-        cursor.close();
-
-        return assetArrayList;
-    }
 
     public void addAllContentsData(MAllContent mAllContent) {
         Cursor cursor = null;
@@ -1212,11 +553,12 @@ public class DatabaseHelper {
             cursor = db.rawQuery(sql, null);
             if (cursor != null && cursor.getCount() > 0) {
                 int update = db.update(DATABASE_ALL_CONTENTS_TABLE, values, KEY_MODEL_ID + "=?", new String[]{mAllContent.getMid() + ""});
-                Log.e("allContents", " update : " + update);
+                Log.e("allContents", " update : " + mAllContent.getMid());
             } else {
                 long v = db.insert(DATABASE_ALL_CONTENTS_TABLE, null, values);
-                Log.e("allContents", " insert pid: " + mAllContent.getParentLevelId());
-                Log.e("allContents", " insert sid: " + mAllContent.getSublevelId());
+                Log.e("allContents", " insert text: " + mAllContent.getTxt());
+                Log.e("allContents", " insert lid: " + mAllContent.getLid());
+                Log.e("allContents", " insert mid: " + mAllContent.getMid());
 
             }
 
@@ -1232,12 +574,12 @@ public class DatabaseHelper {
     public ArrayList<MAllContent> getAllContentsData(int levelId, int subLevelId, int logic, int contentsId) {
         ArrayList<MAllContent> mAllContents = new ArrayList<>();
         MAllContent mAllContent = new MAllContent();
-        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_LEVEL + "='" + levelId + "'" + " AND " + KEY_LEVEL_ID + "='" + subLevelId + "'" ;
+        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_LEVEL + "='" + levelId + "'" + " AND " + KEY_LEVEL_ID + "='" + subLevelId + "'";
 //        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_PARENT_ID + "='" + levelId + "'" + " AND " + KEY_SUB_LEVEL_ID + "='" + subLevelId + "'" + " AND " + KEY_LOGIC + "='" + logic + "'" + " AND " + KEY_LEVEL_ID + "='" + contentsId + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
-
+                mAllContent = new MAllContent();
                 mAllContent.setParentLevelId(cursor.getInt(cursor.getColumnIndex(KEY_PARENT_ID)));
                 mAllContent.setSublevelId(cursor.getInt(cursor.getColumnIndex(KEY_SUB_LEVEL_ID)));
                 mAllContent.setLogic(cursor.getInt(cursor.getColumnIndex(KEY_LOGIC)));
@@ -1298,7 +640,7 @@ public class DatabaseHelper {
         ArrayList<MWords> assetArrayList = new ArrayList<>();
 
         MWords mWords;
-        String sql = "select * from " + DATABASE_ALL_WORDS_TABLE + " a where " + KEY_WORDS_CONTENTS_ID + "='" + id + "'";
+        String sql = "select * from " + DATABASE_ALL_WORDS_TABLE + " where " + KEY_WORDS_CONTENTS_ID + "='" + id + "'";
 
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {

@@ -28,7 +28,15 @@ public class MLock {
     private int bestPoint;
     private int total_pont;
     private int all_total_point;
+    private int popup;
 
+    public int getPopup() {
+        return popup;
+    }
+
+    public void setPopup(int popup) {
+        this.popup = popup;
+    }
 
     public int getAll_total_point() {
         return all_total_point;
