@@ -68,6 +68,7 @@ public class GameLogic {
 
     public void callData(ArrayList<MAllContent> list, RecyclerView.Adapter adapter) {
         this.list = list;
+
         clickCount = getMin() - 1;
         this.gameAdapter = adapter;
     }
@@ -84,6 +85,7 @@ public class GameLogic {
         lock.setBestPoint(Utils.bestPoint);
         lock.setTotal_pont(Global.totalPoint);
         lock.setPopup(Global.popUp);
+        lock.setIsSavePoint(Global.isSavePoint);
         lock.setUnlockNextLevel(1);
 
         DatabaseHelper db = new DatabaseHelper(context);
@@ -170,7 +172,20 @@ public class GameLogic {
         }
 
         if (count == listSize) {
-            savePoint(listSize);
+            DatabaseHelper db = new DatabaseHelper(context);
+            MLock lock1 = db.getLocalData(Global.levelId, Global.subLevelId);
+            if (lock1.getIsSavePoint() == 0) {
+                savePoint(listSize);
+
+
+                lock1.setLevel_id(Global.levelId);
+                lock1.setSub_level_id(Global.subLevelId);
+                lock1.setIsSavePoint(1);
+                db.addLockData(lock1);
+                Global.isSavePoint = lock1.getIsSavePoint();
+                Log.e("isSaveP", " is " + lock1.getIsSavePoint());
+            }
+
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

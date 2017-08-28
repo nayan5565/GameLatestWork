@@ -139,49 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
-
-
-    private void ongkoImageDownloadFromWords() {
-        int size = 0;
-        if (Global.BANGLA_MATH_words.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.BANGLA_MATH_words.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-        for (int i = 0; i < size; i++) {
-
-            FilesDownload.getInstance(this, image).addUrl(Global.IMAGE_URL + Global.BANGLA_MATH_words.get(i).getWimg());
-
-        }
-    }
-
-    private void englisImageDownloadFromWords() {
-        int size = 0;
-        if (Global.English_words.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.English_words.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-        for (int i = 0; i < size; i++) {
-            FilesDownload.getInstance(this, image).addUrl(Global.IMAGE_URL + Global.English_words.get(i).getWimg());
-
-        }
-    }
-
-    private void mathImageDownloadFromWords() {
-        int size = 0;
-        if (Global.MATH_words.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.MATH_words.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-        FilesDownload filesDownload = FilesDownload.getInstance(this, image);
-        for (int i = 0; i < size; i++) {
-            filesDownload.addUrl(Global.IMAGE_URL + Global.MATH_words.get(i).getWimg());
-
-        }
-    }
-
     private void requestStoragePermissionToMashmallow() {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -214,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void getLocalData() {
-//        saveLevelToDb();
         levelsDatas = database.getLevelAllData();
         Utils.log("levels ", "Alldata : " + levelsDatas.size());
         if (levelsDatas.size() == 0) {
@@ -254,12 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getOnlineData() {
-        dialog1 = new Dialog(this);
-        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog1.setContentView(R.layout.dia_loading);
-        dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog1.setCanceledOnTouchOutside(false);
-        dialog1.show();
+
         Log.e("sep", "1");
         if (!Utils.isInternetOn(this)) {
             getLocalData();
@@ -273,6 +224,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             return;
         }
+        dialog1 = new Dialog(this);
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog1.setContentView(R.layout.dia_loading);
+        dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.show();
         AsyncHttpClient client = new AsyncHttpClient();
         client.post(B_URL + Global.API_LEVELS, new JsonHttpResponseHandler() {
                     @Override
@@ -281,7 +238,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("sep", "2" + response.toString());
                         Global.levels = new ArrayList<MLevel>();
                         Global.mSubLevelArrayList = new ArrayList<MSubLevel>();
-                        Global.mAllContentArrayList = new ArrayList<MAllContent>();
 
                         try {
                             MLevel[] levelData = gson.fromJson(response.getJSONObject("puzzle").getJSONArray("level").toString(), MLevel[].class);
@@ -303,17 +259,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Log.e("sssss", " is pid " + subLevel.getParentId());
                                     Log.e("sssss", " is lid " + subLevel.getLid());
                                     Log.e("sssss", " is size " + Global.mSubLevelArrayList.get(j).getContents().size());
-
-
-                                    for (int k = 0; k < Global.mSubLevelArrayList.get(j).getContents().size(); k++) {
-//                                            int k = 0; k < Global.levels.get(i).getSub().get(j).getContents().size(); k++) {
-                                        MAllContent mAllContent = Global.mSubLevelArrayList.get(j).getContents().get(k);
-                                        mAllContent.setParentLevelId(Global.mSubLevelArrayList.get(j).getParentId());
-                                        mAllContent.setSublevelId(Global.mSubLevelArrayList.get(j).getLid());
-                                        mAllContent.setLogic(Global.mSubLevelArrayList.get(j).getLogic());
-                                        Global.mAllContentArrayList.add(mAllContent);
-                                    }
-
                                 }
 
                             }
@@ -323,7 +268,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        saveAllContents();
                         saveLevelToDb();
                         saveSubLevelToDb();
                         getLocalData();
@@ -345,13 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getEnglishContentData() {
         if (!Utils.isInternetOn(this)) {
-            Dialog dialog = new Dialog(this);
-            dialog.setCancelable(false);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dia_internet_alert);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            TextView txtInternet = (TextView) dialog.findViewById(R.id.txtInternet);
-            txtInternet.setText(Global.internetAlert);
+
             return;
         }
         AsyncHttpClient client = new AsyncHttpClient();
@@ -405,12 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add english   " + Global.mDownloads.size());
                         saveEnglishContentsOfAllLevelToDb();
                         saveEnglishWordsToDb();
-//                        englishImageDownload();
-//                        englisImageDownloadFromWords();
-//                        mainEnglishSoundDownload();
-                        saveDownloadToDb();
-//                        EnglishSoundDownloadFromWords();
-//                        getDownload(3, 0);
+//                        saveDownloadToDb();
                         getMathContentData();
 
                     }
@@ -434,34 +367,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void getBanDownload() {
-        banmDownloads = new ArrayList<>();
-        banmDownloads = database.getDownloadData(1, 0);
-        Log.e("down", "is bangla  " + banmDownloads.size());
-    }
-
-    public void getOngkoDownload() {
-        ongkomDownloads = new ArrayList<>();
-        ongkomDownloads = database.getDownloadData(2, 0);
-        Log.e("down", "is ongko  " + ongkomDownloads.size());
-    }
-
-    public void getMathDownload() {
-        mathmDownloads = new ArrayList<>();
-        mathmDownloads = database.getDownloadData(4, 0);
-        Log.e("down", "is math  " + mathmDownloads.size());
-    }
 
     private void getBanglaContentData() {
         Utils.log("bangla", "step1");
         if (!Utils.isInternetOn(this)) {
-            Dialog dialog = new Dialog(this);
-            dialog.setCancelable(false);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dia_internet_alert);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            TextView txtInternet = (TextView) dialog.findViewById(R.id.txtInternet);
-            txtInternet.setText(Global.internetAlert);
+
             return;
         }
         AsyncHttpClient client = new AsyncHttpClient();
@@ -477,12 +387,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         try {
                             Utils.log("bangla", "step3");
-                            for (int l = 0; l < Global.levels.get(0).getSub().size(); l++) {
-                                MAllContent mAllContent = new MAllContent();
-                                mAllContent.setLogic(Global.levels.get(0).getSub().get(l).getLogic());
-                                mAllContent.setSublevelId(Global.levels.get(0).getSub().get(l).getLid());
-                                mAllContent.setSublevelId(Global.levels.get(0).getLid());
-                            }
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.BANGLA = new ArrayList<MAllContent>(Arrays.asList(data));
                             Utils.log("bangla", "size" + Global.BANGLA.size());
@@ -524,12 +428,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         saveBanglaContentsOfAllLevelToDb();
                         saveBanglaWordsToDb();
-//                        banglaImageDownload();
-//                        mainBanglaSoundDownload();
-//                        banglaImageDownloadFromWords();
-//                        banglaSoundDownloadFromWords();
-                        saveDownloadToDb();
-//                        getDownload(1, 0);
+//                        saveDownloadToDb();
                         getBanglaMathContentData();
                     }
 
@@ -559,12 +458,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Global.MATH_words = new ArrayList<MWords>();
 
                         try {
-                            for (int l = 0; l < Global.levels.get(3).getSub().size(); l++) {
-                                MAllContent mAllContent = new MAllContent();
-                                mAllContent.setLogic(Global.levels.get(3).getSub().get(l).getLogic());
-                                mAllContent.setSublevelId(Global.levels.get(3).getSub().get(l).getLid());
-                                mAllContent.setSublevelId(Global.levels.get(3).getLid());
-                            }
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.Maths = new ArrayList<MAllContent>(Arrays.asList(data));
                             for (int i = 0; i < Global.Maths.size(); i++) {
@@ -607,14 +500,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add math   " + Global.mDownloads.size());
                         saveMathContentsOfAllLevelToDb();
                         saveMathWordsToDb();
-//                        mathImageDownload();
-//                        mainMathSoundDownload();
-//                        MathSoundDownloadFromWords();
-//                        mathImageDownloadFromWords();
-                        saveDownloadToDb();
-//                        getMathDownload();
+//                        saveDownloadToDb();
                         getBanglaContentData();
-//                        getDownload(4, 0);
 
                     }
 
@@ -644,12 +531,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Global.BANGLA_MATH_words = new ArrayList<MWords>();
 
                         try {
-                            for (int l = 0; l < Global.levels.get(1).getSub().size(); l++) {
-                                MAllContent mAllContent = new MAllContent();
-                                mAllContent.setLogic(Global.levels.get(1).getSub().get(l).getLogic());
-                                mAllContent.setSublevelId(Global.levels.get(1).getSub().get(l).getLid());
-                                mAllContent.setSublevelId(Global.levels.get(1).getLid());
-                            }
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.BANGLA_Maths = new ArrayList<MAllContent>(Arrays.asList(data));
                             for (int i = 0; i < Global.BANGLA_Maths.size(); i++) {
@@ -688,18 +569,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add ongko   " + Global.mDownloads.size());
                         saveBanglaMathContentsOfAllLevelToDb();
                         saveBanglaMathWordsToDb();
-//                        ongkoImageDownload();
-//                        ongkoImageDownloadFromWords();
-//                        mainOngkoSoundDownload();
-//                        OngkoSoundDownloadFromWords();
-                        saveDownloadToDb();
-//                        getOngkoDownload();
-                        getDownload(1, 0);
-                        getDownload(2, 0);
-                        getDownload(3, 0);
-                        getDownload(4, 0);
-                        allImageDownload();
-                        allSoundDownload();
+//                        saveDownloadToDb();
+//                        getDownload(1, 0);
+//                        getDownload(2, 0);
+//                        getDownload(3, 0);
+//                        getDownload(4, 0);
+//                        allImageDownload();
+//                        allSoundDownload();
                         FilesDownload.getInstance(MainActivity.this, "").start();
                     }
 
@@ -742,11 +618,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void saveAllContents() {
-        for (MAllContent mAllContent : Global.mAllContentArrayList) {
-            database.addAllContentsData(mAllContent);
-        }
-    }
 
     private void saveBanglaContentsOfAllLevelToDb() {
         for (MAllContent mAllContent : Global.BANGLA) {
@@ -791,20 +662,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void banglaImageDownload() {
-        int size = 0;
-        if (Global.BANGLA.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.BANGLA.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-
-        FilesDownload filesDownload = FilesDownload.getInstance(this, image);
-        for (int i = 0; i < size; i++) {
-            filesDownload.addUrl(Global.IMAGE_URL + Global.BANGLA.get(i).getImg());
-
-        }
-    }
 
     public void allImageDownload() {
         FilesDownload filesDownload = FilesDownload.getInstance(this, bothImg);
@@ -835,130 +692,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        filesDownload.start();
     }
 
-
-    private void mathImageDownload() {
-        int size = 0;
-        if (Global.Maths.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.Maths.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-        FilesDownload filesDownload = FilesDownload.getInstance(this, image);
-        for (int i = 0; i < size; i++) {
-            filesDownload.addUrl(Global.IMAGE_URL + Global.Maths.get(i).getImg());
-
-        }
-    }
-
-    private void englishImageDownload() {
-        int size = 0;
-        if (Global.English.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.English.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-        for (int i = 0; i < size; i++) {
-            FilesDownload.getInstance(this, image).addUrl(Global.IMAGE_URL + Global.English.get(i).getImg());
-
-        }
-    }
-
-
-    private void ongkoImageDownload() {
-        int size = 0;
-        if (Global.BANGLA_Maths.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.BANGLA_Maths.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-        FilesDownload filesDownload = FilesDownload.getInstance(this, image);
-        for (int i = 0; i < size; i++) {
-            filesDownload.addUrl(Global.IMAGE_URL + Global.BANGLA_Maths.get(i).getImg());
-
-        }
-    }
-
-    private void banglaSoundDownloadFromWords() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.BANGLA_words.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.BANGLA_words.get(i).getWsound());
-
-        }
-    }
-
-    private void MathSoundDownloadFromWords() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.MATH_words.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.MATH_words.get(i).getWsound());
-
-        }
-    }
-
-    private void EnglishSoundDownloadFromWords() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.English_words.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.English_words.get(i).getWsound());
-
-        }
-    }
-
-    private void banglaImageDownloadFromWords() {
-        int size = 0;
-        if (Global.BANGLA_words.size() < Global.LEVEL_DOWNLOAD) {
-            size = Global.BANGLA_words.size();
-        } else {
-            size = Global.LEVEL_DOWNLOAD;
-        }
-        FilesDownload filesDownload = FilesDownload.getInstance(this, image);
-        for (int i = 0; i < size; i++) {
-            filesDownload.addUrl(Global.IMAGE_URL + Global.BANGLA_words.get(i).getWimg());
-
-        }
-    }
-
-    private void OngkoSoundDownloadFromWords() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.BANGLA_MATH_words.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.BANGLA_MATH_words.get(i).getWsound());
-
-        }
-        FilesDownload.getInstance(this, sounds).start();
-    }
-
-    private void mainOngkoSoundDownload() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.BANGLA_Maths.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.BANGLA_Maths.get(i).getAud());
-
-        }
-//        filesDownload.start();
-    }
-
-    private void mainBanglaSoundDownload() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.BANGLA.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.BANGLA.get(i).getAud());
-
-        }
-    }
-
-    private void mainEnglishSoundDownload() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.English.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.English.get(i).getAud());
-
-        }
-    }
-
-    private void mainMathSoundDownload() {
-        FilesDownload filesDownload = FilesDownload.getInstance(this, sounds);
-        for (int i = 0; i < Global.Maths.size(); i++) {
-            filesDownload.addUrl(Global.BASE_SOUND_URL + Global.Maths.get(i).getAud());
-
-
-        }
-//        filesDownload.start();
-    }
 
     @Override
     public void onBackPressed() {

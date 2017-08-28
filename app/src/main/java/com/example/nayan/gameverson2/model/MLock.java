@@ -29,6 +29,15 @@ public class MLock {
     private int total_pont;
     private int all_total_point;
     private int popup;
+    private int isSavePoint;
+
+    public int getIsSavePoint() {
+        return isSavePoint;
+    }
+
+    public void setIsSavePoint(int isSavePoint) {
+        this.isSavePoint = isSavePoint;
+    }
 
     public int getPopup() {
         return popup;

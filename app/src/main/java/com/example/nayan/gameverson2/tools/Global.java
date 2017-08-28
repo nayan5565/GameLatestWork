@@ -36,6 +36,7 @@ public class Global {
     public static int LEVEL_DOWNLOAD = 2;
     public static int IS_DOWNLOAD = 0;
     public static int totalPoint;
+    public static int isSavePoint;
     public static int ALL_TOTAL_POINT;
     public static int GAME_INDEX_POSITION;
     public static ArrayList<MSubLevel> parentName;

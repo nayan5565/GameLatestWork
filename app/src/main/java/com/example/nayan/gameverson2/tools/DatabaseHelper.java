@@ -48,8 +48,7 @@ public class DatabaseHelper {
     private static final String KEY_DIFFICULTY = "difficulty";
     private static final String KEY_LEVEL_ID = "lid";
     private static final String KEY_SUB_LEVEL_ID = "s_lid";
-    private static final String KEY_ITEM = "item";
-    private static final String KEY_TAG = "tag";
+    private static final String KEY_IS_SAVE_POINT = "save_point";
     private static final String KEY_MODEL_ID = "mid";
     private static final String KEY_LOCK_ID = "loid";
     private static final String KEY_UNLOCK = "un_lock";
@@ -126,6 +125,7 @@ public class DatabaseHelper {
             + KEY_UNLOCK + " integer, "
             + KEY_TOTAL_POINT + " integer, "
             + KEY_POPUP + " integer, "
+            + KEY_IS_SAVE_POINT + " integer, "
             + KEY_LEVEL_ID + " integer, "
             + KEY_SUB_LEVEL_ID + " integer)";
     private static final String DATABASE_CREATE_DOWNLOAD_TABLE = "create table if not exists "
@@ -332,6 +332,7 @@ public class DatabaseHelper {
             values.put(KEY_SUB_LEVEL_ID, mLock.getSub_level_id());
             values.put(KEY_POINT, mLock.getBestPoint());
             values.put(KEY_POPUP, mLock.getPopup());
+            values.put(KEY_IS_SAVE_POINT, mLock.getIsSavePoint());
             values.put(KEY_TOTAL_POINT, mLock.getTotal_pont());
             values.put(KEY_UNLOCK, mLock.getUnlockNextLevel());
 
@@ -428,6 +429,7 @@ public class DatabaseHelper {
                 mLock.setSub_level_id(cursor.getInt(cursor.getColumnIndex(KEY_SUB_LEVEL_ID)));
                 mLock.setUnlockNextLevel(cursor.getInt(cursor.getColumnIndex(KEY_UNLOCK)));
                 mLock.setPopup(cursor.getInt(cursor.getColumnIndex(KEY_POPUP)));
+                mLock.setIsSavePoint(cursor.getInt(cursor.getColumnIndex(KEY_IS_SAVE_POINT)));
                 mLock.setBestPoint(cursor.getInt(cursor.getColumnIndex(KEY_POINT)));
                 mLock.setTotal_pont(cursor.getInt(cursor.getColumnIndex(KEY_TOTAL_POINT)));
                 Log.e("totalPoint", "is :" + mLock.getTotal_pont());
