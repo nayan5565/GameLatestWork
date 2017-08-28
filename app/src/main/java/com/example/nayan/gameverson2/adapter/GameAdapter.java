@@ -42,19 +42,12 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
     String sounds = "sounds";
     String mainSounds = "m_sounds";
     String imageWords = "WImage";
-    //    private ArrayList<MWords> textArrayList2;
     DatabaseHelper db;
     private ArrayList<MAllContent> textArrayList;
     private MAllContent mContents = new MAllContent();
     private Context context;
     private LayoutInflater inflater;
     private GameLogic gameLogic;
-    private Animation animation;
-    private int subLevelType;
-    private AnimatorSet mSetRightOut;
-    private AnimatorSet mSetLeftIn;
-    private boolean mIsBackVisible = false;
-    private RelativeLayout changeColor;
 
 
     public GameAdapter(Context context) {
@@ -76,10 +69,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
         notifyDataSetChanged();
     }
 
-//    public void setDataWord(ArrayList<MWords> wordList) {
-//        this.textArrayList2 = wordList;
-//        notifyDataSetChanged();
-//    }
 
     @Override
     public MyViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -92,7 +81,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
     @Override
     public void onBindViewHolder(MyViewholder holder, int position) {
         mContents = textArrayList.get(position);
-        if (Global.logic == 1) {
+        if (Global.logic == 3) {
 //                || Global.subLevelId == 4 || Global.subLevelId == 8 || Global.subLevelId == 13) {
             if (mContents.getMatch() == 1) {
 //                holder.txtContents.setBackgroundColor(0xff888888);
@@ -217,7 +206,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
 //                holder.imgAnim2.setImageResource(R.drawable.yellow_panel);
 //                holder.txtContents.setBackgroundColor(Color.TRANSPARENT);
 //            }
-        } else if (Global.logic == 3) {
+        } else if (Global.logic == 1) {
 
             if (mContents.getMatch() == 1) {
 
@@ -702,7 +691,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
                     Global.GAME_INDEX_POSITION = getAdapterPosition();
 
 
-                    if (Global.logic == 1) {
+                    if (Global.logic == 3) {
 //                            || Global.subLevelId == 4 || Global.subLevelId == 8 || Global.subLevelId == 13) {
 //                        String mSound = "msound";
 //                        if (Global.levelId == 1) {
@@ -722,7 +711,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
 
 //                        gameLogic.forLevel2(itemView, mContents, textArrayList.size(), txtContents, getAdapterPosition(), imgAnim2);
                         gameLogic.imageClick(mContents, getAdapterPosition(), textArrayList.size(), itemView, imgAnim2);
-                    } else if (Global.logic == 3) {
+                    } else if (Global.logic == 1) {
 
                         mContents.setWords(db.getAllWordsData(mContents.getMid()));
                         dialogShowWithWordArray(getAdapterPosition());

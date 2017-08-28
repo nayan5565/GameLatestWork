@@ -41,8 +41,6 @@ import static com.example.nayan.gameverson2.activity.SubLevelActivity.mSubLevels
 public class GameLogic {
     public static Dialog dialog;
     private static GameLogic gameLogic;
-    View view1;
-    TextView textView2;
     private int previousId, count, counter, clickCount, matchWinCount, previousType, gameWinCount, previousPoint, presentPoint, bestPoint, idPrevious, oneClick;
     private ArrayList<MAllContent> list;
     private int countPoint;
@@ -85,6 +83,7 @@ public class GameLogic {
         lock.setSub_level_id(Global.subLevelId);
         lock.setBestPoint(Utils.bestPoint);
         lock.setTotal_pont(Global.totalPoint);
+        lock.setPopup(Global.popUp);
         lock.setUnlockNextLevel(1);
 
         DatabaseHelper db = new DatabaseHelper(context);
@@ -112,8 +111,8 @@ public class GameLogic {
     }
 
     public int getMin() {
-        if(list==null || list.size()<1){
-            Log.e("ERR","no data");
+        if (list == null || list.size() < 1) {
+            Log.e("ERR", "no data");
             return 0;
         }
         int min = list.get(0).getMid();

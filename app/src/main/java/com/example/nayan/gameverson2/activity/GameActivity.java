@@ -21,7 +21,6 @@ import com.example.nayan.gameverson2.adapter.GameAdapter;
 import com.example.nayan.gameverson2.model.MAllContent;
 import com.example.nayan.gameverson2.model.MLevel;
 import com.example.nayan.gameverson2.model.MLock;
-import com.example.nayan.gameverson2.model.MQuestions;
 import com.example.nayan.gameverson2.model.MSubLevel;
 import com.example.nayan.gameverson2.model.MWords;
 import com.example.nayan.gameverson2.tools.DatabaseHelper;
@@ -53,7 +52,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     //    private Context context;
     private GameAdapter gameAdapter;
     private DatabaseHelper database;
-    private MQuestions mQuestions;
     private MLock mLock;
     int content;
 
@@ -92,7 +90,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void init() {
-        mQuestions = new MQuestions();
         imgHelp = (ImageView) findViewById(R.id.imgHelp);
         imgHelp.setOnClickListener(this);
         gameActivity = this;
@@ -115,7 +112,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         parentName = Global.parentLevelName;
         Global.SUB_INDEX_POSITION = getIntent().getIntExtra("index", 0);
         Global.subLevelId = getIntent().getIntExtra("Sid", 0);
-        Global.popUp = getIntent().getIntExtra("pop", 0);
         content = getIntent().getIntExtra("content", 0);
         gameAdapter = new GameAdapter(this);
         Log.e("content", " size " + content);
@@ -126,7 +122,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         if (mLock.getPopup() == 0)
             diaRulesOfPlay(database.getPopUp(Global.levelId, Global.subLevelId));
-
+        Log.e("pop", " is  " + mLock.getPopup());
         mLock.setLevel_id(Global.levelId);
         mLock.setSub_level_id(Global.subLevelId);
         mLock.setPopup(1);
@@ -143,7 +139,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         mSubLevel = database.getSubLevelData(Global.levelId).get(Global.SUB_INDEX_POSITION);
         mLock = database.getLocalData(Global.levelId, Global.subLevelId);
-
+        Global.popUp = mLock.getPopup();
 
         Log.e("TEST", Global.levelId + ":" + Global.subLevelId + ":" + Global.totalPoint);
 

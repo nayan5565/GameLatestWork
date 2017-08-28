@@ -25,7 +25,6 @@ import com.example.nayan.gameverson2.model.MAllContent;
 import com.example.nayan.gameverson2.model.MDownload;
 import com.example.nayan.gameverson2.model.MLevel;
 import com.example.nayan.gameverson2.model.MPost;
-import com.example.nayan.gameverson2.model.MQuestions;
 import com.example.nayan.gameverson2.model.MSubLevel;
 import com.example.nayan.gameverson2.model.MWords;
 import com.example.nayan.gameverson2.tools.DatabaseHelper;

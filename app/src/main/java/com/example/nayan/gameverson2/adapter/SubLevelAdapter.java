@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.example.nayan.gameverson2.R;
 import com.example.nayan.gameverson2.activity.GameActivity;
 import com.example.nayan.gameverson2.model.MLock;
-import com.example.nayan.gameverson2.model.MQuestions;
 import com.example.nayan.gameverson2.model.MSubLevel;
 import com.example.nayan.gameverson2.tools.DatabaseHelper;
 import com.example.nayan.gameverson2.tools.Global;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
  * Created by NAYAN on 11/24/2016.
  */
 public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyViewHolder> {
-    MQuestions mQuestions;
     int one;
     private ArrayList<MSubLevel> mSubLevels;
     private MSubLevel mSubLevel = new MSubLevel();
@@ -41,7 +39,6 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
         mSubLevels = new ArrayList<>();
         db = new DatabaseHelper(context);
         inflater = LayoutInflater.from(context);
-        mQuestions = new MQuestions();
     }
 
     public void setData(ArrayList<MSubLevel> mSubLevels) {

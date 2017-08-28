@@ -8,11 +8,8 @@ import android.util.Log;
 import com.example.nayan.gameverson2.model.MAllContent;
 //import com.example.nayan.gameverson2.model.MContents;
 import com.example.nayan.gameverson2.model.MDownload;
-import com.example.nayan.gameverson2.model.MItem;
 import com.example.nayan.gameverson2.model.MLevel;
 import com.example.nayan.gameverson2.model.MLock;
-import com.example.nayan.gameverson2.model.MPoint;
-import com.example.nayan.gameverson2.model.MQuestions;
 import com.example.nayan.gameverson2.model.MSubLevel;
 import com.example.nayan.gameverson2.model.MWords;
 
