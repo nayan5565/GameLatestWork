@@ -417,7 +417,7 @@ public class GameLogic {
 //        view1=view;
     }
 
-    private void dialogShowForLevelClear(final int listSize) {
+    public void dialogShowForLevelClear(final int listSize) {
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_level_cleared);
@@ -485,8 +485,9 @@ public class GameLogic {
                     mSubLevels.get(Global.SUB_INDEX_POSITION).setUnlockNextLevel(1);
                     Global.subLevelId = mSubLevels.get(Global.SUB_INDEX_POSITION).getLid();
                     Global.logic = mSubLevels.get(Global.SUB_INDEX_POSITION).getLogic();
+                    Global.CONTENT = mSubLevels.get(Global.SUB_INDEX_POSITION).getContent();
 
-                    GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION);
+                    GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION,Global.CONTENT);
                 }
                 dialog.dismiss();
             }
@@ -500,7 +501,10 @@ public class GameLogic {
             }
         });
 
-
+        if (Global.isSavePoint == 1) {
+            txtScore.setVisibility(View.GONE);
+            txtPoint.setVisibility(View.GONE);
+        }
 //        txtBestPoint.setText("" + Utils.bestPoint);
         txtScore.setText("Score :  " + presentPoint + "");
         if (presentPoint == 50) {

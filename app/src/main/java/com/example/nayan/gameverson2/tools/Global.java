@@ -28,6 +28,7 @@ public class Global {
     public static String levelName;
     public static String subLevelName;
     public static int logic;
+    public static int CONTENT;
     public static String internetAlert = "No Internet Connection. Please at first need internet connected then exit from app and again open it.";
     public static String parentLevelName;
     public static int SUB_INDEX_POSITION;

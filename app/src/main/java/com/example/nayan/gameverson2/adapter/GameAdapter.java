@@ -358,6 +358,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
                 if (Global.GAME_INDEX_POSITION >= textArrayList.size() - 1) {
                     Utils.toastMassage(context, "level finish");
 
+                    GameLogic.getInstance(context).dialogShowForLevelClear(textArrayList.size());
+
                     if (Global.SUB_INDEX_POSITION >= SubLevelActivity.mSubLevels.size() - 1) {
                         Utils.toastMassage(context, "no more level");
                         dialog.dismiss();

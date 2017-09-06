@@ -72,7 +72,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         init();
         MyGoogleAnalytics.getInstance().setupAnalytics("Game Activity");
-        getLocalData();
+        getLocalData(content);
         prepareDisplay();
 
         getPopUp();
@@ -132,7 +132,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void getLocalData() {
+    public void getLocalData(int content) {
 //        ArrayList<MAllContent> contentArrayList1 = database.getAllContentsData(Global.levelId, content, 0, 0);
 //        Log.e("contentList", " size " + contentArrayList1.size());
 
@@ -147,7 +147,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
             mAllContentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
-            Collections.shuffle(mAllContentArrayList);
+
         }
 
 //        if (Global.logic == 2) {
@@ -173,6 +173,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         } else if (Global.logic == 3) {
 
             mAllContentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
+            Collections.shuffle(mAllContentArrayList);
         } else if (Global.logic == 4) {
 
             ArrayList<MAllContent> realAssets = new ArrayList<>();
@@ -279,13 +280,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void refresh(int index) {
+    public void refresh(int index,int contents) {
         subLevelName = Global.parentName.get(index).getName();
         how = Global.parentName.get(index).getHowto();
         Log.e("sublevel name", "s  n :" + subLevelName);
         parentName = Global.parentName.get(index).getParentName();
         Log.e("index ", "posi =" + Global.SUB_INDEX_POSITION);
-        getLocalData();
+        getLocalData(contents);
         prepareDisplay();
     }
 
