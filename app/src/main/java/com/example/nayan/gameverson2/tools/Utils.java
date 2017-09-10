@@ -54,7 +54,7 @@ public class Utils {
     public static int widthSize, heightSize;
     static MediaPlayer mediaPlayer;
 
-    public static void sortData(ArrayList<MAllContent> mAllContents) {
+    public static void sortData(ArrayList<MAllContent> mAllContents, int pos) {
 
 
         // Sorting
@@ -91,16 +91,18 @@ public class Utils {
 //                return compare;
 //            }
 //        });
-        ArrayList<Integer>contentArrayList=new ArrayList<>();
+       Global.SORTING_LIST=new ArrayList<>();
         for (int i = 0; i < mAllContents.size(); i++) {
 
 
-            contentArrayList.add(mAllContents.get(i).getMid());
+            Global.SORTING_LIST.add(mAllContents.get(i).getMid());
 
         }
-        for (int k=0;k<contentArrayList.size();k++){
-            Log.e("sort"," id "+contentArrayList.get(k));
+        for (int k = 0; k < Global.SORTING_LIST.size(); k++) {
+            Log.e("sort", " id " + Global.SORTING_LIST.get(k));
         }
+
+
     }
 
     public static String convertToBangla(String number) {

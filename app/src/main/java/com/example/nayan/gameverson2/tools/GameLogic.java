@@ -417,7 +417,14 @@ public class GameLogic {
 //        view1=view;
     }
 
-
+    public void sequentialPlay() {
+//        if (Global.SORTING_LIST.get(0) == mAllContents.get(pos).getMid()) {
+//            Global.SORTING_LIST.remove(0);
+//            Log.e("sort", " correct ");
+//        } else {
+//            Log.e("sort", " wrong ");
+//        }
+    }
 
     public void dialogShowForLevelClear(final int listSize) {
         dialog = new Dialog(context);

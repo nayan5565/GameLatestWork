@@ -706,6 +706,12 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
 //                            mSound = MainActivity.sounds;
 //                        }
 //                        Utils.PlaySound(mSound + File.separator + mContents.getAud());
+                        if (Global.SORTING_LIST.get(0) == textArrayList.get(getAdapterPosition()).getMid()) {
+                            Global.SORTING_LIST.remove(0);
+                            Log.e("sort", " correct ");
+                        } else {
+                            Log.e("sort", " wrong ");
+                        }
                         gameLogic.textClick(mContents, getAdapterPosition(), textArrayList.size(), itemView, txtContents, imgAnim2);
 //                        gameLogic.forLevel2(itemView, mContents, textArrayList.size(), txtContents, getAdapterPosition(), imgAnim2);
                     } else if (Global.logic == 2) {

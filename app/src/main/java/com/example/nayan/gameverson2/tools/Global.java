@@ -67,5 +67,7 @@ public class Global {
     public static String SUBJECT = "your_subject";
     public static String TEXT = "your_text";
 
+    public static ArrayList<Integer> SORTING_LIST;
+
 
 }

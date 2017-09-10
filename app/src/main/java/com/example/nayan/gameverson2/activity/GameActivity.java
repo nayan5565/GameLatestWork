@@ -75,7 +75,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         MyGoogleAnalytics.getInstance().setupAnalytics("Game Activity");
         getLocalData(content);
         prepareDisplay();
-        Utils.sortData(mAllContentArrayList);
+        Utils.sortData(mAllContentArrayList, 0);
         getPopUp();
 
 
@@ -281,7 +281,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void refresh(int index,int contents) {
+    public void refresh(int index, int contents) {
         subLevelName = Global.parentName.get(index).getName();
         how = Global.parentName.get(index).getHowto();
         Log.e("sublevel name", "s  n :" + subLevelName);
