@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPost.setUserEmail(Utils.getPhoneGmailAcc(this));
         Utils.postDataFromDatabase(mPost);
         Utils.logIn(mPost.getUserEmail(), "123456", mPost.getDeviceId());
+
         getOnlineData();
 
         getLocalData();

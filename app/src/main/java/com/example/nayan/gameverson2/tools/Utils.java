@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nayan.gameverson2.R;
+import com.example.nayan.gameverson2.model.MAllContent;
 import com.example.nayan.gameverson2.model.MPost;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -35,6 +36,9 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.Random;
 
@@ -49,6 +53,71 @@ public class Utils {
     public static int bestPoint, presentPoint;
     public static int widthSize, heightSize;
     static MediaPlayer mediaPlayer;
+
+    public static void sortData(ArrayList<MAllContent> mAllContents) {
+
+
+        // Sorting
+
+        Collections.sort(mAllContents, new Comparator<MAllContent>() {
+            @Override
+            public int compare(MAllContent mAllContent, MAllContent mAllContent2) {
+                int compare = 0;
+//
+                if (mAllContent.getMid() > mAllContent2.getMid()) {
+                    compare = 1;
+                } else if (mAllContent.getMid() < mAllContent2.getMid())
+                    compare = -1;
+                else
+                    compare = 0;
+
+                return compare;
+            }
+        });
+
+//        Collections.sort(mAllContents, new Comparator<MAllContent>() {
+//            @Override
+//            public int compare(mAllContent, MAllContent fruit2) {
+//
+//                int compare=0;
+//
+//                if(mAllContent.getMid()>fruit2.getMid())
+//                    compare=1;
+//                else if(mAllContent.getMid()<fruit2.getMid())
+//                    compare=-1;
+//                else
+//                    compare=0;
+//
+//                return compare;
+//            }
+//        });
+        ArrayList<Integer>contentArrayList=new ArrayList<>();
+        for (int i = 0; i < mAllContents.size(); i++) {
+
+
+            contentArrayList.add(mAllContents.get(i).getMid());
+
+        }
+        for (int k=0;k<contentArrayList.size();k++){
+            Log.e("sort"," id "+contentArrayList.get(k));
+        }
+    }
+
+    public static String convertToBangla(String number) {
+        number = number.
+                replace("0", "০").
+                replace("1", "১").
+                replace("2", "২").
+                replace("3", "৩").
+                replace("4", "৪").
+                replace("5", "৫").
+                replace("6", "৬").
+                replace("7", "৭").
+                replace("8", "৮").
+                replace("9", "৯");
+
+        return number;
+    }
 
     public static void getSound(Context context, int path) {
         if (isSoundPlay) {

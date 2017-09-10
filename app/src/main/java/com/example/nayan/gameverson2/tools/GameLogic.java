@@ -417,6 +417,8 @@ public class GameLogic {
 //        view1=view;
     }
 
+
+
     public void dialogShowForLevelClear(final int listSize) {
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -487,7 +489,7 @@ public class GameLogic {
                     Global.logic = mSubLevels.get(Global.SUB_INDEX_POSITION).getLogic();
                     Global.CONTENT = mSubLevels.get(Global.SUB_INDEX_POSITION).getContent();
 
-                    GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION,Global.CONTENT);
+                    GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION, Global.CONTENT);
                 }
                 dialog.dismiss();
             }
@@ -501,12 +503,25 @@ public class GameLogic {
             }
         });
 
-        if (Global.isSavePoint == 1) {
-            txtScore.setVisibility(View.GONE);
-            txtPoint.setVisibility(View.GONE);
-        }
+//        if (Global.isSavePoint == 1) {
+//            txtScore.setVisibility(View.GONE);
+//            txtPoint.setVisibility(View.GONE);
+//        }
 //        txtBestPoint.setText("" + Utils.bestPoint);
-        txtScore.setText("Score :  " + presentPoint + "");
+        if (Global.levelId == 1) {
+            txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
+        }
+        if (Global.levelId == 2) {
+            txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
+        }
+        if (Global.levelId == 3) {
+            txtScore.setText("Score :  " + presentPoint + "");
+        }
+        if (Global.levelId == 4) {
+            txtScore.setText("Score :  " + presentPoint + "");
+        }
+
+//        txtScore.setText("Score :  " + presentPoint + "");
         if (presentPoint == 50) {
             txtPoint.setImageResource(R.drawable.star_1);
         } else if (presentPoint == 75) {

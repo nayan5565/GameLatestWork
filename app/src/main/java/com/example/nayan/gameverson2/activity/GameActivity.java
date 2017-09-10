@@ -71,10 +71,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         init();
+
         MyGoogleAnalytics.getInstance().setupAnalytics("Game Activity");
         getLocalData(content);
         prepareDisplay();
-
+        Utils.sortData(mAllContentArrayList);
         getPopUp();
 
 
