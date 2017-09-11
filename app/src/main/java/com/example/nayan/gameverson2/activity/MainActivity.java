@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPost.setUserEmail(Utils.getPhoneGmailAcc(this));
         Utils.postDataFromDatabase(mPost);
         Utils.logIn(mPost.getUserEmail(), "123456", mPost.getDeviceId());
+        syncApi();
 
-        getOnlineData();
 
         getLocalData();
 
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSetting.setOnClickListener(this);
         mLevel = new MLevel();
         btnBangla = (ImageView) findViewById(R.id.btnBangla);
+//        btnBangla.setLayoutParams();
         btnBangla.setOnClickListener(this);
         btnEnglish = (ImageView) findViewById(R.id.btnEnglish);
         btnEnglish.setOnClickListener(this);
@@ -140,6 +141,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+    private void syncApi() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post("http://www.radhooni.com/content/match_game/v1/sync.php", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+                    String sync = DialogSoundOnOff.getPREF(MainActivity.this, "sync");
+                    if (!sync.equals(response.getString("update_date"))) {
+                        getOnlineData();
+                    }
+                    Log.e("sync", " date " + response.getString("update_date"));
+                    DialogSoundOnOff.savePref(MainActivity.this,"sync", response.getString("update_date"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+
+
+    }
+
     private void requestStoragePermissionToMashmallow() {
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
