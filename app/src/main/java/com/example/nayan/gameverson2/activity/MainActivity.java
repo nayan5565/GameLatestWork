@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add english   " + Global.mDownloads.size());
                         saveEnglishContentsOfAllLevelToDb();
                         saveEnglishWordsToDb();
-//                        saveDownloadToDb();
+                        saveDownloadToDb();
                         getMathContentData();
 
                     }
@@ -460,7 +460,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         saveBanglaContentsOfAllLevelToDb();
                         saveBanglaWordsToDb();
-//                        saveDownloadToDb();
+                        saveDownloadToDb();
                         getBanglaMathContentData();
                     }
 
@@ -532,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add math   " + Global.mDownloads.size());
                         saveMathContentsOfAllLevelToDb();
                         saveMathWordsToDb();
-//                        saveDownloadToDb();
+                        saveDownloadToDb();
                         getBanglaContentData();
 
                     }
@@ -601,12 +601,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add ongko   " + Global.mDownloads.size());
                         saveBanglaMathContentsOfAllLevelToDb();
                         saveBanglaMathWordsToDb();
-//                        saveDownloadToDb();
-//                        getDownload(1, 0);
-//                        getDownload(2, 0);
-//                        getDownload(3, 0);
-//                        getDownload(4, 0);
-//                        allImageDownload();
+                        saveDownloadToDb();
+                        getDownload(1, 0);
+                        allImageDownload();
+                        getDownload(2, 0);
+                        allImageDownload();
+                        getDownload(3, 0);
+                        allImageDownload();
+                        getDownload(4, 0);
+                        allImageDownload();
 //                        allSoundDownload();
                         FilesDownload.getInstance(MainActivity.this, "").start();
                     }
@@ -701,11 +704,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDownload = mDownloads.get(i);
             int init = mDownloads.get(0).getSubLevelId();
             int max = init + Global.LEVEL_DOWNLOAD;
-            if (mDownload.getSubLevelId() < max) {
+//            if (mDownload.getSubLevelId() < max) {
                 filesDownload.addUrl(Global.IMAGE_URL + mDownloads.get(i).getUrl());
                 mDownload.setIdDownload(1);
                 database.addDownloadData(mDownload);
-            }
+//            }
         }
     }
 

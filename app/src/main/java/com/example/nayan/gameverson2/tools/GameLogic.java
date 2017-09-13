@@ -26,6 +26,7 @@ import com.example.nayan.gameverson2.activity.GameActivity;
 import com.example.nayan.gameverson2.activity.MainActivity;
 import com.example.nayan.gameverson2.activity.SubLevelActivity;
 import com.example.nayan.gameverson2.model.MAllContent;
+import com.example.nayan.gameverson2.model.MData;
 import com.example.nayan.gameverson2.model.MLock;
 import com.example.nayan.gameverson2.model.MWords;
 
@@ -47,6 +48,8 @@ public class GameLogic {
     private ArrayList<MWords> list2;
     private SharedPreferences preferences;
     private Context context;
+    private MLock mLock = new MLock();
+    MData mData=new MData();
     private Handler handler = new Handler();
     private RecyclerView.Adapter gameAdapter;
     private MAllContent previousMcontents = new MAllContent();
@@ -78,7 +81,7 @@ public class GameLogic {
 
     }
 
-    private void saveDb() {
+    public void saveDb() {
         MLock lock = new MLock();
         lock.setLevel_id(Global.levelId);
         lock.setSub_level_id(Global.subLevelId);
@@ -172,19 +175,12 @@ public class GameLogic {
         }
 
         if (count == listSize) {
-            DatabaseHelper db = new DatabaseHelper(context);
-            MLock lock1 = db.getLocalData(Global.levelId, Global.subLevelId);
-            if (lock1.getIsSavePoint() == 0) {
-                savePoint(listSize);
 
 
-                lock1.setLevel_id(Global.levelId);
-                lock1.setSub_level_id(Global.subLevelId);
-                lock1.setIsSavePoint(1);
-                db.addLockData(lock1);
-                Global.isSavePoint = lock1.getIsSavePoint();
-                Log.e("isSaveP", " is " + lock1.getIsSavePoint());
-            }
+            savePoint(listSize);
+
+
+            isSavePoint();
 
             handler.postDelayed(new Runnable() {
                 @Override
@@ -214,6 +210,17 @@ public class GameLogic {
 
     }
 
+    public void isSavePoint() {
+        DatabaseHelper db = new DatabaseHelper(context);
+
+        mData = db.getIsSavePoint(Global.levelId, Global.subLevelId);
+        mData.setLevelId(Global.levelId);
+        mData.setSublevelId(Global.subLevelId);
+        mData.setIsSavePoint(1);
+        db.isPointSave(mData);
+        Global.isSavePoint = mLock.getIsSavePoint();
+        Log.e("isSaveP", " is " + mData.getIsSavePoint());
+    }
 
     public void forLevel2(final View itemView, final MAllContent mContents, final int listSize, TextView textView, int pos, final ImageView imageView) {
         counter++;
@@ -357,6 +364,7 @@ public class GameLogic {
 
                 if (matchWinCount == listSize / 2) {
                     savePoint(listSize);
+                    isSavePoint();
 //                    resetList(listSize);
 //                    textView.setBackgroundColor(0);
                     handler.postDelayed(new Runnable() {
@@ -515,18 +523,21 @@ public class GameLogic {
 //            txtPoint.setVisibility(View.GONE);
 //        }
 //        txtBestPoint.setText("" + Utils.bestPoint);
-        if (Global.levelId == 1) {
-            txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
+        if (mLock.getIsSavePoint() == 0) {
+            if (Global.levelId == 1) {
+                txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
+            }
+            if (Global.levelId == 2) {
+                txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
+            }
+            if (Global.levelId == 3) {
+                txtScore.setText("Score :  " + presentPoint + "");
+            }
+            if (Global.levelId == 4) {
+                txtScore.setText("Score :  " + presentPoint + "");
+            }
         }
-        if (Global.levelId == 2) {
-            txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
-        }
-        if (Global.levelId == 3) {
-            txtScore.setText("Score :  " + presentPoint + "");
-        }
-        if (Global.levelId == 4) {
-            txtScore.setText("Score :  " + presentPoint + "");
-        }
+
 
 //        txtScore.setText("Score :  " + presentPoint + "");
         if (presentPoint == 50) {
@@ -608,9 +619,12 @@ public class GameLogic {
     }
 
     private void savePoint(int listSize) {
-        presentPoint = pointCount(listSize);
-        Global.totalPoint = Global.totalPoint + presentPoint;
-        saveDb();
+        if (Global.isSavePoint == 0) {
+            presentPoint = pointCount(listSize);
+            Global.totalPoint = Global.totalPoint + presentPoint;
+            saveDb();
+        }
+
 //        addDb();
 
         if (presentPoint > Utils.bestPoint) {
