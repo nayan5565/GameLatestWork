@@ -316,10 +316,11 @@ public class DatabaseHelper {
             cursor = db.rawQuery(sql, null);
             if (cursor != null && cursor.getCount() > 0) {
                 int update = db.update(DATABASE_DOWNLOAD_TABLE, values, KEY_URL + "=?", new String[]{mDownload.getUrl() + ""});
-                Log.e("downlaod", "content insert : " + update);
+                Log.e("downlaod", "content update : " + update);
             } else {
                 long v = db.insert(DATABASE_DOWNLOAD_TABLE, null, values);
-                Log.e("downlaod", "content insert : " + mDownload.getUrl());
+                Log.e("downlaod", "content add url : " + mDownload.getUrl());
+                Log.e("downlaod", "content level : " + mDownload.getLevelId());
 
             }
 
@@ -540,6 +541,8 @@ public class DatabaseHelper {
                 mDownload.setIdDownload(cursor.getInt(cursor.getColumnIndex(KEY_IS_DOWNLOAD)));
                 mDownload.setUrl(cursor.getString(cursor.getColumnIndex(KEY_URL)));
 
+                Log.e("downlaod"," get url    "+mDownload.getUrl());
+
                 mDownloads.add(mDownload);
 
             } while (cursor.moveToNext());
@@ -547,7 +550,7 @@ public class DatabaseHelper {
         }
         cursor.close();
 
-
+        Log.e("downlaod"," url size    "+mDownloads.size());
         return mDownloads;
     }
 

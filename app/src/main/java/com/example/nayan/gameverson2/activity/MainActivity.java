@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (!sync.equals(response.getString("update_date"))) {
                         getOnlineData();
                     }
+//                    getBanglaContentData();
                     Log.e("sync", " date " + response.getString("update_date"));
                     DialogSoundOnOff.savePref(MainActivity.this,"sync", response.getString("update_date"));
                 } catch (JSONException e) {
@@ -337,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.English = new ArrayList<MAllContent>(Arrays.asList(data));
+                            Utils.log("Json", " english  size " + Global.English.size());
                             for (int i = 0; i < Global.English.size(); i++) {
 //                                Utils.english.get(i).setPresentId(i+1);
                                 mDownload = new MDownload();
@@ -344,11 +346,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 mDownload.setSubLevelId(Global.English.get(i).getMid());
                                 mDownload.setUrl(Global.English.get(i).getImg());
                                 Global.mDownloads.add(mDownload);
-                                mDownload = new MDownload();
-                                mDownload.setLevelId(3);
-                                mDownload.setLevelId(Global.English.get(i).getMid());
-                                mDownload.setUrl(Global.English.get(i).getAud());
-                                Global.mDownloads.add(mDownload);
+//                                mDownload = new MDownload();
+//                                mDownload.setLevelId(3);
+//                                mDownload.setSubLevelId(Global.English.get(i).getMid());
+//                                mDownload.setUrl(Global.English.get(i).getAud());
+//                                Global.mDownloads.add(mDownload);
                                 Global.English.get(i).setPresentType(i + 1);
                                 for (int j = 0; j < Global.English.get(i).getWords().size(); j++) {
                                     MWords mWords = Global.English.get(i).getWords().get(j);
@@ -358,17 +360,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                     mDownload = new MDownload();
                                     mDownload.setLevelId(3);
-                                    mDownload.setLevelId(Global.English.get(i).getMid());
+                                    mDownload.setSubLevelId(Global.English.get(i).getMid());
                                     mDownload.setUrl(Global.English.get(i).getWords().get(j).getWimg());
                                     Global.mDownloads.add(mDownload);
-                                    mDownload = new MDownload();
-                                    mDownload.setLevelId(3);
-                                    mDownload.setLevelId(Global.English.get(i).getMid());
-                                    mDownload.setUrl(Global.English.get(i).getWords().get(j).getWsound());
-                                    Global.mDownloads.add(mDownload);
+//                                    mDownload = new MDownload();
+//                                    mDownload.setLevelId(3);
+//                                    mDownload.setSubLevelId(Global.English.get(i).getMid());
+//                                    mDownload.setUrl(Global.English.get(i).getWords().get(j).getWsound());
+//                                    Global.mDownloads.add(mDownload);
 
                                 }
                             }
+                            Utils.log("Json", " english words size " + Global.English_words.size());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -401,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void getBanglaContentData() {
-        Utils.log("bangla", "step1");
+        Utils.log("Json", "bangla step1");
         if (!Utils.isInternetOn(this)) {
 
             return;
@@ -412,16 +415,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                         super.onSuccess(statusCode, headers, response);
-                        Utils.log("bangla", "step2" + response.toString());
+                        Utils.log("Json", " bangla step2 " + response.toString());
 
 
                         Global.BANGLA_words = new ArrayList<MWords>();
 
                         try {
-                            Utils.log("bangla", "step3");
+                            Utils.log("Json", "bangla step3");
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.BANGLA = new ArrayList<MAllContent>(Arrays.asList(data));
-                            Utils.log("bangla", "size" + Global.BANGLA.size());
+                            Utils.log("Json", " bangla size " + Global.BANGLA.size());
                             for (int i = 0; i < Global.BANGLA.size(); i++) {
 //                                Utils.english.get(i).setPresentId(i+1);
                                 mDownload = new MDownload();
@@ -429,11 +432,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 mDownload.setSubLevelId(Global.BANGLA.get(i).getMid());
                                 mDownload.setUrl(Global.BANGLA.get(i).getImg());
                                 Global.mDownloads.add(mDownload);
-                                mDownload = new MDownload();
-                                mDownload.setLevelId(1);
-                                mDownload.setLevelId(Global.BANGLA.get(i).getMid());
-                                mDownload.setUrl(Global.BANGLA.get(i).getAud());
-                                Global.mDownloads.add(mDownload);
+//                                mDownload = new MDownload();
+//                                mDownload.setLevelId(1);
+//                                mDownload.setSubLevelId(Global.BANGLA.get(i).getMid());
+//                                mDownload.setUrl(Global.BANGLA.get(i).getAud());
+//                                Global.mDownloads.add(mDownload);
                                 Global.BANGLA.get(i).setPresentType(i + 1);
                                 for (int j = 0; j < Global.BANGLA.get(i).getWords().size(); j++) {
                                     MWords mWords = Global.BANGLA.get(i).getWords().get(j);
@@ -441,25 +444,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Global.BANGLA_words.add(mWords);
                                     mDownload = new MDownload();
                                     mDownload.setLevelId(1);
-                                    mDownload.setLevelId(Global.BANGLA.get(i).getMid());
-                                    mDownload.setUrl(Global.BANGLA_words.get(j).getWimg());
+                                    mDownload.setSubLevelId(Global.BANGLA.get(i).getMid());
+                                    mDownload.setUrl(Global.BANGLA.get(i).getWords().get(j).getWimg());
                                     Global.mDownloads.add(mDownload);
-                                    mDownload = new MDownload();
-                                    mDownload.setLevelId(1);
-                                    mDownload.setLevelId(Global.BANGLA.get(i).getMid());
-                                    mDownload.setUrl(Global.BANGLA_words.get(j).getWsound());
-                                    Global.mDownloads.add(mDownload);
+//                                    mDownload = new MDownload();
+//                                    mDownload.setLevelId(1);
+//                                    mDownload.setSubLevelId(Global.BANGLA.get(i).getMid());
+//                                    mDownload.setUrl(Global.BANGLA_words.get(j).getWsound());
+//                                    Global.mDownloads.add(mDownload);
                                 }
                             }
-                            Utils.log("bangla", "Wsize" + Global.BANGLA_words.size());
+                            Utils.log("Json", "bangla Word size " + Global.BANGLA_words.size());
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Utils.log("bangla", e.toString());
+                            Utils.log("Json", e.toString());
                         }
                         Utils.log("down", " add bangla " + Global.mDownloads.size());
 
                         saveBanglaContentsOfAllLevelToDb();
                         saveBanglaWordsToDb();
+                        Log.e("BOOT","ban:"+Global.BANGLA_words);
+
+
                         saveDownloadToDb();
                         getBanglaMathContentData();
                     }
@@ -468,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         super.onFailure(statusCode, headers, responseString, throwable);
                         B_URL = Global.ALTER_URL;
-                        Utils.log("bangla", "step5Errror");
+                        Utils.log("Json", "bangla step5 Errror");
                         getBanglaMathContentData();
                     }
                 }
@@ -485,13 +491,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         super.onSuccess(statusCode, headers, response);
-                        Log.e("math", "2" + response.toString());
+                        Log.e("Json", " math 2 " + response.toString());
 
                         Global.MATH_words = new ArrayList<MWords>();
 
                         try {
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.Maths = new ArrayList<MAllContent>(Arrays.asList(data));
+                            Utils.log("Json", " math  size " + Global.Maths.size());
                             for (int i = 0; i < Global.Maths.size(); i++) {
                                 mDownload = new MDownload();
                                 mDownload.setLevelId(4);
@@ -499,12 +506,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 mDownload.setUrl(Global.Maths.get(i).getImg());
                                 Utils.log("url", "image " + mDownload.getUrl());
                                 Global.mDownloads.add(mDownload);
-                                mDownload = new MDownload();
-                                mDownload.setLevelId(4);
-                                mDownload.setLevelId(Global.Maths.get(i).getMid());
-                                mDownload.setUrl(Global.Maths.get(i).getAud());
-                                Utils.log("url", "sound " + mDownload.getUrl());
-                                Global.mDownloads.add(mDownload);
+//                                mDownload = new MDownload();
+//                                mDownload.setLevelId(4);
+//                                mDownload.setSubLevelId(Global.Maths.get(i).getMid());
+//                                mDownload.setUrl(Global.Maths.get(i).getAud());
+//                                Utils.log("url", "sound " + mDownload.getUrl());
+//                                Global.mDownloads.add(mDownload);
                                 Global.Maths.get(i).setPresentType(i + 1);
                                 for (int j = 0; j < Global.Maths.get(i).getWords().size(); j++) {
                                     MWords mWords = Global.Maths.get(i).getWords().get(j);
@@ -516,16 +523,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     mDownload.setUrl(Global.Maths.get(i).getWords().get(j).getWimg());
                                     Utils.log("url", "image w " + mDownload.getUrl());
                                     Global.mDownloads.add(mDownload);
-                                    mDownload = new MDownload();
-                                    mDownload.setLevelId(4);
-                                    mDownload.setLevelId(Global.Maths.get(i).getMid());
-                                    mDownload.setUrl(Global.Maths.get(i).getWords().get(j).getWsound());
-                                    Utils.log("url", "sound w " + mDownload.getUrl());
-                                    Global.mDownloads.add(mDownload);
+//                                    mDownload = new MDownload();
+//                                    mDownload.setLevelId(4);
+//                                    mDownload.setSubLevelId(Global.Maths.get(i).getMid());
+//                                    mDownload.setUrl(Global.Maths.get(i).getWords().get(j).getWsound());
+//                                    Utils.log("url", "sound w " + mDownload.getUrl());
+//                                    Global.mDownloads.add(mDownload);
 
                                 }
                             }
-
+                            Utils.log("Json", "math Word size " + Global.MATH_words.size());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -565,17 +572,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         try {
                             MAllContent[] data = gson.fromJson(response.getJSONArray("contents").toString(), MAllContent[].class);
                             Global.BANGLA_Maths = new ArrayList<MAllContent>(Arrays.asList(data));
+                            Utils.log("Json", " ongko  size " + Global.BANGLA_Maths.size());
                             for (int i = 0; i < Global.BANGLA_Maths.size(); i++) {
                                 mDownload = new MDownload();
                                 mDownload.setLevelId(2);
                                 mDownload.setSubLevelId(Global.BANGLA_Maths.get(i).getMid());
                                 mDownload.setUrl(Global.BANGLA_Maths.get(i).getImg());
                                 Global.mDownloads.add(mDownload);
-                                mDownload = new MDownload();
-                                mDownload.setLevelId(2);
-                                mDownload.setLevelId(Global.BANGLA_Maths.get(i).getMid());
-                                mDownload.setUrl(Global.BANGLA_Maths.get(i).getAud());
-                                Global.mDownloads.add(mDownload);
+//                                mDownload = new MDownload();
+//                                mDownload.setLevelId(2);
+//                                mDownload.setSubLevelId(Global.BANGLA_Maths.get(i).getMid());
+//                                mDownload.setUrl(Global.BANGLA_Maths.get(i).getAud());
+//                                Global.mDownloads.add(mDownload);
                                 Global.BANGLA_Maths.get(i).setPresentType(i + 1);
                                 for (int j = 0; j < Global.BANGLA_Maths.get(i).getWords().size(); j++) {
                                     MWords mWords = Global.BANGLA_Maths.get(i).getWords().get(j);
@@ -583,18 +591,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Global.BANGLA_MATH_words.add(mWords);
                                     mDownload = new MDownload();
                                     mDownload.setLevelId(2);
-                                    mDownload.setLevelId(Global.BANGLA_Maths.get(i).getMid());
+                                    mDownload.setSubLevelId(Global.BANGLA_Maths.get(i).getMid());
                                     mDownload.setUrl(Global.BANGLA_Maths.get(i).getWords().get(j).getWimg());
                                     Global.mDownloads.add(mDownload);
-                                    mDownload = new MDownload();
-                                    mDownload.setLevelId(2);
-                                    mDownload.setLevelId(Global.BANGLA_Maths.get(i).getMid());
-                                    mDownload.setUrl(Global.BANGLA_Maths.get(i).getWords().get(j).getWsound());
-                                    Global.mDownloads.add(mDownload);
+//                                    mDownload = new MDownload();
+//                                    mDownload.setLevelId(2);
+//                                    mDownload.setSubLevelId(Global.BANGLA_Maths.get(i).getMid());
+//                                    mDownload.setUrl(Global.BANGLA_Maths.get(i).getWords().get(j).getWsound());
+//                                    Global.mDownloads.add(mDownload);
 
                                 }
                             }
-
+                            Utils.log("Json", " ongko words size " + Global.BANGLA_MATH_words.size());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -604,13 +612,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         saveDownloadToDb();
                         getDownload(1, 0);
                         allImageDownload();
+                        Log.e("BOOT","1:"+mDownloads.size());
                         getDownload(2, 0);
                         allImageDownload();
+                        Log.e("BOOT","2:"+mDownloads.size());
                         getDownload(3, 0);
                         allImageDownload();
+                        Log.e("BOOT","3:"+mDownloads.size());
                         getDownload(4, 0);
                         allImageDownload();
+                        Log.e("BOOT","4:"+mDownloads.size());
 //                        allSoundDownload();
+
+
                         FilesDownload.getInstance(MainActivity.this, "").start();
                     }
 
