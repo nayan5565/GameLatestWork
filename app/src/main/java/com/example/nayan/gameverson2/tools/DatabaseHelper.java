@@ -366,6 +366,7 @@ public class DatabaseHelper {
         if (cursor != null)
             cursor.close();
     }
+
     public void isPointSave(MData mData) {
         Cursor cursor = null;
         try {
@@ -541,7 +542,7 @@ public class DatabaseHelper {
                 mDownload.setIdDownload(cursor.getInt(cursor.getColumnIndex(KEY_IS_DOWNLOAD)));
                 mDownload.setUrl(cursor.getString(cursor.getColumnIndex(KEY_URL)));
 
-                Log.e("downlaod"," get url    "+mDownload.getUrl());
+                Log.e("downlaod", " get url    " + mDownload.getUrl());
 
                 mDownloads.add(mDownload);
 
@@ -550,7 +551,7 @@ public class DatabaseHelper {
         }
         cursor.close();
 
-        Log.e("downlaod"," url size    "+mDownloads.size());
+        Log.e("downlaod", " url size    " + mDownloads.size());
         return mDownloads;
     }
 
@@ -592,6 +593,25 @@ public class DatabaseHelper {
 
 
         return assetArrayList;
+    }
+
+    public ArrayList<Integer>subLevlsId(int levelId){
+        ArrayList<Integer>subLevelsId=new ArrayList<>();
+        String sql = "select * from " + DATABASE_SUB_LEVEL_TABLE + " where " + KEY_PARENT_ID + "='" + levelId + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        Log.e("mids", " is " + cursor.getCount());
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                cursor.getInt(cursor.getColumnIndex(KEY_PARENT_ID));
+                int mid = cursor.getInt(cursor.getColumnIndex(KEY_CONTENT));
+                subLevelsId.add(mid);
+
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        return subLevelsId;
+
     }
 
 
@@ -724,6 +744,63 @@ public class DatabaseHelper {
         cursor.close();
 
         return assetArrayList;
+    }
+
+    public ArrayList<String> getCUrl(int levelId, int lid) {
+        ArrayList<String> urls = new ArrayList<>();
+        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_LEVEL + "='" + levelId + "'" + " AND " + KEY_LEVEL_ID + "='" + lid + "'";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID));
+                cursor.getInt(cursor.getColumnIndex(KEY_LEVEL));
+                String url = cursor.getString(cursor.getColumnIndex(KEY_IMAGE));
+                if (!urls.contains(url))
+                    urls.add(url);
+
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        return urls;
+    } public ArrayList<String> getWUrl(int parentId) {
+        ArrayList<String> urls = new ArrayList<>();
+        String sql = "select * from " + DATABASE_ALL_WORDS_TABLE + " where " + KEY_WORDS_CONTENTS_ID + "='" + parentId + "'";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                cursor.getInt(cursor.getColumnIndex(KEY_WORDS_CONTENTS_ID));
+                String url = cursor.getString(cursor.getColumnIndex(KEY_WORDS_IMG));
+                if (!urls.contains(url))
+                    urls.add(url);
+
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        return urls;
+    }
+
+    public ArrayList<Integer> getMid(int levelId, int lid) {
+        ArrayList<Integer> mids = new ArrayList<>();
+        String sql = "select * from " + DATABASE_ALL_CONTENTS_TABLE + " where " + KEY_LEVEL + "='" + levelId + "'" + " AND " + KEY_LEVEL_ID + "='" + lid + "'";
+
+        Cursor cursor = db.rawQuery(sql, null);
+        Log.e("mids", " is " + cursor.getCount());
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                cursor.getInt(cursor.getColumnIndex(KEY_LEVEL_ID));
+                cursor.getInt(cursor.getColumnIndex(KEY_LEVEL));
+                int mid = cursor.getInt(cursor.getColumnIndex(KEY_MODEL_ID));
+                mids.add(mid);
+
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        return mids;
     }
 
     private void close() {

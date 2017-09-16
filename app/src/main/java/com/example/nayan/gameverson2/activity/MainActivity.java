@@ -60,6 +60,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<MDownload> banmDownloads;
     ArrayList<MDownload> ongkomDownloads;
     ArrayList<MDownload> mathmDownloads;
+    ArrayList<String> urls;
+    ArrayList<String> Curls;
+    ArrayList<Integer> mids;
+    ArrayList<Integer> Amids=new ArrayList<>();
+    ArrayList<String> uniques = new ArrayList<>();
+    ArrayList<String> WorUrls = new ArrayList<>();
+    ArrayList<String> Wuniques = new ArrayList<>();
+
+    ArrayList<Integer> sublevelsId;
     Dialog dialog1;
     private ArrayList<MLevel> levelsDatas;
     private String B_URL = Global.BASE_URL;
@@ -78,6 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         init();
+
+        ongkoImg(0);
+
+
         MyGoogleAnalytics.getInstance().setupAnalytics("Main Activity");
         requestStoragePermissionToMashmallow();
 //        mPost.setSubLevel(database.getSubLevelData(1));
@@ -93,7 +106,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void banImg() {
+        //sublevel id  36
+        sublevelsId = database.subLevlsId(1);
+        for (int i = 0; i < 6; i++) {
+            Curls = database.getCUrl(1, sublevelsId.get(i));
+            Global.URLS.addAll(Curls);
+        }
+        for (int i = 0; i < Global.URLS.size(); i++) {
+            if (!uniques.contains(Global.URLS.get(i))) {
+                uniques.add(Global.URLS.get(i));
+            }
+        }
+        Log.e("urls", "bangla" + uniques.size());
+        Log.e("sublevels", "size " + sublevelsId.size());
+    }
+
+    public void ongkoImg(int start) {
+        //sublevel id  36
+        sublevelsId = database.subLevlsId(2);
+
+        int max=start+6;
+        if(sublevelsId.size()<max){
+            max=sublevelsId.size();
+        }
+
+
+        for (int i = start; i <max; i++) {
+            Curls = database.getCUrl(2, sublevelsId.get(i));
+            mids = database.getMid(2, sublevelsId.get(i));
+            Amids.addAll(mids);
+            Global.URLS.addAll(Curls);
+        }
+        for (int i = 0; i < Global.URLS.size(); i++) {
+            if (!uniques.contains(Global.URLS.get(i))) {
+                uniques.add(Global.URLS.get(i));
+                for (int j = 0; j < Amids.size(); j++) {
+                    urls = database.getWUrl(Amids.get(j));
+                    WorUrls.addAll(urls);
+                }
+            }
+        }
+        for (int i = 0; i < WorUrls.size(); i++) {
+            if (!Wuniques.contains(WorUrls.get(i))) {
+                Wuniques.add(WorUrls.get(i));
+            }
+        }
+        uniques.addAll(Wuniques);
+        Log.e("urls", "ongko" + uniques.size());
+        Log.e("sublevels", "size " + Wuniques.size());
+    }
+
     private void init() {
+        Global.URLS = new ArrayList<>();
+        urls = new ArrayList<>();
+        Curls = new ArrayList<>();
+        mids = new ArrayList<>();
+        sublevelsId = new ArrayList<>();
         Global.mDownloads = new ArrayList<MDownload>();
         mDownloads = new ArrayList<MDownload>();
         banmDownloads = new ArrayList<MDownload>();
@@ -156,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 //                    getBanglaContentData();
                     Log.e("sync", " date " + response.getString("update_date"));
-                    DialogSoundOnOff.savePref(MainActivity.this,"sync", response.getString("update_date"));
+                    DialogSoundOnOff.savePref(MainActivity.this, "sync", response.getString("update_date"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -463,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         saveBanglaContentsOfAllLevelToDb();
                         saveBanglaWordsToDb();
-                        Log.e("BOOT","ban:"+Global.BANGLA_words);
+                        Log.e("BOOT", "ban:" + Global.BANGLA_words);
 
 
                         saveDownloadToDb();
@@ -612,16 +681,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         saveDownloadToDb();
                         getDownload(1, 0);
                         allImageDownload();
-                        Log.e("BOOT","1:"+mDownloads.size());
+                        Log.e("BOOT", "1:" + mDownloads.size());
                         getDownload(2, 0);
                         allImageDownload();
-                        Log.e("BOOT","2:"+mDownloads.size());
+                        Log.e("BOOT", "2:" + mDownloads.size());
                         getDownload(3, 0);
                         allImageDownload();
-                        Log.e("BOOT","3:"+mDownloads.size());
+                        Log.e("BOOT", "3:" + mDownloads.size());
                         getDownload(4, 0);
                         allImageDownload();
-                        Log.e("BOOT","4:"+mDownloads.size());
+                        Log.e("BOOT", "4:" + mDownloads.size());
 //                        allSoundDownload();
 
 
@@ -718,11 +787,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDownload = mDownloads.get(i);
             int init = mDownloads.get(0).getSubLevelId();
             int max = init + Global.LEVEL_DOWNLOAD;
-//            if (mDownload.getSubLevelId() < max) {
+            if (mDownload.getSubLevelId() < max) {
                 filesDownload.addUrl(Global.IMAGE_URL + mDownloads.get(i).getUrl());
                 mDownload.setIdDownload(1);
                 database.addDownloadData(mDownload);
-//            }
+            }
         }
     }
 

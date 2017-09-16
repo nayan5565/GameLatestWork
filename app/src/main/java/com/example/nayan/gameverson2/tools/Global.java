@@ -41,6 +41,7 @@ public class Global {
     public static int ALL_TOTAL_POINT;
     public static int GAME_INDEX_POSITION;
     public static ArrayList<MSubLevel> parentName;
+    public static ArrayList<String> URLS;
     public static String uriBangla = "@drawable/green_panel";
     public static String uriOngko = "@drawable/yellow_panel";
     public static String uriEnglish = "@drawable/red_panel";
