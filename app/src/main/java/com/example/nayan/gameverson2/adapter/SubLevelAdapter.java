@@ -1,20 +1,29 @@
 package com.example.nayan.gameverson2.adapter;
 
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nayan.gameverson2.R;
 import com.example.nayan.gameverson2.activity.GameActivity;
+import com.example.nayan.gameverson2.activity.MainActivity;
 import com.example.nayan.gameverson2.model.MLock;
 import com.example.nayan.gameverson2.model.MSubLevel;
 import com.example.nayan.gameverson2.tools.DatabaseHelper;
+import com.example.nayan.gameverson2.tools.DialogSoundOnOff;
 import com.example.nayan.gameverson2.tools.Global;
 import com.example.nayan.gameverson2.tools.Utils;
 
@@ -109,11 +118,22 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
 
                 @Override
                 public void onClick(View v) {
-                    Log.e("levelID", "idd  " + Global.levelId);
+
 
                     mSubLevel = mSubLevels.get(getAdapterPosition());
+                    Log.e("content", " is  " + mSubLevel.getContent());
                     Utils.bestPoint = mSubLevel.getBestPoint();
                     if (mSubLevel.getUnlockNextLevel() == 1) {
+                        String start = DialogSoundOnOff.getPREF(context, Global.levelId + "");
+                        String maxContent = Utils.getPREF(context, Global.levelId + "");
+                        int s = Integer.valueOf(start);
+                        int m = Integer.valueOf(maxContent);
+                        Log.e("content", " start " + s);
+                        Log.e("content", " max " + m);
+                        if (mSubLevel.getContent() > m) {
+                            dialogShow(s + 1);
+                            return;
+                        }
                         Intent intent = new Intent(context, GameActivity.class);
                         intent.putExtra("subLevelName", mSubLevel.getName());
                         intent.putExtra("index", getAdapterPosition());
@@ -130,6 +150,26 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
 
 
         }
+    }
+
+    private void dialogShow(final int start) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dia_download);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button btnOK = (Button) dialog.findViewById(R.id.btnYap);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnNop);
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getInstance().banglaImage(start);
+                MainActivity.getInstance().imageDownload();
+
+            }
+        });
+
+        dialog.show();
     }
 
 

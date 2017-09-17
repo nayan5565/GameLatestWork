@@ -161,7 +161,7 @@ public class SubLevelActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void getLocalData() {
-        mAllContents = database.getAllContentsData(Global.levelId, Global.subLevelId, Global.logic, 1);
+        mAllContents = database.getAllContentsData(Global.levelId, Global.subLevelId);
         Log.e("allData", "is" + mAllContents.size());
 
 //        mLock = database.getLocalData(Global.levelId, Global.subLevelId);
@@ -175,7 +175,7 @@ public class SubLevelActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         Global.parentName = mSubLevels;
-//        mLevels = database.getLevelData(mLevel.getLid());
+//        mLevels = database.getLevelData(mLevel.getContent());
         Log.e("getDb", "sublevel : " + mSubLevels.size());
 //all sub level unlock for test
         mSubLevels.get(0).setUnlockNextLevel(1);

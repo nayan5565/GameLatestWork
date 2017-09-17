@@ -60,16 +60,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayList<MDownload> banmDownloads;
     ArrayList<MDownload> ongkomDownloads;
     ArrayList<MDownload> mathmDownloads;
-    ArrayList<String> urls;
-    ArrayList<String> Curls;
-    ArrayList<Integer> mids;
-    ArrayList<Integer> Amids=new ArrayList<>();
-    ArrayList<String> uniques = new ArrayList<>();
-    ArrayList<String> WorUrls = new ArrayList<>();
-    ArrayList<String> Wuniques = new ArrayList<>();
-
+    ArrayList<Integer> conten = new ArrayList<>();
+    ArrayList<Integer> contenIds = new ArrayList<>();
+    ArrayList<String> cUrls = new ArrayList<>();
+    ArrayList<String> allWUrls = new ArrayList<>();
+    ArrayList<String> wUrls = new ArrayList<>();
+    ArrayList<Integer> allContentId = new ArrayList<>();
+    ArrayList<String> cAllUrls = new ArrayList<>();
+    ArrayList<String> uniquesUrls = new ArrayList<>();
     ArrayList<Integer> sublevelsId;
     Dialog dialog1;
+    private static MainActivity mainActivity;
     private ArrayList<MLevel> levelsDatas;
     private String B_URL = Global.BASE_URL;
     private Button btnSetting, btnResult;
@@ -81,14 +82,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int STORAGE_PERMISSION_CODE = 23;
     private Gson gson = new Gson();
 
+    public static MainActivity getInstance() {
+        return mainActivity;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         init();
-
-        ongkoImg(0);
 
 
         MyGoogleAnalytics.getInstance().setupAnalytics("Main Activity");
@@ -100,68 +103,203 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Utils.logIn(mPost.getUserEmail(), "123456", mPost.getDeviceId());
         syncApi();
 
-
+//        banglaImage(0);
         getLocalData();
 
 
     }
 
-    public void banImg() {
-        //sublevel id  36
-        sublevelsId = database.subLevlsId(1);
-        for (int i = 0; i < 6; i++) {
-            Curls = database.getCUrl(1, sublevelsId.get(i));
-            Global.URLS.addAll(Curls);
-        }
-        for (int i = 0; i < Global.URLS.size(); i++) {
-            if (!uniques.contains(Global.URLS.get(i))) {
-                uniques.add(Global.URLS.get(i));
-            }
-        }
-        Log.e("urls", "bangla" + uniques.size());
-        Log.e("sublevels", "size " + sublevelsId.size());
-    }
+    public void banglaImage(int start) {
+        cAllUrls.clear();
+        conten = database.getContent(1);
 
-    public void ongkoImg(int start) {
-        //sublevel id  36
-        sublevelsId = database.subLevlsId(2);
+        int max = start + 6;
 
-        int max=start+6;
-        if(sublevelsId.size()<max){
-            max=sublevelsId.size();
+        if (max > conten.size()) {
+            max = conten.size();
+        }
+        int maxContent = conten.get(max - 1);
+        Utils.savePref(MainActivity.this, "1", maxContent + "");
+        Global.startDownBan = max;
+        for (int i = start; i < max; i++) {
+            cUrls = database.getContentUrl(1, conten.get(i));
+
+            cAllUrls.addAll(cUrls);
+            contenIds = database.getContentsId(1, conten.get(i));
+            allContentId.addAll(contenIds);
+
+
         }
 
 
-        for (int i = start; i <max; i++) {
-            Curls = database.getCUrl(2, sublevelsId.get(i));
-            mids = database.getMid(2, sublevelsId.get(i));
-            Amids.addAll(mids);
-            Global.URLS.addAll(Curls);
-        }
-        for (int i = 0; i < Global.URLS.size(); i++) {
-            if (!uniques.contains(Global.URLS.get(i))) {
-                uniques.add(Global.URLS.get(i));
-                for (int j = 0; j < Amids.size(); j++) {
-                    urls = database.getWUrl(Amids.get(j));
-                    WorUrls.addAll(urls);
+        for (int i = 0; i < cAllUrls.size(); i++) {
+            if (!uniquesUrls.contains(cAllUrls.get(i))) {
+                uniquesUrls.add(cAllUrls.get(i));
+                for (int j = 0; j < allContentId.size(); j++) {
+                    wUrls = database.getWordsUrl(allContentId.get(j));
+                    allWUrls.addAll(wUrls);
                 }
             }
         }
-        for (int i = 0; i < WorUrls.size(); i++) {
-            if (!Wuniques.contains(WorUrls.get(i))) {
-                Wuniques.add(WorUrls.get(i));
+
+        for (int i = 0; i < allWUrls.size(); i++) {
+            if (!uniquesUrls.contains(allWUrls.get(i))) {
+                uniquesUrls.add(allWUrls.get(i));
             }
         }
-        uniques.addAll(Wuniques);
-        Log.e("urls", "ongko" + uniques.size());
-        Log.e("sublevels", "size " + Wuniques.size());
+        Log.e("Urls", "content " + conten.size());
+        Log.e("Urls", "cont size " + cUrls.size());
+        Log.e("Urls", "content id " + allContentId.size());
+        Log.e("Urls", "cont unique size " + uniquesUrls.size());
+        Log.e("Urls", "cont all size " + cAllUrls.size());
+        Log.e("Urls", "word size " + allWUrls.size());
+    }
+
+    public void ongkoImage(int start) {
+        conten = database.getContent(2);
+
+        int max = start + 6;
+
+        if (conten.size() < max) {
+            max = conten.size();
+        }
+        int maxContent = conten.get(max);
+        Utils.savePref(MainActivity.this, "2", maxContent + "");
+        Global.startDownOngk = max;
+        for (int i = start; i < max; i++) {
+            cUrls = database.getContentUrl(2, conten.get(i));
+            cAllUrls.addAll(cUrls);
+            contenIds = database.getContentsId(2, conten.get(i));
+            allContentId.addAll(contenIds);
+
+        }
+
+        for (int i = 0; i < cAllUrls.size(); i++) {
+            if (!uniquesUrls.contains(cAllUrls.get(i))) {
+                uniquesUrls.add(cAllUrls.get(i));
+
+            }
+        }
+
+        for (int j = 0; j < allContentId.size(); j++) {
+            wUrls = database.getWordsUrl(allContentId.get(j));
+            allWUrls.addAll(wUrls);
+        }
+
+        for (int i = 0; i < allWUrls.size(); i++) {
+            if (!uniquesUrls.contains(allWUrls.get(i))) {
+                uniquesUrls.add(allWUrls.get(i));
+            }
+        }
+        Log.e("Urls", "cont unique size " + uniquesUrls.size());
+        Log.e("Urls", "cont all size " + cAllUrls.size());
+        Log.e("Urls", "cont size " + cUrls.size());
+        Log.e("Urls", "content id " + allContentId.size());
+        Log.e("Urls", "word size " + allWUrls.size());
+        Log.e("Urls", "content " + conten.size());
+    }
+
+    public void englishImage(int start) {
+        conten = database.getContent(3);
+
+        int max = start + 6;
+
+        if (conten.size() < max) {
+            max = conten.size();
+        }
+        int maxContent = conten.get(max);
+        Utils.savePref(MainActivity.this, "3", maxContent + "");
+        Global.startDownEng = max;
+        for (int i = start; i < max; i++) {
+            cUrls = database.getContentUrl(3, conten.get(i));
+            cAllUrls.addAll(cUrls);
+            contenIds = database.getContentsId(3, conten.get(i));
+            allContentId.addAll(contenIds);
+
+        }
+
+        for (int i = 0; i < cAllUrls.size(); i++) {
+            if (!uniquesUrls.contains(cAllUrls.get(i))) {
+                uniquesUrls.add(cAllUrls.get(i));
+
+            }
+        }
+
+        for (int j = 0; j < allContentId.size(); j++) {
+            wUrls = database.getWordsUrl(allContentId.get(j));
+            allWUrls.addAll(wUrls);
+        }
+
+        for (int i = 0; i < allWUrls.size(); i++) {
+            if (!uniquesUrls.contains(allWUrls.get(i))) {
+                uniquesUrls.add(allWUrls.get(i));
+            }
+        }
+        Log.e("Urls", "cont unique size " + uniquesUrls.size());
+        Log.e("Urls", "cont all size " + cAllUrls.size());
+        Log.e("Urls", "cont size " + cUrls.size());
+        Log.e("Urls", "content id " + allContentId.size());
+        Log.e("Urls", "word size " + allWUrls.size());
+        Log.e("Urls", "content " + conten.size());
+    }
+
+    public void mathImage(int start) {
+        conten = database.getContent(4);
+
+        int max = start + 6;
+
+        if (conten.size() < max) {
+            max = conten.size();
+        }
+        int maxContent = conten.get(max);
+        Utils.savePref(MainActivity.this, "m", maxContent + "");
+        Global.startDownMath = max;
+        for (int i = start; i < max; i++) {
+            cUrls = database.getContentUrl(4, conten.get(i));
+            cAllUrls.addAll(cUrls);
+            contenIds = database.getContentsId(4, conten.get(i));
+            allContentId.addAll(contenIds);
+
+        }
+
+        for (int i = 0; i < cAllUrls.size(); i++) {
+            if (!uniquesUrls.contains(cAllUrls.get(i))) {
+                uniquesUrls.add(cAllUrls.get(i));
+
+            }
+        }
+
+        for (int j = 0; j < allContentId.size(); j++) {
+            wUrls = database.getWordsUrl(allContentId.get(j));
+            allWUrls.addAll(wUrls);
+        }
+
+        for (int i = 0; i < allWUrls.size(); i++) {
+            if (!uniquesUrls.contains(allWUrls.get(i))) {
+                uniquesUrls.add(allWUrls.get(i));
+            }
+        }
+        imageDownload();
+        Log.e("Urls", "cont unique size " + uniquesUrls.size());
+        Log.e("Urls", "cont all size " + cAllUrls.size());
+        Log.e("Urls", "cont size " + cUrls.size());
+        Log.e("Urls", "content id " + allContentId.size());
+        Log.e("Urls", "word size " + allWUrls.size());
+        Log.e("Urls", "content " + conten.size());
+    }
+
+    public void imageDownload() {
+        FilesDownload filesDownload = FilesDownload.getInstance(this, bothImg);
+        for (int i = 0; i < uniquesUrls.size(); i++) {
+            filesDownload.addUrl(Global.IMAGE_URL + uniquesUrls.get(i));
+
+        }
+        FilesDownload.getInstance(MainActivity.this, "").start();
     }
 
     private void init() {
+        mainActivity = this;
         Global.URLS = new ArrayList<>();
-        urls = new ArrayList<>();
-        Curls = new ArrayList<>();
-        mids = new ArrayList<>();
         sublevelsId = new ArrayList<>();
         Global.mDownloads = new ArrayList<MDownload>();
         mDownloads = new ArrayList<MDownload>();
@@ -447,7 +585,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add english   " + Global.mDownloads.size());
                         saveEnglishContentsOfAllLevelToDb();
                         saveEnglishWordsToDb();
-                        saveDownloadToDb();
+//                        saveDownloadToDb();
                         getMathContentData();
 
                     }
@@ -535,7 +673,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("BOOT", "ban:" + Global.BANGLA_words);
 
 
-                        saveDownloadToDb();
+//                        saveDownloadToDb();
                         getBanglaMathContentData();
                     }
 
@@ -608,7 +746,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add math   " + Global.mDownloads.size());
                         saveMathContentsOfAllLevelToDb();
                         saveMathWordsToDb();
-                        saveDownloadToDb();
+//                        saveDownloadToDb();
                         getBanglaContentData();
 
                     }
@@ -678,23 +816,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("down", "add ongko   " + Global.mDownloads.size());
                         saveBanglaMathContentsOfAllLevelToDb();
                         saveBanglaMathWordsToDb();
-                        saveDownloadToDb();
-                        getDownload(1, 0);
-                        allImageDownload();
-                        Log.e("BOOT", "1:" + mDownloads.size());
-                        getDownload(2, 0);
-                        allImageDownload();
-                        Log.e("BOOT", "2:" + mDownloads.size());
-                        getDownload(3, 0);
-                        allImageDownload();
-                        Log.e("BOOT", "3:" + mDownloads.size());
-                        getDownload(4, 0);
-                        allImageDownload();
-                        Log.e("BOOT", "4:" + mDownloads.size());
+//                        saveDownloadToDb();
+//                        getDownload(1, 0);
+//                        allImageDownload();
+//                        Log.e("BOOT", "1:" + mDownloads.size());
+//                        getDownload(2, 0);
+//                        allImageDownload();
+//                        Log.e("BOOT", "2:" + mDownloads.size());
+//                        getDownload(3, 0);
+//                        allImageDownload();
+//                        Log.e("BOOT", "3:" + mDownloads.size());
+//                        getDownload(4, 0);
+//                        allImageDownload();
+//                        Log.e("BOOT", "4:" + mDownloads.size());
 //                        allSoundDownload();
 
 
-                        FilesDownload.getInstance(MainActivity.this, "").start();
+//                        FilesDownload.getInstance(MainActivity.this, "").start();
+                        int start = DialogSoundOnOff.getIntPREF(MainActivity.this, "1");
+                        banglaImage(start);
+                        start = DialogSoundOnOff.getIntPREF(MainActivity.this, "2");
+                        ongkoImage(start);
+                        start = DialogSoundOnOff.getIntPREF(MainActivity.this, "3");
+                        englishImage(start);
+                        start = DialogSoundOnOff.getIntPREF(MainActivity.this, "4");
+                        mathImage(start);
                     }
 
                     @Override

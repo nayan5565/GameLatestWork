@@ -42,6 +42,10 @@ public class Global {
     public static int GAME_INDEX_POSITION;
     public static ArrayList<MSubLevel> parentName;
     public static ArrayList<String> URLS;
+    public static int startDownBan;
+    public static int startDownOngk;
+    public static int startDownEng;
+    public static int startDownMath;
     public static String uriBangla = "@drawable/green_panel";
     public static String uriOngko = "@drawable/yellow_panel";
     public static String uriEnglish = "@drawable/red_panel";

@@ -76,7 +76,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         getLocalData(content);
         prepareDisplay();
         Utils.sortData(mAllContentArrayList, 0);
-        getPopUp();
+//        getPopUp();
 
 
     }
@@ -147,7 +147,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (Global.logic == 1) {
 
 
-            mAllContentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
+            mAllContentArrayList = database.getAllContentsData(Global.levelId, content);
 
         }
 
@@ -168,17 +168,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         else if (Global.logic == 2) {
 
             ArrayList<MAllContent> realAssets = new ArrayList<>();
-            realAssets = database.getAllContentsData(Global.levelId, content, 0, 0);
+            realAssets = database.getAllContentsData(Global.levelId, content);
             mAllContentArrayList = generatesTxtSen(realAssets);
             Collections.shuffle(mAllContentArrayList);
         } else if (Global.logic == 3) {
 
-            mAllContentArrayList = database.getAllContentsData(Global.levelId, content, 0, 0);
+            mAllContentArrayList = database.getAllContentsData(Global.levelId, content);
             Collections.shuffle(mAllContentArrayList);
         } else if (Global.logic == 4) {
 
             ArrayList<MAllContent> realAssets = new ArrayList<>();
-            realAssets = database.getAllContentsData(Global.levelId, content, 0, 0);
+            realAssets = database.getAllContentsData(Global.levelId, content);
 
             mAllContentArrayList = generatesTxtImg(realAssets);
             Collections.shuffle(mAllContentArrayList);

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class MAllContent {
     ArrayList<MWords> words=new ArrayList<>();
     private int mid;
-    private int lid;
+    private int content;
     private int logic;
     private int level;
 
@@ -115,12 +115,12 @@ public class MAllContent {
         this.mid = mid;
     }
 
-    public int getLid() {
-        return lid;
+    public int getContent() {
+        return content;
     }
 
-    public void setLid(int lid) {
-        this.lid = lid;
+    public void setContent(int content) {
+        this.content = content;
     }
 
     public String getImg() {
