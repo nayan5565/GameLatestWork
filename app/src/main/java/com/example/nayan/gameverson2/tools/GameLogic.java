@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -446,7 +447,7 @@ public class GameLogic {
         final TextView txtScore = (TextView) dialog.findViewById(R.id.txtLevelScore);
         ImageView imgLevelMenu = (ImageView) dialog.findViewById(R.id.imgLevelMenu);
         ImageView imgFacebook = (ImageView) dialog.findViewById(R.id.imgFacebook);
-        Utils.setFont(context, "skranjiregular", txtScore);
+
         Utils.setFont(context, "carterone", txtClear);
         imgLevelMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -463,11 +464,17 @@ public class GameLogic {
             }
         });
         if (Global.levelId == 1) {
+            Utils.setFont(context, "BenSenHandwriting", txtScore);
             Utils.changeUIcolor(context, Global.uriBangla, changeColor);
         } else if (Global.levelId == 2) {
+            Utils.setFont(context, "BenSenHandwriting", txtScore);
             Utils.changeUIcolor(context, Global.uriOngko, changeColor);
         } else if (Global.levelId == 3) {
+            Utils.setFont(context, "carterone", txtScore);
             Utils.changeUIcolor(context, Global.uriEnglish, changeColor);
+        } else if (Global.levelId == 4) {
+            Utils.setFont(context, "carterone", txtScore);
+            Utils.changeUIcolor(context, Global.uriMath, changeColor);
         }
 
         ImageView imgReload = (ImageView) dialog.findViewById(R.id.btnLevelReload);
@@ -479,7 +486,7 @@ public class GameLogic {
 
                 Log.e("totalpoint", "tpoint is" + Global.totalPoint);
 //                GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION);
-
+                GameActivity.getInstance().getIsSaveDataFromDb(Global.levelId, Global.subLevelId);
                 resetList(listSize);
                 dialog.dismiss();
             }
@@ -492,19 +499,32 @@ public class GameLogic {
             public void onClick(View v) {
                 if (Global.SUB_INDEX_POSITION >= mSubLevels.size() - 1) {
                     Utils.toastMassage(context, "Level Finished ");
+                    GameActivity.getInstance().finish();
 
                     return;
 
                 } else {
                     Global.SUB_INDEX_POSITION = Global.SUB_INDEX_POSITION + 1;
 
-
+//                    Global.CONTENT=Global.CONTENT;
                     mSubLevels.get(Global.SUB_INDEX_POSITION).setUnlockNextLevel(1);
                     Global.subLevelId = mSubLevels.get(Global.SUB_INDEX_POSITION).getLid();
                     Global.logic = mSubLevels.get(Global.SUB_INDEX_POSITION).getLogic();
                     Global.CONTENT = mSubLevels.get(Global.SUB_INDEX_POSITION).getContent();
-
+                    GameActivity.getInstance().getIsSaveDataFromDb(Global.levelId, Global.subLevelId);
                     GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION, Global.CONTENT);
+                    String start = DialogSoundOnOff.getPREF(context, Global.levelId + "");
+                    String maxContent = Utils.getPREF(context, Global.levelId + "");
+                    int s = Integer.valueOf(start);
+                    int m = Integer.valueOf(maxContent);
+                    Log.e("content", " start " + s);
+                    Log.e("content", " max " + m);
+                    Log.e("content", " present " + Global.CONTENT);
+                    if (Global.CONTENT > m) {
+                        dialog.dismiss();
+                        dialogShow(s, 0, Global.levelId);
+                        return;
+                    }
                 }
                 dialog.dismiss();
             }
@@ -518,17 +538,15 @@ public class GameLogic {
             }
         });
 
-//        if (Global.isSavePoint == 1) {
-//            txtScore.setVisibility(View.GONE);
-//            txtPoint.setVisibility(View.GONE);
-//        }
+
 //        txtBestPoint.setText("" + Utils.bestPoint);
-        if (mLock.getIsSavePoint() == 0) {
+
+        if (Global.isSavePoint == 0) {
             if (Global.levelId == 1) {
-                txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
+                txtScore.setText("Score :  " + Utils.convertNum(presentPoint + ""));
             }
             if (Global.levelId == 2) {
-                txtScore.setText("Score :  " + Utils.convertToBangla(presentPoint + ""));
+                txtScore.setText("Score :  " + Utils.convertNum(presentPoint + ""));
             }
             if (Global.levelId == 3) {
                 txtScore.setText("Score :  " + presentPoint + "");
@@ -536,18 +554,67 @@ public class GameLogic {
             if (Global.levelId == 4) {
                 txtScore.setText("Score :  " + presentPoint + "");
             }
+
+            if (presentPoint == 50) {
+                txtPoint.setImageResource(R.drawable.star_1);
+            } else if (presentPoint == 75) {
+                txtPoint.setImageResource(R.drawable.star_2);
+            } else if (presentPoint == 100) {
+                txtPoint.setImageResource(R.drawable.star_3);
+            }
+
         }
 
 
 //        txtScore.setText("Score :  " + presentPoint + "");
-        if (presentPoint == 50) {
-            txtPoint.setImageResource(R.drawable.star_1);
-        } else if (presentPoint == 75) {
-            txtPoint.setImageResource(R.drawable.star_2);
-        } else if (presentPoint == 100) {
-            txtPoint.setImageResource(R.drawable.star_3);
-        }
+
 //        else txtPoint.setText(Utils.getIntToStar(0));
+        dialog.show();
+    }
+    private void dialogShow(final int start, final int pos, final int level) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dia_download);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button btnOK = (Button) dialog.findViewById(R.id.btnYap);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnNop);
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Global.levelId == 1) {
+                    MainActivity.getInstance().banglaImage(start);
+                    Log.e("content", " start bangla ");
+
+                } else if (Global.levelId == 2) {
+                    MainActivity.getInstance().ongkoImage(start);
+                    Log.e("content", " start ongko ");
+                } else if (Global.levelId == 3) {
+                    MainActivity.getInstance().englishImage(start);
+                    Log.e("content", " start english ");
+                } else if (Global.levelId == 4) {
+                    MainActivity.getInstance().mathImage(start);
+                    Log.e("content", " start math ");
+                }
+//                MainActivity.getInstance().allCatagoryImage(start, level, context);
+                FilesDownload filesDownload = FilesDownload.getInstance(context, MainActivity.bothImg);
+                for (int i = 0; i < Global.URLS.size(); i++) {
+                    filesDownload.addUrl(Global.IMAGE_URL + Global.URLS.get(i));
+
+                }
+                FilesDownload.getInstance(context, "").start();
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
     }
 

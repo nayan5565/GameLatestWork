@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +32,8 @@ import com.example.nayan.gameverson2.activity.SubLevelActivity;
 import com.example.nayan.gameverson2.model.MAllContent;
 import com.example.nayan.gameverson2.model.MLock;
 import com.example.nayan.gameverson2.tools.DatabaseHelper;
+import com.example.nayan.gameverson2.tools.DialogSoundOnOff;
+import com.example.nayan.gameverson2.tools.FilesDownload;
 import com.example.nayan.gameverson2.tools.GameLogic;
 import com.example.nayan.gameverson2.tools.Global;
 import com.example.nayan.gameverson2.tools.Utils;
@@ -822,6 +825,18 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
                     Global.CONTENT = SubLevelActivity.mSubLevels.get(Global.SUB_INDEX_POSITION).getContent();
 
                     GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION, Global.CONTENT);
+                    String start = DialogSoundOnOff.getPREF(context, Global.levelId + "");
+                    String maxContent = Utils.getPREF(context, Global.levelId + "");
+                    int s = Integer.valueOf(start);
+                    int m = Integer.valueOf(maxContent);
+                    Log.e("content", " start " + s);
+                    Log.e("content", " max " + m);
+                    Log.e("content", " present " + Global.CONTENT);
+                    if (Global.CONTENT > m) {
+                        dialog.dismiss();
+                        dialogShow(s, 0, Global.levelId);
+                        return;
+                    }
                 }
                 dialog.dismiss();
             }
@@ -859,16 +874,68 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
         dialog.show();
     }
 
+    private void dialogShow(final int start, final int pos, final int level) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dia_download);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Button btnOK = (Button) dialog.findViewById(R.id.btnYap);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnNop);
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Global.levelId == 1) {
+                    MainActivity.getInstance().banglaImage(start);
+                    Log.e("content", " start bangla ");
+
+                } else if (Global.levelId == 2) {
+                    MainActivity.getInstance().ongkoImage(start);
+                    Log.e("content", " start ongko ");
+                } else if (Global.levelId == 3) {
+                    MainActivity.getInstance().englishImage(start);
+                    Log.e("content", " start english ");
+                } else if (Global.levelId == 4) {
+                    MainActivity.getInstance().mathImage(start);
+                    Log.e("content", " start math ");
+                }
+//                MainActivity.getInstance().allCatagoryImage(start, level, context);
+                FilesDownload filesDownload = FilesDownload.getInstance(context, MainActivity.bothImg);
+                for (int i = 0; i < Global.URLS.size(); i++) {
+                    filesDownload.addUrl(Global.IMAGE_URL + Global.URLS.get(i));
+
+                }
+                FilesDownload.getInstance(context, "").start();
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
     public void savePoint(int listSize) {
         present = pointCount(listSize);
-        Global.totalPoint = Global.totalPoint + present;
-        GameLogic.getInstance(context).saveDb();
+        if (Global.isSavePoint == 0) {
+            present = pointCount(listSize);
+            Global.totalPoint = Global.totalPoint + present;
+            GameLogic.getInstance(context).saveDb();
+            if (present > Utils.bestPoint) {
+                Utils.bestPoint = present;
+                GameLogic.getInstance(context).saveDb();
+            }
+        }
+
 //        addDb();
 
-        if (present > Utils.bestPoint) {
-            Utils.bestPoint = present;
-            GameLogic.getInstance(context).saveDb();
-        }
+
     }
 
     private int pointCount(int listSize) {

@@ -179,7 +179,15 @@ public class SubLevelActivity extends AppCompatActivity implements View.OnClickL
         Log.e("getDb", "sublevel : " + mSubLevels.size());
 //all sub level unlock for test
         mSubLevels.get(0).setUnlockNextLevel(1);
-
+        String max1 = Utils.getPREF(SubLevelActivity.this, Global.levelId + "");
+        int max = Integer.valueOf(max1);
+        Log.e("max", "for " + max);
+        for (int i = 0; i < mSubLevels.size(); i++) {
+            if (mSubLevels.get(i).getContent() <= max) {
+                Log.e("max", "for loop");
+                mSubLevels.get(i).setIsDownload(1);
+            }
+        }
         subLevelAdapter.setData(mSubLevels);
         totalPoint = database.getLockTotalPointData(Global.levelId);
 

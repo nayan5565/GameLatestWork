@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.nayan.gameverson2.R;
 import com.example.nayan.gameverson2.adapter.GameAdapter;
 import com.example.nayan.gameverson2.model.MAllContent;
+import com.example.nayan.gameverson2.model.MData;
 import com.example.nayan.gameverson2.model.MLevel;
 import com.example.nayan.gameverson2.model.MLock;
 import com.example.nayan.gameverson2.model.MSubLevel;
@@ -44,6 +45,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     public String parentName;
     public TextView txtName, txtTotalPoint, txtSubName;
     LinearLayout popUI;
+    private MData mData;
     private MSubLevel mSubLevel = new MSubLevel();
     private ArrayList<MAllContent> mAllContentArrayList;
     private ArrayList<MWords> wordsList;
@@ -71,13 +73,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
         init();
-
         MyGoogleAnalytics.getInstance().setupAnalytics("Game Activity");
         getLocalData(content);
+        getIsSaveDataFromDb(Global.levelId, Global.subLevelId);
         prepareDisplay();
-        Utils.sortData(mAllContentArrayList, 0);
-//        getPopUp();
 
+//        getPopUp();
+//        if (Global.levelId == 1) {
+//            if (Global.subLevelId == 2) {
+//                MainActivity.getInstance().banglaImage(6);
+//                MainActivity.getInstance().imageDownload();
+//            }
+//        }
 
     }
 
@@ -91,6 +98,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void init() {
+        mData = new MData();
         imgHelp = (ImageView) findViewById(R.id.imgHelp);
         imgHelp.setOnClickListener(this);
         gameActivity = this;
@@ -113,6 +121,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         parentName = Global.parentLevelName;
         Global.SUB_INDEX_POSITION = getIntent().getIntExtra("index", 0);
         Global.subLevelId = getIntent().getIntExtra("Sid", 0);
+        Global.present_content = getIntent().getIntExtra("content", 0);
         content = getIntent().getIntExtra("content", 0);
         gameAdapter = new GameAdapter(this);
         Log.e("content", " size " + content);
@@ -132,23 +141,31 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void getIsSaveDataFromDb(int level, int subLevel) {
+        mData = database.getIsSavePoint(level, subLevel);
+        Global.isSavePoint = mData.getIsSavePoint();
+        Log.e("isSavePoint", " is " + Global.isSavePoint);
+        Log.e("isSavePoint", " level " + level);
+        Log.e("isSavePoint", " is " + subLevel);
+    }
 
-    public void getLocalData(int content) {
+    public void getLocalData(int contents) {
 //        ArrayList<MAllContent> contentArrayList1 = database.getAllContentsData(Global.levelId, content, 0, 0);
 //        Log.e("contentList", " size " + contentArrayList1.size());
 
 
         mSubLevel = database.getSubLevelData(Global.levelId).get(Global.SUB_INDEX_POSITION);
         mLock = database.getLocalData(Global.levelId, Global.subLevelId);
+
         Global.popUp = mLock.getPopup();
 
-        Log.e("TEST", Global.levelId + ":" + Global.subLevelId + ":" + Global.totalPoint);
+        Log.e("TEST", Global.levelId + ":" + Global.subLevelId + ":" + content);
 
         if (Global.logic == 1) {
 
 
-            mAllContentArrayList = database.getAllContentsData(Global.levelId, content);
-
+            mAllContentArrayList = database.getAllContentsData(Global.levelId, contents);
+//            Collections.shuffle(mAllContentArrayList);
         }
 
 //        if (Global.logic == 2) {
@@ -168,17 +185,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         else if (Global.logic == 2) {
 
             ArrayList<MAllContent> realAssets = new ArrayList<>();
-            realAssets = database.getAllContentsData(Global.levelId, content);
+            realAssets = database.getAllContentsData(Global.levelId, contents);
             mAllContentArrayList = generatesTxtSen(realAssets);
             Collections.shuffle(mAllContentArrayList);
         } else if (Global.logic == 3) {
 
-            mAllContentArrayList = database.getAllContentsData(Global.levelId, content);
+            mAllContentArrayList = database.getAllContentsData(Global.levelId, contents);
             Collections.shuffle(mAllContentArrayList);
         } else if (Global.logic == 4) {
 
             ArrayList<MAllContent> realAssets = new ArrayList<>();
-            realAssets = database.getAllContentsData(Global.levelId, content);
+            realAssets = database.getAllContentsData(Global.levelId, contents);
 
             mAllContentArrayList = generatesTxtImg(realAssets);
             Collections.shuffle(mAllContentArrayList);
@@ -283,6 +300,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void refresh(int index, int contents) {
         subLevelName = Global.parentName.get(index).getName();
+        Global.present_content = Global.parentName.get(index).getContent();
         how = Global.parentName.get(index).getHowto();
         Log.e("sublevel name", "s  n :" + subLevelName);
         parentName = Global.parentName.get(index).getParentName();
@@ -292,12 +310,25 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void prepareDisplay() {
+
         Utils.setFont(this, "carterone", txtName, txtTotalPoint);
         Global.totalPoint = mLock.getTotal_pont();
-
-        txtTotalPoint.setText(Global.totalPoint + "");
+        if (Global.levelId == 1) {
+            txtTotalPoint.setText(Utils.convertNum(Global.totalPoint + ""));
+        }
+        if (Global.levelId == 2) {
+            txtTotalPoint.setText(Utils.convertNum(Global.totalPoint + ""));
+        }
+        if (Global.levelId == 3) {
+            txtTotalPoint.setText(Global.totalPoint + "");
+        }
+        if (Global.levelId == 4) {
+            txtTotalPoint.setText(Global.totalPoint + "");
+        }
+//        txtTotalPoint.setText(Global.totalPoint + "");
 //        txtName.setText(parentName + "(" + subLevelName + ")");
-        txtSubName.setText(" -" + subLevelName + "");
+        txtSubName.setText(" - " + subLevelName + "");
+
 
         int item = Utils.getScreenSize(this, 90);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -307,19 +338,25 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (Global.levelId == 1) {
             imageView.setImageResource(R.drawable.grren_coins);
             txtName.setBackgroundResource(R.drawable.bangla);
+//            Utils.setFont(this, "BenSenHandwriting", txtSubName);
 
 
         } else if (Global.levelId == 2) {
             imageView.setImageResource(R.drawable.yellow_coins);
             txtName.setBackgroundResource(R.drawable.ongko);
+//            Utils.setFont(this, "BenSenHandwriting", txtSubName);
 
         } else if (Global.levelId == 3) {
             imageView.setImageResource(R.drawable.red_coins);
             txtName.setBackgroundResource(R.drawable.english);
+            Utils.setFont(this, "carterone", txtSubName);
+//            txtSubName.setTextSize(24);
 
         } else if (Global.levelId == 4) {
             imageView.setImageResource(R.drawable.violet_coins);
             txtName.setBackgroundResource(R.drawable.math);
+            Utils.setFont(this, "carterone", txtSubName);
+//            txtSubName.setTextSize(24);
         }
 
     }

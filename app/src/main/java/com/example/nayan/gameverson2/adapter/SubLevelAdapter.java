@@ -24,6 +24,7 @@ import com.example.nayan.gameverson2.model.MLock;
 import com.example.nayan.gameverson2.model.MSubLevel;
 import com.example.nayan.gameverson2.tools.DatabaseHelper;
 import com.example.nayan.gameverson2.tools.DialogSoundOnOff;
+import com.example.nayan.gameverson2.tools.FilesDownload;
 import com.example.nayan.gameverson2.tools.Global;
 import com.example.nayan.gameverson2.tools.Utils;
 
@@ -85,6 +86,9 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
             holder.imgLock.setVisibility(View.VISIBLE);
             holder.imgSub.setImageResource(R.drawable.inactive_bg);
         }
+        if (mSubLevel.getIsDownload() == 1) {
+            holder.imgSub.setImageResource(R.drawable.sublevel_item_view);
+        }
 
         holder.itemView.post(new Runnable() {
             @Override
@@ -131,7 +135,7 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
                         Log.e("content", " start " + s);
                         Log.e("content", " max " + m);
                         if (mSubLevel.getContent() > m) {
-                            dialogShow(s + 1);
+                            dialogShow(s, getAdapterPosition(), Global.levelId);
                             return;
                         }
                         Intent intent = new Intent(context, GameActivity.class);
@@ -152,7 +156,7 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
         }
     }
 
-    private void dialogShow(final int start) {
+    private void dialogShow(final int start, final int pos, final int level) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -163,9 +167,44 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.getInstance().banglaImage(start);
-                MainActivity.getInstance().imageDownload();
+                if (Global.levelId == 1) {
+                    MainActivity.getInstance().banglaImage(start);
+                    Log.e("content", " start bangla ");
 
+                } else if (Global.levelId == 2) {
+                    MainActivity.getInstance().ongkoImage(start);
+                    Log.e("content", " start ongko ");
+                } else if (Global.levelId == 3) {
+                    MainActivity.getInstance().englishImage(start);
+                    Log.e("content", " start english ");
+                } else if (Global.levelId == 4) {
+                    MainActivity.getInstance().mathImage(start);
+                    Log.e("content", " start math ");
+                }
+//                MainActivity.getInstance().allCatagoryImage(start, level, context);
+                FilesDownload filesDownload = FilesDownload.getInstance(context, MainActivity.bothImg);
+                for (int i = 0; i < Global.URLS.size(); i++) {
+                    filesDownload.addUrl(Global.IMAGE_URL + Global.URLS.get(i));
+
+                }
+                FilesDownload.getInstance(context, "").start();
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, GameActivity.class);
+                intent.putExtra("subLevelName", mSubLevel.getName());
+                intent.putExtra("index", pos);
+                intent.putExtra("Sid", mSubLevel.getLid());
+//                        intent.putExtra("pop", mSubLevel.getIsPopUp());
+                intent.putExtra("content", mSubLevel.getContent());
+                intent.putExtra("SLogic", mSubLevel.getLogic());
+                intent.putExtra("parentLevelName", mSubLevel.getParentName());
+                context.startActivity(intent);
+                dialog.dismiss();
             }
         });
 

@@ -801,6 +801,24 @@ public class DatabaseHelper {
         return conten;
     }
 
+    public ArrayList<Integer> getSubLevelId(int parentId) {
+        ArrayList<Integer> conten = new ArrayList<>();
+
+        String sql = "select * from " + DATABASE_SUB_LEVEL_TABLE + " where " + KEY_PARENT_ID + "='" + parentId + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                cursor.getInt(cursor.getColumnIndex(KEY_PARENT_ID));
+                conten.add(cursor.getInt(cursor.getColumnIndex(KEY_SUB_LEVEL_ID)));
+
+
+            } while (cursor.moveToNext());
+
+        }
+        cursor.close();
+        return conten;
+    }
+
     public ArrayList<Integer> getContentsId(int levelId,int content) {
         ArrayList<Integer> contenId = new ArrayList<>();
 

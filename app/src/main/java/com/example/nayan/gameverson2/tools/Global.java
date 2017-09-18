@@ -75,4 +75,5 @@ public class Global {
     public static ArrayList<Integer> SORTING_LIST;
 
 
+    public static int present_content;
 }
