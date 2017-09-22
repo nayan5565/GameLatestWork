@@ -87,10 +87,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
         return viewholder;
     }
 
-    @Override
-    public void onBindViewHolder(MyViewholder holder, int position) {
-        mContents = textArrayList.get(position);
+    void test(MyViewholder holder){
         if (Global.logic == 3) {
+
 //                || Global.subLevelId == 4 || Global.subLevelId == 8 || Global.subLevelId == 13) {
             if (mContents.getMatch() == 1) {
 //                holder.txtContents.setBackgroundColor(0xff888888);
@@ -161,7 +160,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
 //
 //        }
 //main logic 2 make comments for test
-        if (Global.logic == 2) {
+        else if (Global.logic == 2) {
             holder.txtContents.setTextColor(0xffff00ff);
             holder.txtContents.setTextSize(20);
             if (mContents.getTxt() == null || mContents.getTxt().equals("")) {
@@ -284,6 +283,11 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
             holder.txtContents.setText(mContents.getTxt());
             holder.txtContents.setTextColor(0xffff00ff);
         }*/
+
+    }
+    @Override
+    public void onBindViewHolder(MyViewholder holder, int position) {
+        mContents = textArrayList.get(position);
 
     }
 
@@ -724,7 +728,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
 //                        } else {
 //                            Log.e("sort", " wrong ");
 //                        }
-                        gameLogic.textClick(mContents, getAdapterPosition(), textArrayList.size(), itemView, txtContents, imgAnim2);
+                        Log.e("Logic", " 3");
+                        gameLogic.shakeAnimation(itemView);
+//                        gameLogic.textClick(mContents, getAdapterPosition(), textArrayList.size(), itemView, txtContents, imgAnim2);
 //                        gameLogic.forLevel2(itemView, mContents, textArrayList.size(), txtContents, getAdapterPosition(), imgAnim2);
                     } else if (Global.logic == 2) {
 //                            || Global.subLevelId == 5 || Global.subLevelId == 9 || Global.subLevelId == 14) {
@@ -756,6 +762,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
             });
         }
     }
+
     public void dialogShowForLevelClear(final int listSize) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -830,7 +837,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
                     int s = Integer.valueOf(start);
                     int m = Integer.valueOf(maxContent);
                     Log.e("content", " start " + s);
-                    Log.e("content", " max " + m);
+                    Log.e("content", " maximum content " + m);
                     Log.e("content", " present " + Global.CONTENT);
                     if (Global.CONTENT > m) {
                         dialog.dismiss();
@@ -851,7 +858,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewholder> 
         });
 
         if (Global.levelId == 1) {
-            txtScore.setText("Score :  " + Utils.convertNum(present+ ""));
+            txtScore.setText("Score :  " + Utils.convertNum(present + ""));
         }
         if (Global.levelId == 2) {
             txtScore.setText("Score :  " + Utils.convertNum(present + ""));

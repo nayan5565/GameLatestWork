@@ -464,10 +464,10 @@ public class GameLogic {
             }
         });
         if (Global.levelId == 1) {
-            Utils.setFont(context, "BenSenHandwriting", txtScore);
+            Utils.setFont(context, "carterone", txtScore);
             Utils.changeUIcolor(context, Global.uriBangla, changeColor);
         } else if (Global.levelId == 2) {
-            Utils.setFont(context, "BenSenHandwriting", txtScore);
+            Utils.setFont(context, "carterone", txtScore);
             Utils.changeUIcolor(context, Global.uriOngko, changeColor);
         } else if (Global.levelId == 3) {
             Utils.setFont(context, "carterone", txtScore);
@@ -512,19 +512,20 @@ public class GameLogic {
                     Global.logic = mSubLevels.get(Global.SUB_INDEX_POSITION).getLogic();
                     Global.CONTENT = mSubLevels.get(Global.SUB_INDEX_POSITION).getContent();
                     GameActivity.getInstance().getIsSaveDataFromDb(Global.levelId, Global.subLevelId);
-                    GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION, Global.CONTENT);
+
                     String start = DialogSoundOnOff.getPREF(context, Global.levelId + "");
                     String maxContent = Utils.getPREF(context, Global.levelId + "");
                     int s = Integer.valueOf(start);
                     int m = Integer.valueOf(maxContent);
                     Log.e("content", " start " + s);
-                    Log.e("content", " max " + m);
+                    Log.e("content", " maximum content " + m);
                     Log.e("content", " present " + Global.CONTENT);
                     if (Global.CONTENT > m) {
                         dialog.dismiss();
                         dialogShow(s, 0, Global.levelId);
                         return;
                     }
+                    GameActivity.getInstance().refresh(Global.SUB_INDEX_POSITION, Global.CONTENT);
                 }
                 dialog.dismiss();
             }
@@ -630,7 +631,7 @@ public class GameLogic {
                 gameAdapter.notifyDataSetChanged();
                 Log.e("ANIM", "click:" + oneClick);
             }
-        }, 500);
+        }, 700);
     }
 
     public void flipAnimation2(View view) {
@@ -647,7 +648,23 @@ public class GameLogic {
 
         // Perform animation
         v.startAnimation(shake);
-        gameAdapter.notifyDataSetChanged();
+        shake.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                gameAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+//        gameAdapter.notifyDataSetChanged();
     }
 
 

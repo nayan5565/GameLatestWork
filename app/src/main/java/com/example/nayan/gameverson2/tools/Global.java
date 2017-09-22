@@ -42,6 +42,10 @@ public class Global {
     public static int GAME_INDEX_POSITION;
     public static ArrayList<MSubLevel> parentName;
     public static ArrayList<String> URLS;
+    public static int MAXIMUM_CONTENT_BANGLA;
+    public static int MAXIMUM_CONTENT_ONGKO;
+    public static int MAXIMUM_CONTENT_ENGLISH;
+    public static int MAXIMUM_CONTENT_MATH;
     public static int startDownBan;
     public static int startDownOngk;
     public static int startDownEng;

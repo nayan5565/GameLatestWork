@@ -133,7 +133,7 @@ public class SubLevelAdapter extends RecyclerView.Adapter<SubLevelAdapter.MyView
                         int s = Integer.valueOf(start);
                         int m = Integer.valueOf(maxContent);
                         Log.e("content", " start " + s);
-                        Log.e("content", " max " + m);
+                        Log.e("content", " maximum content " + m);
                         if (mSubLevel.getContent() > m) {
                             dialogShow(s, getAdapterPosition(), Global.levelId);
                             return;
